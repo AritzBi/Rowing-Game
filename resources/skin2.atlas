@@ -1,0 +1,55 @@
+
+skin2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+focused-button
+  rotate: false
+  xy: 1, 1
+  size: 132, 28
+  orig: 132, 28
+  offset: 0, 0
+  index: -1
+normal-button
+  rotate: false
+  xy: 135, 3
+  size: 133, 26
+  orig: 133, 26
+  offset: 0, 0
+  index: -1
+pushed-button
+  rotate: false
+  xy: 270, 3
+  size: 130, 26
+  orig: 130, 26
+  offset: 0, 0
+  index: -1
+check-on
+  rotate: false
+  xy: 402, 10
+  size: 21, 19
+  orig: 21, 19
+  offset: 0, 0
+  index: -1
+check-off
+  rotate: false
+  xy: 425, 13
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+default-slider-knob
+  rotate: false
+  xy: 443, 11
+  size: 9, 18
+  orig: 9, 18
+  offset: 0, 0
+  index: -1
+default-slider
+  rotate: false
+  xy: 454, 21
+  size: 8, 8
+  split: 2, 2, 2, 2
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
