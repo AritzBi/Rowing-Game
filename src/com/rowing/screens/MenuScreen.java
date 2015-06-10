@@ -50,7 +50,7 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
 		if(game.getScreen()!=null){
 			game.getScreen().dispose();
 		}
-		//MusicPlayer.play("menu-theme.ogg");
+		MusicPlayer.play("menu-theme.ogg");
 	}
     @Override
     public void show()
