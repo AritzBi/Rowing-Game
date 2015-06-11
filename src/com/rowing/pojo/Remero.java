@@ -1,5 +1,8 @@
 package com.rowing.pojo;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.rowing.utils.GraphicsLoader;
+
 public class Remero {
 
 	private String name;
@@ -9,6 +12,20 @@ public class Remero {
 	private String birthdate;
 
 	private String image;
+	
+	public TextureRegion icon;
+	
+	
+
+	public Remero(String name, String surname, String birthdate, String image,
+			TextureRegion icon) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.birthdate = birthdate;
+		this.image = image;
+		this.icon=new TextureRegion(GraphicsLoader.load("items/"+image));
+	}
 
 	public String getName() {
 		return name;
@@ -41,5 +58,15 @@ public class Remero {
 	public void setImage(String image) {
 		this.image = image;
 	}
+
+	public TextureRegion getIcon() {
+		return icon;
+	}
+
+	public void setIcon(TextureRegion icon) {
+		this.icon = icon;
+	}
+	
+	
 
 }

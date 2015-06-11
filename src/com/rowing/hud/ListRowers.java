@@ -44,7 +44,7 @@ public class ListRowers extends Actor implements InputProcessor  {
 			if (i == focusedSlot) {
 				remeroFocused = remero;
 			} else
-				//batch.draw(remero.getIcon(), posX + 5, posY + 15, 55, 45);
+				batch.draw(remero.getIcon(), posX + 5, posY + 15, 55, 45);
 			posX -= 64;
 			if ((i - 1) % 5 == 0) {
 				posY += 64;
@@ -53,7 +53,7 @@ public class ListRowers extends Actor implements InputProcessor  {
 		}
 		if (existsFocus) {
 			batch.draw(slot, posFocusX, posFocusY, 70, 70);
-			//batch.draw(remeroFocused.getIcon(), posFocusX + 5, posFocusY + 15, 61,51);
+			batch.draw(remeroFocused.getIcon(), posFocusX + 5, posFocusY + 15, 61,51);
 		}
 	}
 	public void updateRes(int witdh, int height) {
