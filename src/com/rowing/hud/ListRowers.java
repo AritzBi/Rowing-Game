@@ -34,6 +34,9 @@ public class ListRowers extends Actor implements InputProcessor  {
 		
 	}
 	public void draw(SpriteBatch batch, float partenAlpha) {
+		System.out.println("Screen X: "+stage.getWidth());
+		System.out.println("Screen Y: "+stage.getHeight());
+		
 		float posX = getX() + 256;
 		float posY = getY();
 		float posFocusX = 0;

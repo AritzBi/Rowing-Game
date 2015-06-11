@@ -16,11 +16,11 @@ public class Equipo {
 	
 	public Trainera trainera;
 	
-	public Equipo () {
-		remeros = new ArrayList<Remero>();
-		patrones = new ArrayList<Patron>();
-		trainera = new Trainera();
-	}
+//	public Equipo () {
+//		remeros = new ArrayList<Remero>();
+//		patrones = new ArrayList<Patron>();
+//		trainera = new Trainera();
+//	}
 
 	public List<Remero> getRemeros() {
 		return remeros;

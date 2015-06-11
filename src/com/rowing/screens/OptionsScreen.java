@@ -42,11 +42,14 @@ public class OptionsScreen extends AbstractScreen implements InputProcessor{
 	public OptionsScreen(Rowing game, boolean fromMenu) {
 		super(game);
 		resolutions=new ArrayList<Resolution>();
+		System.out.println("Size of possible resolutions: "+Gdx.graphics.getDisplayModes().length);
+		System.out.println("Possible resolutions: " + Gdx.graphics.getDisplayModes() );
 		for(int i=0;i<Gdx.graphics.getDisplayModes().length;i++){
 			if((Gdx.graphics.getDisplayModes())[i].height>600){
 				resolutions.add(new Resolution(Gdx.graphics.getDisplayModes()[i].width,Gdx.graphics.getDisplayModes()[i].height));
 			}
 		}
+		System.out.println(resolutions);
 		Collections.sort(resolutions);
 		this.fromMenu=fromMenu;
 		boolean found=false;
