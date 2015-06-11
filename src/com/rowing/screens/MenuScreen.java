@@ -148,8 +148,8 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
                 int button )
             {
             	if (button==0){
-	                //SoC.game.clearProcessors();
-	                //SoC.game.setScreen(new OptionsScreen(game,true));
+	                Rowing.game.clearProcessors();
+	                Rowing.game.setScreen(new OptionsScreen(game,true));
             	}
             }
             @Override
@@ -251,8 +251,8 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
 			                //SoC.game.setScreen(new LoadScreen(game));
 						}else{
 							if(focusedBotton==3){
-				                //SoC.game.clearProcessors();
-				                //SoC.game.setScreen(new OptionsScreen(game,true));
+				                Rowing.game.clearProcessors();
+				                Rowing.game.setScreen(new OptionsScreen(game,true));
 							}else{
 								if(focusedBotton==4){
 									System.exit(0);
