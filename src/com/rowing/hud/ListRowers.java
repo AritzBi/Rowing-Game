@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.rowing.core.Rowing;
 import com.rowing.pojo.Equipo;
 import com.rowing.pojo.Remero;
 
@@ -23,16 +24,22 @@ public class ListRowers extends Actor implements InputProcessor  {
 		this.width = 1280;
 		this.height = 900;
 		focusedSlot = 1;
+		this.equipo=equipo;
 	}
 	public void draw(SpriteBatch batch, float partenAlpha) {
-
 		float posX = getX() + 256;
-		float posY = getY();
+		float posY = getY()+256;
+		System.out.println(posX);
+		System.out.println(posY);
 		float posFocusX = 0;
 		float posFocusY = 0;
 		boolean existsFocus = false;
 		Remero remeroFocused = null;
+		int j=0;
 		for (int i = equipo.getRemeros().size(); i > 0; i--) {
+			/**j++;
+			if (j == 5)
+				break;**/
 			if (i == focusedSlot) {
 				posFocusX = posX;
 				posFocusY = posY;
@@ -40,13 +47,13 @@ public class ListRowers extends Actor implements InputProcessor  {
 			} else {
 				batch.draw(slot, posX, posY, 64, 64);
 			}
-			Remero remero = equipo.getRemeros().get(i);
+			Remero remero = equipo.getRemeros().get(i-1);
 			if (i == focusedSlot) {
 				remeroFocused = remero;
 			} else
 				batch.draw(remero.getIcon(), posX + 5, posY + 15, 55, 45);
 			posX -= 64;
-			if ((i - 1) % 5 == 0) {
+			if ((i - 1) % 3 == 0) {
 				posY += 64;
 				posX = getX() + 256;
 			}
@@ -81,7 +88,8 @@ public class ListRowers extends Actor implements InputProcessor  {
 
 	@Override
 	public boolean mouseMoved(int arg0, int arg1) {
-		// TODO Auto-generated method stub
+		System.out.println(arg0);
+		System.out.println(arg1);
 		return false;
 	}
 

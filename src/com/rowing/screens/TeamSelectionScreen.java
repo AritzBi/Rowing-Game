@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.rowing.core.Rowing;
+import com.rowing.hud.ListRowers;
+import com.rowing.pojo.Equipo;
 import com.rowing.utils.MusicPlayer;
 
 public class TeamSelectionScreen extends AbstractScreen  implements InputProcessor{
@@ -15,7 +17,8 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 	private TextButtonStyle normalStyle;
 	private TextButtonStyle focusedStyle;
 	private int focusedBotton;
-	public TeamSelectionScreen(Rowing game) {
+	private Equipo equipo;
+	public TeamSelectionScreen(Rowing game, Equipo equipo) {
 		super(game);
 		background=new Texture(Gdx.files.internal("resources/background.jpg"));
 		normalStyle=new TextButtonStyle();
@@ -32,6 +35,9 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		if(game.getScreen()!=null){
 			game.getScreen().dispose();
 		}
+		ListRowers listRowers = new ListRowers(equipo);
+		Rowing.game.inputMultiplexer.addProcessor(listRowers);
+		this.stage.addActor(listRowers);
 		MusicPlayer.play("menu-theme.ogg");
 	}
 
@@ -40,7 +46,7 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 	        Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );
 	        batch.begin();
 	        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-	        buttons[focusedBotton-1].setStyle(focusedStyle);
+	        //buttons[focusedBotton-1].setStyle(focusedStyle);
 	        //Update delta and draw the actors inside the stage
 	        batch.end();
 	        stage.act( delta );
@@ -67,7 +73,8 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 
 	@Override
 	public boolean mouseMoved(int arg0, int arg1) {
-		// TODO Auto-generated method stub
+		//System.out.println("x"+arg0);
+		//System.out.println("y"+arg1);
 		return false;
 	}
 

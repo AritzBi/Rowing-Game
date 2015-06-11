@@ -29,7 +29,9 @@ public class GraphicsLoader {
 	
 	public static Texture load(String texture){
 		Texture tex = instance.loaded.get(texture);
+		System.out.println("Hola");
 		if(tex == null){
+			System.out.println(Constants.RESOURCE_DIR + texture);
 			tex = new Texture(Gdx.files.internal(Constants.RESOURCE_DIR + texture));
 			instance.loaded.put(texture, tex);
 		}

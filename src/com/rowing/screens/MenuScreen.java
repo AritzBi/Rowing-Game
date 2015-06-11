@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.rowing.core.Rowing;
 import com.rowing.utils.MusicPlayer;
+import com.rowing.utils.Utils;
 
 
 public class MenuScreen extends AbstractScreen implements InputProcessor{
@@ -75,7 +76,7 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
             {
             	if(button==0){
 	                Rowing.game.clearProcessors();
-	                Rowing.game.setScreen(new TeamSelectionScreen(game));
+	                Rowing.game.setScreen(new TeamSelectionScreen(game,Utils.loadEquipoOrio()));
             	}
 
             }

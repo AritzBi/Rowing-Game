@@ -11,6 +11,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.utils.Array;
 import com.rowing.screens.MenuScreen;
+import com.rowing.utils.GraphicsLoader;
 import com.rowing.utils.MusicPlayer;
 
 public class Rowing extends Game {
@@ -33,12 +34,12 @@ public class Rowing extends Game {
 		game=this;
 		inputMultiplexer=new InputMultiplexer();
 		Gdx.input.setInputProcessor(inputMultiplexer);
-		//Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);
-		Gdx.graphics.setDisplayMode(1280, 720, false);
+		Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);
+		//Gdx.graphics.setDisplayMode(1280, 720, false);
 		screens=new Stack<Screen>();
 		processors = new Stack<InputProcessor>();
 		MusicPlayer.initialize();
-			
+		GraphicsLoader.initialize();
 		//Save, New, Load game handler.
 		setScreen(new MenuScreen(this));
 		

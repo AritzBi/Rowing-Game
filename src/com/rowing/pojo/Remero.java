@@ -15,17 +15,6 @@ public class Remero {
 	
 	public TextureRegion icon;
 	
-	
-
-	public Remero(String name, String surname, String birthdate, String image,
-			TextureRegion icon) {
-		super();
-		this.name = name;
-		this.surname = surname;
-		this.birthdate = birthdate;
-		this.image = image;
-		this.icon=new TextureRegion(GraphicsLoader.load("items/"+image));
-	}
 
 	public String getName() {
 		return name;
@@ -65,6 +54,10 @@ public class Remero {
 
 	public void setIcon(TextureRegion icon) {
 		this.icon = icon;
+	}
+	
+	public String toString(){
+		return name+" "+surname+" "+" "+birthdate+" "+" "+image;
 	}
 	
 	
