@@ -27,7 +27,7 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
 	private TextButtonStyle focusedStyle;
 	public MenuScreen(Rowing game) {
 		super(game);
-		background=new Texture(Gdx.files.internal("resources/background.jpg"));
+		background=new Texture(Gdx.files.internal("resources/concha1.jpg"));
 		normalStyle=new TextButtonStyle();
 		normalStyle.font=getSkin().getFont("buttonFont");
 		normalStyle.up=getSkin().getDrawable("normal-button");
@@ -50,7 +50,7 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
 		if(game.getScreen()!=null){
 			game.getScreen().dispose();
 		}
-		MusicPlayer.play("menu-theme.ogg");
+		MusicPlayer.play("playa.mp3");
 	}
     @Override
     public void show()
