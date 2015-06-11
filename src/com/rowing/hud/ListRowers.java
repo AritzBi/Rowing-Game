@@ -2,12 +2,16 @@ package com.rowing.hud;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.rowing.core.Rowing;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.rowing.pojo.Equipo;
 import com.rowing.pojo.Remero;
+
+
 
 
 public class ListRowers extends Actor implements InputProcessor  {
@@ -17,20 +21,21 @@ public class ListRowers extends Actor implements InputProcessor  {
 	public int height;
 	public int focusedSlot;
 	private Equipo equipo;
+	private Stage stage;
 	
-	public ListRowers(Equipo equipo) {
+	public ListRowers(Equipo equipo, Stage stage) {
 		slot = new Texture(Gdx.files.internal("resources/slot.png"));
 		focusSlot = new Texture(Gdx.files.internal("resources/slot-weapon.png"));
 		this.width = 1280;
 		this.height = 900;
 		focusedSlot = 1;
 		this.equipo=equipo;
+		this.stage=stage;
+		
 	}
 	public void draw(SpriteBatch batch, float partenAlpha) {
 		float posX = getX() + 256;
-		float posY = getY()+256;
-		System.out.println(posX);
-		System.out.println(posY);
+		float posY = getY();
 		float posFocusX = 0;
 		float posFocusY = 0;
 		boolean existsFocus = false;
@@ -76,7 +81,16 @@ public class ListRowers extends Actor implements InputProcessor  {
 
 	@Override
 	public boolean keyTyped(char arg0) {
-		// TODO Auto-generated method stub
+
+		if (Gdx.input.isKeyPressed(Keys.TAB)) {
+			if (focusedSlot == equipo.getRemeros().size()) {
+				focusedSlot = 1;
+			} else {
+				focusedSlot++;
+			}
+		} else if (Gdx.input.isKeyPressed(Keys.ENTER)) {
+			//ToTrainera
+		} 
 		return false;
 	}
 
@@ -87,9 +101,36 @@ public class ListRowers extends Actor implements InputProcessor  {
 	}
 
 	@Override
-	public boolean mouseMoved(int arg0, int arg1) {
-		System.out.println(arg0);
-		System.out.println(arg1);
+	public boolean mouseMoved(int screenX, int screenY) {
+		Vector2 pos = stage.screenToStageCoordinates(new Vector2(screenX, screenY));
+		if (pos.x > getX() && pos.x < getX() + 320 && pos.y > getY()
+				&& pos.y < getY()+256) {
+			float posX = getX() + 256;
+			float posY = getY();
+			for (int i = equipo.getRemeros().size(); i > 0; i--) {
+				if (pos.x > posX && pos.x < posX + 64 && pos.y > posY
+						&& pos.y < posY + 64) {
+					focusedSlot = i;
+					/*Item item = SoC.game.playermapper.get(SoC.game.player).inventary[i - 1];
+					if (item != null) {
+						parent.tooltip.setText(item.tooltip, 0f);
+					} else {
+						parent.tooltip.setText(null, 0);
+					}*/
+					return false;
+				}
+				posX -= 64;
+				if ((i - 1) % 5 == 0) {
+					posY += 64;
+					posX = getX() + 256;
+				}
+			}
+		} 
+		//else {
+			//focusedSlot = 1;
+			//parent.tooltip.setText(null, 0);
+
+		//}
 		return false;
 	}
 
