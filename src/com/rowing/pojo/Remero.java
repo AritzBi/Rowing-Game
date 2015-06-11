@@ -1,7 +1,6 @@
 package com.rowing.pojo;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.rowing.utils.GraphicsLoader;
 
 public class Remero {
 
@@ -12,9 +11,20 @@ public class Remero {
 	private String birthdate;
 
 	private String image;
-	
-	public TextureRegion icon;
-	
+
+	private TextureRegion icon;
+
+	private int mala_mar;
+
+	private int buena_mar;
+
+	private int energia;
+
+	private int experiencia;
+
+	private int lesionado;
+
+	private int potencia;
 
 	public String getName() {
 		return name;
@@ -55,11 +65,61 @@ public class Remero {
 	public void setIcon(TextureRegion icon) {
 		this.icon = icon;
 	}
-	
-	public String toString(){
-		return name+" "+surname+" "+" "+birthdate+" "+" "+image;
+
+	public String toString() {
+		return name + " " + surname + " " + " " + birthdate + " " + " " + image;
 	}
-	
-	
+
+	public int getMala_mar() {
+		return mala_mar;
+	}
+
+	public void setMala_mar(int mala_mar) {
+		this.mala_mar = mala_mar;
+	}
+
+	public int getBuena_mar() {
+		return buena_mar;
+	}
+
+	public void setBuena_mar(int buena_mar) {
+		this.buena_mar = buena_mar;
+	}
+
+	public int getEnergia() {
+		return energia;
+	}
+
+	public void setEnergia(int energia) {
+		this.energia = energia;
+	}
+
+	public int getExperiencia() {
+		return experiencia;
+	}
+
+	public void setExperiencia(int experiencia) {
+		this.experiencia = experiencia;
+	}
+
+	public int getLesionado() {
+		return lesionado;
+	}
+
+	public boolean isLesionado() {
+		return (lesionado == 1);
+	}
+
+	public void setLesionado(int lesionado) {
+		this.lesionado = lesionado;
+	}
+
+	public int getPotencia() {
+		return potencia;
+	}
+
+	public void setPotencia(int potencia) {
+		this.potencia = potencia;
+	}
 
 }
