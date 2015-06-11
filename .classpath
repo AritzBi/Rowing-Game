@@ -8,5 +8,10 @@
 	<classpathentry kind="lib" path="libs/gdx-natives.jar"/>
 	<classpathentry kind="lib" path="libs/gdx-sources.jar"/>
 	<classpathentry kind="lib" path="libs/gdx.jar"/>
+	<classpathentry kind="lib" path="libs/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="libs/java-json.jar"/>
+	<classpathentry kind="lib" path="libs/owm-japis-2.5.0.5-javadoc.jar"/>
+	<classpathentry kind="lib" path="libs/owm-japis-2.5.0.5-sources.jar"/>
+	<classpathentry kind="lib" path="libs/owm-japis-2.5.0.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -74,8 +74,8 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
                 int button )
             {
             	if(button==0){
-	                //SoC.game.clearProcessors();
-	                //SoC.game.setScreen(new CharacterScreen(game));
+	                Rowing.game.clearProcessors();
+	                Rowing.game.setScreen(new TeamSelectionScreen(game));
             	}
 
             }

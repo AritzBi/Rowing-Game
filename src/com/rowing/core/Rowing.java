@@ -33,7 +33,8 @@ public class Rowing extends Game {
 		game=this;
 		inputMultiplexer=new InputMultiplexer();
 		Gdx.input.setInputProcessor(inputMultiplexer);
-		Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);
+		//Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);
+		Gdx.graphics.setDisplayMode(1280, 720, false);
 		screens=new Stack<Screen>();
 		processors = new Stack<InputProcessor>();
 		MusicPlayer.initialize();
@@ -48,7 +49,7 @@ public class Rowing extends Game {
 		cfg.height = FRAME_HEIGHT;
 		cfg.useGL20 = true;
 		cfg.resizable = false;
-		//cfg.fullscreen = true;
+		cfg.fullscreen = false;
 		cfg.title = "Aupa Orio!";
 		new LwjglApplication(new Rowing(), cfg);
 	}
