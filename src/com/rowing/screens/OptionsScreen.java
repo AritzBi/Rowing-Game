@@ -63,7 +63,7 @@ public class OptionsScreen extends AbstractScreen implements InputProcessor{
 				currentValue=i;
 			}
 		}
-		this.background=new Texture(Gdx.files.internal("resources/background2.jpg"));
+		this.background=new Texture(Gdx.files.internal("resources/concha1.jpg"));
 		this.music=new Slider(0,10,1,false,getSkin());
 		this.music.setValue(MusicPlayer.instance.volume*10);
 		this.labelMusic=new Label("music",skin);
