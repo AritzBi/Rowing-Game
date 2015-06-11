@@ -1,6 +1,7 @@
 package com.rowing.utils;
 
 import java.io.FileReader;
+import java.util.List;
 
 import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.CurrentWeather.Main;
@@ -11,6 +12,7 @@ import net.aksingh.owmjapis.OpenWeatherMap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.gson.Gson;
 import com.rowing.pojo.Equipo;
+import com.rowing.pojo.Trainera;
 
 public class Utils {
 
