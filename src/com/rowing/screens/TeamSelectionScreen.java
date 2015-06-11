@@ -35,7 +35,7 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		if(game.getScreen()!=null){
 			game.getScreen().dispose();
 		}
-		ListRowers listRowers = new ListRowers(equipo);
+		ListRowers listRowers = new ListRowers(equipo,this.stage);
 		Rowing.game.inputMultiplexer.addProcessor(listRowers);
 		this.stage.addActor(listRowers);
 		MusicPlayer.play("menu-theme.ogg");
