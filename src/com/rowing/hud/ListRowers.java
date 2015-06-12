@@ -193,7 +193,10 @@ public class ListRowers extends Actor implements InputProcessor  {
 	
 	public void addRowerToTrawler(int i){
 		Remero remero = this.equipo.getRemeros().get(i);
-		this.equipo.getTrainera().getRemeros().add(remero);
+		if(!this.equipo.getTrainera().getRemeros().contains(remero) && this.equipo.getTrainera().getRemeros().size()<Constants.NUM_ROWERS)
+			this.equipo.getTrainera().getRemeros().add(remero);
+		else
+			System.out.println("The trawler is full or the rower is already in the trawler");
 	}
 
 }
