@@ -22,6 +22,7 @@ public class Trainera {
 	private static int HABILIDAD_MALA_MAR_PATRON = 5;
 
 	public Trainera() {
+		
 		calcularPotencialTotal();
 		calcularEnergiaTotal();
 		calcularExperienciaTotal();
