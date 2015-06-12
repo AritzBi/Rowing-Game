@@ -29,7 +29,12 @@ public class Remero {
 	public String toString() {
 		return getName()+ " "+getSurname()+"\n"+
 			   getBirthdate()+"\n"+
-			   "Energia: "+getEnergia();
+			   "Energia: "+getEnergia()+"\n"+
+			   "Potencia: "+getPotencia()+"\n"+
+			   "Experiencia: "+getExperiencia()+"\n"+
+			   "Buena mar: "+getBuena_mar()+"\n"+
+			   "Mala mar: "+getMala_mar()+"\n"
+			   ;
 	}
 
 	public String getName() {

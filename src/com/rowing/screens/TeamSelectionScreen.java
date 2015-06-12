@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.rowing.core.Rowing;
 import com.rowing.hud.ListRowers;
 import com.rowing.hud.TooltipBox;
+import com.rowing.hud.TrawlerActor;
 import com.rowing.pojo.Equipo;
 import com.rowing.utils.MusicPlayer;
 
@@ -20,6 +21,7 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 	private int focusedBotton;
 	private Equipo equipo;
 	private TooltipBox tooltip;
+	private TrawlerActor trawlerActor;
 	public TeamSelectionScreen(Rowing game, Equipo equipo) {
 		super(game);
 		background=new Texture(Gdx.files.internal("resources/concha3.jpg"));
@@ -40,10 +42,12 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 			game.getScreen().dispose();
 		}
 		ListRowers listRowers = new ListRowers(equipo,this.stage, tooltip);
+		this.trawlerActor =new TrawlerActor(equipo,stage);
+		Rowing.game.inputMultiplexer.addProcessor(trawlerActor);
 		Rowing.game.inputMultiplexer.addProcessor(listRowers);
 		this.stage.addActor(listRowers);
-		System.out.println( Gdx.graphics.getWidth());
-		tooltip.setBounds( Gdx.graphics.getWidth()-ListRowers.ROWERS_PER_ROW*ListRowers.SIZE_X-200,0, 200, 200);
+		this.stage.addActor(trawlerActor);
+		tooltip.setBounds( Gdx.graphics.getWidth()-(ListRowers.ROWERS_PER_ROW*ListRowers.SIZE_X*3),Gdx.graphics.getHeight()-200, 200, 200);
 		MusicPlayer.play("olasdemar.mp3");
 	}
 
