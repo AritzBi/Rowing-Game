@@ -105,4 +105,44 @@ public class Trainera {
 			habilidadMalaMarTotal = (habilidadMalaMarTotal / (remeros.size() + existePatron));
 	}
 
+	public int getPotenciaTotal() {
+		return potenciaTotal;
+	}
+
+	public void setPotenciaTotal(int potenciaTotal) {
+		this.potenciaTotal = potenciaTotal;
+	}
+
+	public int getEnergiaTotal() {
+		return energiaTotal;
+	}
+
+	public void setEnergiaTotal(int energiaTotal) {
+		this.energiaTotal = energiaTotal;
+	}
+
+	public int getExperienciaTotal() {
+		return experienciaTotal;
+	}
+
+	public void setExperienciaTotal(int experienciaTotal) {
+		this.experienciaTotal = experienciaTotal;
+	}
+
+	public int getHabilidadBuenaMarTotal() {
+		return habilidadBuenaMarTotal;
+	}
+
+	public void setHabilidadBuenaMarTotal(int habilidadBuenaMarTotal) {
+		this.habilidadBuenaMarTotal = habilidadBuenaMarTotal;
+	}
+
+	public int getHabilidadMalaMarTotal() {
+		return habilidadMalaMarTotal;
+	}
+
+	public void setHabilidadMalaMarTotal(int habilidadMalaMarTotal) {
+		this.habilidadMalaMarTotal = habilidadMalaMarTotal;
+	}
+
 }
