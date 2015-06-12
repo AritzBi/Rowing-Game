@@ -9,6 +9,7 @@ import com.rowing.pojo.Equipo;
 import com.rowing.pojo.Patron;
 import com.rowing.pojo.Remero;
 import com.rowing.pojo.Trainera;
+import com.rowing.utils.GraphicsLoader;
 import com.rowing.utils.Utils;
 
 public class Main {
@@ -17,6 +18,7 @@ public class Main {
 		//Al entrar en confeccionar equipo, se requerirá consultar el tiempo!
 		Utils.getWeatherDonosti();
 		
+		GraphicsLoader.initialize();
 		Equipo equipoOrio = Utils.loadEquipoOrio();
 
 		List<Remero> remeros = equipoOrio.getRemeros();
@@ -34,16 +36,23 @@ public class Main {
 		
 		List<Trainera> trainerasCompetidoras = BasicLogic.obtenerTraineras(trainera);
 		Map<Integer,String> calles = BasicLogic.obtenerCalles();
-		BasicLogic.asignarCallesATraineras(trainerasCompetidoras, calles);
+		BasicLogic.asignarCallesATraineras(trainera, trainerasCompetidoras, calles);
 		
 		//Seteamos por "defecto" una estrategia para la trainera de Orio
 		String estrategia_Orio = Constants.ESTRATEGIAS_SALIDA.get(0);
 		trainera.calcularScoreTrainera_Ida(estrategia_Orio);
 		
 		for ( Trainera traineraAux: trainerasCompetidoras ) {
-			int estrategiaRandom = (int)(Math.random() * 2 + 0);
+			int estrategiaRandom = (int)(Math.random() * 3 + 0);
 			traineraAux.calcularScoreTrainera_Ida(Constants.ESTRATEGIAS_SALIDA.get(estrategiaRandom));
 		}
-
+		
+		System.out.println("*** TRAINERA ORIO ***");
+		System.out.println(trainera.toString());
+		
+		System.out.println("**** TRAINERAS COMPETIDORAS ***");
+		System.out.println(trainerasCompetidoras.get(0).toString());
+		System.out.println(trainerasCompetidoras.get(1).toString());
+		System.out.println(trainerasCompetidoras.get(2).toString());
 	}
 }

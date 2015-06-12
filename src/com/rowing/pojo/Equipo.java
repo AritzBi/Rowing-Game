@@ -1,6 +1,5 @@
 package com.rowing.pojo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

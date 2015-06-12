@@ -14,7 +14,7 @@ public class CondicionesMeteo {
 	private boolean malaMar = false;
 
 	public CondicionesMeteo() {
-		calcularParametroBuenaYMalaMar();
+
 	}
 
 	public Rain getRain() {
@@ -42,18 +42,30 @@ public class CondicionesMeteo {
 	}
 
 	public void calcularParametroBuenaYMalaMar() {
-		if (mainConditions.getHumidity() < 75.0 && wind.getWindSpeed() < 22.0) {
+		if (mainConditions.getHumidity() < 75.0 && convertirMilesToKilometers(wind.getWindSpeed()) < 22.0) {
 			buenaMar = true;
 		}
-		if (mainConditions.getHumidity() > 75.0 && wind.getWindSpeed() > 22.0) {
+		else if (mainConditions.getHumidity() > 75.0 && convertirMilesToKilometers(wind.getWindSpeed()) > 22.0) {
 			malaMar = true;
 		}
-		if (mainConditions.getHumidity() > 75.0 && wind.getWindSpeed() < 22.0) {
-			// 80% de buena mar, 20% mala mar
+		else if (mainConditions.getHumidity() > 75.0 && convertirMilesToKilometers(wind.getWindSpeed()) < 22.0) {
+			int probabilidad = (int) (Math.random() * 101 + 1);
+			if ( probabilidad > 80 ) //Con un 20%, mala mar
+				malaMar = true;
+			else //con un 80%, buena mar
+				buenaMar = true;
 		}
-		if (mainConditions.getHumidity() < 75.0 && wind.getWindSpeed() > 22.0) {
-			// 60% de mala mar, 40% buena mar
+		else if (mainConditions.getHumidity() < 75.0 && convertirMilesToKilometers(wind.getWindSpeed()) > 22.0) {
+			int probabilidad = (int) (Math.random() * 101 + 1);
+			if ( probabilidad > 60 ) //Con un 40%, buena mar
+				buenaMar = true;
+			else //con un 60%, mala mar
+				malaMar = true;
 		}
+	}
+
+	public float convertirMilesToKilometers(float miles) {
+		return (float) (miles * 1.609344);
 	}
 
 	public boolean isBuenaMar() {

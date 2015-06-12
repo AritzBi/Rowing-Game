@@ -24,6 +24,14 @@ public class Patron {
 	private int lesionado;
 	
 	private int liderazgo;
+	
+	public String toString() {
+		return getName()+ " "+getSurname()+"\n"+
+			   getBirthdate()+"\n"+
+			   "Experiencia: "+getExperiencia()+"\n"+
+			   "Buena mar: "+getBuena_mar()+"\n"+
+			   "Mala mar: "+getMala_mar()+"\n";
+	}
 
 	public String getName() {
 		return name;
