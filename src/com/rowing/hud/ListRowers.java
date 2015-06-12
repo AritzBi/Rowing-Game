@@ -68,31 +68,13 @@ public class ListRowers extends Actor implements InputProcessor  {
 				batch.draw(slot, posFocusX, posFocusY, 70, 70);
 				batch.draw(remeroFocused.getIcon(), posFocusX + 5, posFocusY + 15, 61,51);
 			}
-			
-		}
-		/**for (int i = equipo.getRemeros().size(); i > 0; i--) {
-			if (i == focusedSlot) {
-				posFocusX = posX;
-				posFocusY = posY;
-				existsFocus = true;
+			remero = equipo.getRemeros().get(focusedSlot) ;
+			if (remero != null) {
+				tooltip.setText(remero.toString(), 0f);
 			} else {
-				batch.draw(slot, posX, posY, 64, 64);
+				tooltip.setText(null, 0);
 			}
-			Remero remero = equipo.getRemeros().get(i-1);
-			if (i == focusedSlot) {
-				remeroFocused = remero;
-			} else
-				batch.draw(remero.getIcon(), posX + 5, posY + 15, 55, 45);
-			posX -= 64;
-			if ((i - 1) % 3 == 0) {
-				posY += 64;
-				posX = stage.getWidth() - ROWERS_PER_ROW*SIZE_X;
-			}
-		}**/
-		/**if (existsFocus) {
-			batch.draw(slot, posFocusX, posFocusY, 70, 70);
-			batch.draw(remeroFocused.getIcon(), posFocusX + 5, posFocusY + 15, 61,51);
-		}**/
+		}
 	}
 
 
@@ -106,13 +88,15 @@ public class ListRowers extends Actor implements InputProcessor  {
 	public boolean keyTyped(char arg0) {
 
 		if (Gdx.input.isKeyPressed(Keys.TAB)) {
-			if (focusedSlot == equipo.getRemeros().size()) {
-				focusedSlot = 1;
+			if (focusedSlot == equipo.getRemeros().size()-1) {
+				focusedSlot = 0;
 			} else {
 				focusedSlot++;
 			}
 		} else if (Gdx.input.isKeyPressed(Keys.ENTER)) {
-			//ToTrainera
+			System.out.println("Focused Slot: "+focusedSlot);
+			System.out.println("Datos del remero: "+equipo.getRemeros().get(focusedSlot));
+			this.addRowerToTrawler(focusedSlot);
 		} 
 		return false;
 	}
@@ -144,12 +128,12 @@ public class ListRowers extends Actor implements InputProcessor  {
 				if (pos.x > posX && pos.x < posX + SIZE_X && pos.y > posY
 						&& pos.y < posY + SIZE_Y) {
 					focusedSlot = i;
-					Remero remero = equipo.getRemeros().get(i) ;
+					/**Remero remero = equipo.getRemeros().get(i) ;
 					if (remero != null) {
 						tooltip.setText(remero.toString(), 0f);
 					} else {
 						tooltip.setText(null, 0);
-					}
+					}**/
 					return false;
 				}
 				posX += SIZE_X;
@@ -184,6 +168,11 @@ public class ListRowers extends Actor implements InputProcessor  {
 	public boolean touchUp(int arg0, int arg1, int arg2, int arg3) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public void addRowerToTrawler(int i){
+		Remero remero = this.equipo.getRemeros().get(i);
+		this.equipo.getTrainera().getRemeros().add(remero);
 	}
 
 }

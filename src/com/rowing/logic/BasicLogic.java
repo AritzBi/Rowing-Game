@@ -9,19 +9,24 @@ import com.rowing.pojo.Trainera;
 import com.rowing.utils.CondicionesMeteo;
 import com.rowing.utils.Utils;
 
+import static com.rowing.core.Constants.CALLE_BUENA;
+import static com.rowing.core.Constants.CALLE_SEMI_BUENA;
+import static com.rowing.core.Constants.CALLE_MALA;;
+
 public class BasicLogic {
 
-	private static String CALLE_BUENA = "Buena";
-	private static String CALLE_SEMI_BUENA = "SemiBuena";
-	private static String CALLE_MALA = "Mala";
+
 
 	/**
-	 * Método que me devuelve las tres traineras con las que competirá Orio.
-	 * Los valores de cada una de ellas se calculará en base a lo que se le habia puesto a Orio.
-	 * @param trainera. Se le pasa como parámetro la trainera de Orio
+	 * Método que me devuelve las tres traineras con las que competirá Orio. Los
+	 * valores de cada una de ellas se calculará en base a lo que se le habia
+	 * puesto a Orio.
+	 * 
+	 * @param trainera
+	 *            . Se le pasa como parámetro la trainera de Orio
 	 * @return
 	 */
-	public List<Trainera> obtenerTraineras(Trainera trainera) {
+	public static List<Trainera> obtenerTraineras(Trainera trainera) {
 		List<Trainera> traineras = new ArrayList<Trainera>();
 
 		CondicionesMeteo condicionesDeDonosti = Utils.getWeatherDonosti();
@@ -83,10 +88,12 @@ public class BasicLogic {
 	}
 
 	/**
-	 * Método que devuelve un mapa con las diferentes calles y el "estado" de cada una de ellas
+	 * Método que devuelve un mapa con las diferentes calles y el "estado" de
+	 * cada una de ellas
+	 * 
 	 * @return
 	 */
-	public Map<Integer, String> obtenerCalles() {
+	public static Map<Integer, String> obtenerCalles() {
 		Map<Integer, String> calles = new HashMap<Integer, String>();
 
 		int calleBuena = (int) (Math.random() * 4 + 1);
@@ -110,12 +117,28 @@ public class BasicLogic {
 		}
 		return calles;
 	}
-	
-	public void asignarCallesATraineras ( List<Trainera> traineras, Map<Integer,String> calles ) {
-		
+
+	public static void asignarCallesATraineras(List<Trainera> traineras,
+			Map<Integer, String> calles) {
+		List<Integer> callesYaAsignadas = new ArrayList<Integer>();
+		for (Trainera trainera : traineras) {
+			boolean enc = false;
+			while (!enc) {
+				int calleRandom = (int) (Math.random() * 4 + 1);
+				if (!callesYaAsignadas.contains(calleRandom)) {
+					Map<Integer,String> calleSeleccionada = new HashMap<Integer,String>();
+					calleSeleccionada.put(calleRandom, calles.get(calleRandom));
+					trainera.setCalle(calleSeleccionada);
+					callesYaAsignadas.add(calleRandom);
+					enc = true;
+				}
+			}
+		}
 	}
 
-	/**public List<Integer> obtenerTiemposTraineras(List<Trainera> traineras) {
-
-	}**/
+	/**
+	 * public List<Integer> obtenerTiemposTraineras(List<Trainera> traineras) {
+	 * 
+	 * }
+	 **/
 }

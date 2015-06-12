@@ -10,7 +10,9 @@ import net.aksingh.owmjapis.OpenWeatherMap;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.gson.Gson;
+import com.rowing.core.GameSession;
 import com.rowing.pojo.Equipo;
+import com.rowing.pojo.Trainera;
 
 public class Utils {
 
@@ -20,20 +22,27 @@ public class Utils {
 		try {
 			equipo = gson.fromJson(new FileReader("resources/data/orio.json"),
 					Equipo.class);
-			for(int i=0;i<equipo.getRemeros().size();i++){
-				equipo.getRemeros().get(i).setIcon(new TextureRegion(GraphicsLoader.load("images/"+equipo.getRemeros().get(i).getImage())));
+			equipo.setTrainera(new Trainera());
+			for (int i = 0; i < equipo.getRemeros().size(); i++) {
+				equipo.getRemeros()
+						.get(i)
+						.setIcon(
+								new TextureRegion(GraphicsLoader
+										.load("images/"
+												+ equipo.getRemeros().get(i)
+														.getImage())));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return equipo;
 	}
-	
-	//http://api.openweathermap.org/data/2.5/weather?q=Donostia
-	//mps a km per seconds --> wind speed
+
+	// http://api.openweathermap.org/data/2.5/weather?q=Donostia
+	// mps a km per seconds --> wind speed
 	public static CondicionesMeteo getWeatherDonosti() {
 		CondicionesMeteo condiciones = new CondicionesMeteo();
-		
+
 		OpenWeatherMap owm = new OpenWeatherMap("");
 		CurrentWeather cwd = null;
 		try {
@@ -41,20 +50,22 @@ public class Utils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		Rain rain = cwd.getRainInstance();
 		condiciones.setRain(rain);
 		Wind wind = cwd.getWindInstance();
 		condiciones.setWind(wind);
 		Main main = cwd.getMainInstance();
 		condiciones.setMainConditions(main);
-		System.out.println(condiciones);
+
+		GameSession.getInstance().condicionesMeteo = condiciones;
+
 		return condiciones;
 	}
 
 	public static void main(String[] args) {
 		loadEquipoOrio();
-		
+
 		getWeatherDonosti();
 	}
 }

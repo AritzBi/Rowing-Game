@@ -25,6 +25,17 @@ public class Remero {
 	private int lesionado;
 
 	private int potencia;
+	
+	public String toString() {
+		return getName()+ " "+getSurname()+"\n"+
+			   getBirthdate()+"\n"+
+			   "Energia: "+getEnergia()+"\n"+
+			   "Potencia: "+getPotencia()+"\n"+
+			   "Experiencia: "+getExperiencia()+"\n"+
+			   "Buena mar: "+getBuena_mar()+"\n"+
+			   "Mala mar: "+getMala_mar()+"\n"
+			   ;
+	}
 
 	public String getName() {
 		return name;
@@ -66,9 +77,7 @@ public class Remero {
 		this.icon = icon;
 	}
 
-	public String toString() {
-		return name + " " + surname + " " + " " + birthdate + " " + " " + image;
-	}
+
 
 	public int getMala_mar() {
 		return mala_mar;

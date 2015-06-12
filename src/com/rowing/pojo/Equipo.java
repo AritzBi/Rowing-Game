@@ -53,5 +53,13 @@ public class Equipo {
 	public void setPatrones(List<Patron> patrones) {
 		this.patrones = patrones;
 	}
+
+	public Trainera getTrainera() {
+		return trainera;
+	}
+
+	public void setTrainera(Trainera trainera) {
+		this.trainera = trainera;
+	}
 	
 }
