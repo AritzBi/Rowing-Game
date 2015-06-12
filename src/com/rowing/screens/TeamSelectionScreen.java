@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.rowing.core.Constants;
 import com.rowing.core.Rowing;
 import com.rowing.hud.ListRowers;
 import com.rowing.hud.TooltipBox;
@@ -43,11 +44,12 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		}
 		ListRowers listRowers = new ListRowers(equipo,this.stage, tooltip);
 		this.trawlerActor =new TrawlerActor(equipo,stage);
+		this.trawlerActor.setPosition(TrawlerActor.OFFSET_X, TrawlerActor.OFFSET_Y);
 		Rowing.game.inputMultiplexer.addProcessor(trawlerActor);
 		Rowing.game.inputMultiplexer.addProcessor(listRowers);
 		this.stage.addActor(listRowers);
 		this.stage.addActor(trawlerActor);
-		tooltip.setBounds( Gdx.graphics.getWidth()-(ListRowers.ROWERS_PER_ROW*ListRowers.SIZE_X*3),Gdx.graphics.getHeight()-200, 200, 200);
+		tooltip.setBounds( Gdx.graphics.getWidth()-(ListRowers.ROWERS_PER_ROW*Constants.SIZE_X*3),Gdx.graphics.getHeight()-200, 200, 200);
 		MusicPlayer.play("olasdemar.mp3");
 	}
 

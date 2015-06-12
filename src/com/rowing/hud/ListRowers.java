@@ -2,14 +2,17 @@ package com.rowing.hud;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.rowing.core.Constants;
 import com.rowing.pojo.Equipo;
 import com.rowing.pojo.Remero;
+
 
 
 
@@ -19,8 +22,6 @@ public class ListRowers extends Actor implements InputProcessor  {
 	private int focusedSlot;
 	private Equipo equipo;
 	private Stage stage;
-	public static int SIZE_X=64;
-	public static int SIZE_Y=64;
 	public static int ROWERS_PER_ROW=3;
 	private int rower_num_rows;
 	private TooltipBox tooltip;
@@ -39,8 +40,8 @@ public class ListRowers extends Actor implements InputProcessor  {
 		/*System.out.println("Screen X: "+stage.getWidth());
 		System.out.println("Screen Y: "+stage.getHeight());*/
 		
-		float posX = stage.getWidth() - ROWERS_PER_ROW*SIZE_X;
-		float posY = stage.getHeight() - SIZE_Y;
+		float posX = stage.getWidth() - ROWERS_PER_ROW*Constants.SIZE_X;
+		float posY = stage.getHeight() - Constants.SIZE_Y;
 		float posFocusX = 0;
 		float posFocusY = 0;
 		boolean existsFocus = false;
@@ -59,10 +60,10 @@ public class ListRowers extends Actor implements InputProcessor  {
 				remeroFocused = remero;
 			} else
 				batch.draw(remero.getIcon(), posX + 5, posY + 15, 55, 45);
-			posX += SIZE_X;
+			posX += Constants.SIZE_X;
 			if ((i - 1) % 3 == 0) {
-				posY -= SIZE_Y;
-				posX = stage.getWidth() - ROWERS_PER_ROW*SIZE_X;
+				posY -= Constants.SIZE_Y;
+				posX = stage.getWidth() - ROWERS_PER_ROW*Constants.SIZE_X;
 			}
 			if (existsFocus) {
 				batch.draw(slot, posFocusX, posFocusY, 70, 70);
@@ -120,13 +121,13 @@ public class ListRowers extends Actor implements InputProcessor  {
 		System.out.println("Vector Y:"+pos.y);
 		System.out.println("Arriba de Y:" +stage.getHeight() );
 		System.out.println("Abajo de Y:"+(stage.getHeight()-rower_num_rows*SIZE_Y));*/
-		if (pos.x > stage.getWidth() - ROWERS_PER_ROW*SIZE_X && pos.x < stage.getWidth() && pos.y > stage.getHeight()-rower_num_rows*SIZE_Y
+		if (pos.x > stage.getWidth() - ROWERS_PER_ROW*Constants.SIZE_X && pos.x < stage.getWidth() && pos.y > stage.getHeight()-rower_num_rows*Constants.SIZE_Y
 				&& pos.y < stage.getHeight()) {
-			float posX = stage.getWidth() - ROWERS_PER_ROW*SIZE_X;
-			float posY = stage.getHeight() - SIZE_Y;
+			float posX = stage.getWidth() - ROWERS_PER_ROW*Constants.SIZE_X;
+			float posY = stage.getHeight() - Constants.SIZE_Y;
 			for (int i = 0;i < equipo.getRemeros().size();i++) {
-				if (pos.x > posX && pos.x < posX + SIZE_X && pos.y > posY
-						&& pos.y < posY + SIZE_Y) {
+				if (pos.x > posX && pos.x < posX + Constants.SIZE_X && pos.y > posY
+						&& pos.y < posY + Constants.SIZE_Y) {
 					focusedSlot = i;
 					/**Remero remero = equipo.getRemeros().get(i) ;
 					if (remero != null) {
@@ -136,10 +137,10 @@ public class ListRowers extends Actor implements InputProcessor  {
 					}**/
 					return false;
 				}
-				posX += SIZE_X;
+				posX += Constants.SIZE_X;
 				if ((i - 1) % 3 == 0) {
-					posY -= SIZE_Y;
-					posX = stage.getWidth() - ROWERS_PER_ROW*SIZE_X;
+					posY -= Constants.SIZE_Y;
+					posX = stage.getWidth() - ROWERS_PER_ROW*Constants.SIZE_X;
 				}
 			}
 		} 
@@ -153,8 +154,28 @@ public class ListRowers extends Actor implements InputProcessor  {
 	}
 
 	@Override
-	public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		Vector2 pos = stage.screenToStageCoordinates(new Vector2(screenX, screenY));
+
+		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
+			if (pos.x > stage.getWidth() - ROWERS_PER_ROW*Constants.SIZE_X && pos.x < stage.getWidth() && pos.y > stage.getHeight()-rower_num_rows*Constants.SIZE_Y
+					&& pos.y < stage.getHeight()) {
+				float posX = stage.getWidth() - ROWERS_PER_ROW*Constants.SIZE_X;
+				float posY = stage.getHeight() - Constants.SIZE_Y;
+				for (int i = 0;i < equipo.getRemeros().size();i++) {
+					if (pos.x > posX && pos.x < posX + Constants.SIZE_X && pos.y > posY
+							&& pos.y < posY + Constants.SIZE_Y) {
+						this.addRowerToTrawler(i);
+						return false;
+					}
+					posX += Constants.SIZE_X;
+					if ((i - 1) % 3 == 0) {
+						posY -= Constants.SIZE_Y;
+						posX = stage.getWidth() - ROWERS_PER_ROW*Constants.SIZE_X;
+					}
+				}
+			} 	
+		}
 		return false;
 	}
 
