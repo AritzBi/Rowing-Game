@@ -38,6 +38,8 @@ public class Trainera {
 	private Map<Integer, String> calle;
 
 	private int score = 0;
+	
+	private String estrategiaActual;
 
 	public Trainera() {
 		remeros = new ArrayList<Remero>();
@@ -176,6 +178,8 @@ public class Trainera {
 	}
 
 	public void calcularScoreTrainera_Ida(String estrategia) {
+		//Especificamos la estrategia de la trainera
+		estrategiaActual = estrategia;
 		int modificadorPotencia = 0;
 
 		if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(0))) {
@@ -232,11 +236,19 @@ public class Trainera {
 		this.tiempoVuelta = tiempoVuelta;
 	}
 	
+	public String getEstrategiaActual() {
+		return estrategiaActual;
+	}
+
+	public void setEstrategiaActual(String estrategiaActual) {
+		this.estrategiaActual = estrategiaActual;
+	}
+
 	public String toString() {
-				return 	"Trainera " + nombre + "\ncon potencia total --> " + potenciaTotal
+				return 	"\nTrainera " + nombre + "\ncon potencia total --> " + potenciaTotal
 				+ "\ncon energia total --> " + energiaTotal + "\ncon experiencia total --> " + experienciaTotal + "\ncon habilidad buena mar --> " + habilidadBuenaMarTotal
 				+ "\ncon habilidad mala mar --> " + habilidadMalaMarTotal + "\ncon score --> " + score + "\ncon calle -->" + calle.toString()
-				+ "\ncon tiempo de ida --> " + getTiempoIda();
+				+ "\ncon tiempo de ida --> " + getTiempoIda() + "\ncon estrategia actual --> " + getEstrategiaActual();
 	}
 
 }

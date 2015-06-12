@@ -24,13 +24,13 @@ public class Utils {
 					Equipo.class);
 			equipo.setTrainera(new Trainera());
 			for (int i = 0; i < equipo.getRemeros().size(); i++) {
-				equipo.getRemeros()
-						.get(i)
-						.setIcon(
-								new TextureRegion(GraphicsLoader
-										.load("images/"
-												+ equipo.getRemeros().get(i)
-														.getImage())));
+				//equipo.getRemeros()
+						//.get(i)
+						//.setIcon(
+								//new TextureRegion(GraphicsLoader
+									//	.load("images/"
+											//	+ equipo.getRemeros().get(i)
+														//.getImage())));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

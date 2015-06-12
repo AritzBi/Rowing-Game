@@ -51,7 +51,7 @@ public class BasicLogic {
 					- DONOSTI_SUMATORIO_PUNTOS);
 		else
 			traineraDonostiarra.setHabilidadMalaMarTotal(habilidadMalaMar
-					- (DONOSTI_SUMATORIO_PUNTOS / 2));
+					- 2);
 		traineraDonostiarra.nombre = "DONOSTIARRA";
 		traineras.add(traineraDonostiarra);
 
@@ -60,14 +60,14 @@ public class BasicLogic {
 
 		Trainera traineraHondarribi = new Trainera();
 		traineraHondarribi.setEnergiaTotal(energia);
-		traineraDonostiarra.setExperienciaTotal(experiencia - 1);
+		traineraHondarribi.setExperienciaTotal(experiencia - 1);
 		traineraHondarribi.setPotenciaTotal(potencia
 				+ HONDARRIBI_SUMATORIO_PUNTOS);
 		if (condicionesDeDonosti.isBuenaMar())
-			traineraDonostiarra.setHabilidadBuenaMarTotal(habilidadBuenaMar
-					+ (HONDARRIBI_SUMATORIO_PUNTOS / 2));
+			traineraHondarribi.setHabilidadBuenaMarTotal(habilidadBuenaMar
+					+ 2);
 		else
-			traineraDonostiarra.setHabilidadMalaMarTotal(habilidadMalaMar
+			traineraHondarribi.setHabilidadMalaMarTotal(habilidadMalaMar
 					- HONDARRIBI_SUMATORIO_PUNTOS);
 		traineraHondarribi.nombre = "HONDARRIBI";
 		traineras.add(traineraHondarribi);

@@ -45,7 +45,7 @@ public class Regata {
 		this.calles = calles;
 	}
 
-	public void rellenarTrainerasCompetidoras() {
+	public void obtenerTrainerasCompetidoras() {
 		this.trainerasCompetidoras = BasicLogic.obtenerTraineras(equipo
 				.getTrainera());
 	}
@@ -76,6 +76,11 @@ public class Regata {
 			trainera.calcularScoreTrainera_Ida(Constants.ESTRATEGIAS_SALIDA
 					.get(estrategiaRandom));
 		}
+	}
+	
+	public String toString () {
+		return "Regata con TRAINERA ORIO --> " + equipo.getTrainera().toString() + 
+				"\ncon TRAINERAS COMPETIDORAS --> " + trainerasCompetidoras.toString();
 	}
 
 }
