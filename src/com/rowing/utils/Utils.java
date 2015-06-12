@@ -8,6 +8,7 @@ import net.aksingh.owmjapis.CurrentWeather.Rain;
 import net.aksingh.owmjapis.CurrentWeather.Wind;
 import net.aksingh.owmjapis.OpenWeatherMap;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.gson.Gson;
 import com.rowing.core.GameSession;
 import com.rowing.pojo.Equipo;
@@ -23,13 +24,13 @@ public class Utils {
 					Equipo.class);
 			equipo.setTrainera(new Trainera());
 			for (int i = 0; i < equipo.getRemeros().size(); i++) {
-				//equipo.getRemeros()
-					//	.get(i)
-					//	.setIcon(
-								//new TextureRegion(GraphicsLoader
-									//	.load("images/"
-											//	+ equipo.getRemeros().get(i)
-													//	.getImage())));
+				equipo.getRemeros()
+						.get(i)
+						.setIcon(
+								new TextureRegion(GraphicsLoader
+										.load("images/"
+												+ equipo.getRemeros().get(i)
+														.getImage())));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -7,6 +7,7 @@ import java.util.Map;
 import com.rowing.logic.BasicLogic;
 import com.rowing.pojo.Equipo;
 import com.rowing.pojo.Patron;
+import com.rowing.pojo.Regata;
 import com.rowing.pojo.Remero;
 import com.rowing.pojo.Trainera;
 import com.rowing.utils.GraphicsLoader;
@@ -14,6 +15,13 @@ import com.rowing.utils.Utils;
 
 public class Main {
 
+	public void pruebaConObjetoRegata() {
+		//Inicializamos el objeto regata...
+		Regata regata = new Regata();
+		
+		//1º paso: obtenemos 
+	}
+	
 	public static void main(String[] args) {
 		//Al entrar en confeccionar equipo, se requerirá consultar el tiempo!
 		Utils.getWeatherDonosti();
@@ -55,4 +63,5 @@ public class Main {
 		System.out.println(trainerasCompetidoras.get(1).toString());
 		System.out.println(trainerasCompetidoras.get(2).toString());
 	}
+	
 }
