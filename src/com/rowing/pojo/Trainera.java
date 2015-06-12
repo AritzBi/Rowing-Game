@@ -9,7 +9,7 @@ import com.rowing.core.Constants;
 import com.rowing.core.GameSession;
 
 public class Trainera {
-
+	
 	private List<Remero> remeros;
 
 	private Patron patron;
@@ -27,6 +27,8 @@ public class Trainera {
 	private int tiempoIda;
 	
 	private int tiempoVuelta;
+	
+	public String nombre;
 
 	private static int HABILIDAD_BUENA_MAR_PATRON = 2;
 	private static int HABILIDAD_MALA_MAR_PATRON = 5;
@@ -35,7 +37,7 @@ public class Trainera {
 	// competición
 	private Map<Integer, String> calle;
 
-	private int score;
+	private int score = 0;
 
 	public Trainera() {
 		remeros = new ArrayList<Remero>();
@@ -174,8 +176,6 @@ public class Trainera {
 	}
 
 	public void calcularScoreTrainera_Ida(String estrategia) {
-		score = 0;
-
 		int modificadorPotencia = 0;
 
 		if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(0))) {
@@ -212,10 +212,12 @@ public class Trainera {
 		}
 	}
 
-	//regla de tres y sumatorio de total. 570 segundos --> 323 puntos
 	public int getTiempoIda() {
+		//Obtenemos el tiempo que se le corresponde en base a sus puntos
+		int tiempoCorrespondiente = ( 570 * score ) / 323;
+		//El diferencial se suma al total de 570 segundos
+		tiempoIda = (570 - tiempoCorrespondiente ) + 570;
 		return tiempoIda;
-		
 	}
 
 	public void setTiempoIda(int tiempoIda) {
@@ -228,6 +230,13 @@ public class Trainera {
 
 	public void setTiempoVuelta(int tiempoVuelta) {
 		this.tiempoVuelta = tiempoVuelta;
+	}
+	
+	public String toString() {
+				return 	"Trainera " + nombre + "\ncon potencia total --> " + potenciaTotal
+				+ "\ncon energia total --> " + energiaTotal + "\ncon experiencia total --> " + experienciaTotal + "\ncon habilidad buena mar --> " + habilidadBuenaMarTotal
+				+ "\ncon habilidad mala mar --> " + habilidadMalaMarTotal + "\ncon score --> " + score + "\ncon calle -->" + calle.toString()
+				+ "\ncon tiempo de ida --> " + getTiempoIda();
 	}
 
 }

@@ -1,21 +1,21 @@
 package com.rowing.logic;
 
+import static com.rowing.core.Constants.CALLE_BUENA;
+import static com.rowing.core.Constants.CALLE_MALA;
+import static com.rowing.core.Constants.CALLE_SEMI_BUENA;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.rowing.core.GameSession;
 import com.rowing.pojo.Trainera;
 import com.rowing.utils.CondicionesMeteo;
-import com.rowing.utils.Utils;
 
-import static com.rowing.core.Constants.CALLE_BUENA;
-import static com.rowing.core.Constants.CALLE_SEMI_BUENA;
-import static com.rowing.core.Constants.CALLE_MALA;;
+;
 
 public class BasicLogic {
-
-
 
 	/**
 	 * Método que me devuelve las tres traineras con las que competirá Orio. Los
@@ -29,14 +29,15 @@ public class BasicLogic {
 	public static List<Trainera> obtenerTraineras(Trainera trainera) {
 		List<Trainera> traineras = new ArrayList<Trainera>();
 
-		CondicionesMeteo condicionesDeDonosti = Utils.getWeatherDonosti();
+		CondicionesMeteo condicionesDeDonosti = GameSession.getInstance().condicionesMeteo;
 
 		int energia = trainera.getEnergiaTotal();
 		int experiencia = trainera.getExperienciaTotal();
 		int potencia = trainera.getPotenciaTotal();
 		int habilidadBuenaMar = trainera.getHabilidadBuenaMarTotal();
 		int habilidadMalaMar = trainera.getHabilidadMalaMarTotal();
-
+		trainera.nombre = "ORIO";
+		
 		// TRAINERA DONOSTIARRA
 		int DONOSTI_SUMATORIO_PUNTOS = 4;
 		Trainera traineraDonostiarra = new Trainera();
@@ -51,7 +52,7 @@ public class BasicLogic {
 		else
 			traineraDonostiarra.setHabilidadMalaMarTotal(habilidadMalaMar
 					- (DONOSTI_SUMATORIO_PUNTOS / 2));
-
+		traineraDonostiarra.nombre = "DONOSTIARRA";
 		traineras.add(traineraDonostiarra);
 
 		// TRAINERA HONDARRIBI
@@ -68,7 +69,7 @@ public class BasicLogic {
 		else
 			traineraDonostiarra.setHabilidadMalaMarTotal(habilidadMalaMar
 					- HONDARRIBI_SUMATORIO_PUNTOS);
-
+		traineraHondarribi.nombre = "HONDARRIBI";
 		traineras.add(traineraHondarribi);
 
 		// TRAINERA KAIKU
@@ -81,7 +82,7 @@ public class BasicLogic {
 			traineraKaiku.setHabilidadBuenaMarTotal(habilidadBuenaMar);
 		else
 			traineraKaiku.setHabilidadMalaMarTotal(habilidadMalaMar + 3);
-
+		traineraKaiku.nombre = "KAIKU";
 		traineras.add(traineraKaiku);
 
 		return traineras;
@@ -96,7 +97,7 @@ public class BasicLogic {
 	public static Map<Integer, String> obtenerCalles() {
 		Map<Integer, String> calles = new HashMap<Integer, String>();
 
-		int calleBuena = (int) (Math.random() * 4 + 1);
+		int calleBuena = (int) (Math.random() * 4 + 0);
 		calles.put(calleBuena, CALLE_BUENA);
 		if (calleBuena == 0) {
 			calles.put(1, CALLE_SEMI_BUENA);
@@ -118,15 +119,17 @@ public class BasicLogic {
 		return calles;
 	}
 
-	public static void asignarCallesATraineras(List<Trainera> traineras,
-			Map<Integer, String> calles) {
+	public static void asignarCallesATraineras(Trainera traineraOrio,
+			List<Trainera> traineras, Map<Integer, String> calles) {
+
 		List<Integer> callesYaAsignadas = new ArrayList<Integer>();
+		// Asignamos calles a las traineras competidoras
 		for (Trainera trainera : traineras) {
 			boolean enc = false;
 			while (!enc) {
-				int calleRandom = (int) (Math.random() * 4 + 1);
+				int calleRandom = (int) (Math.random() * 4 + 0);
 				if (!callesYaAsignadas.contains(calleRandom)) {
-					Map<Integer,String> calleSeleccionada = new HashMap<Integer,String>();
+					Map<Integer, String> calleSeleccionada = new HashMap<Integer, String>();
 					calleSeleccionada.put(calleRandom, calles.get(calleRandom));
 					trainera.setCalle(calleSeleccionada);
 					callesYaAsignadas.add(calleRandom);
@@ -134,11 +137,18 @@ public class BasicLogic {
 				}
 			}
 		}
+		// Asignamos calle a la trainera de Orio
+		boolean enc = false;
+		while (!enc) {
+			int calleRandom = (int) (Math.random() * 4 + 0);
+			if (!callesYaAsignadas.contains(calleRandom)) {
+				Map<Integer, String> calleSeleccionada = new HashMap<Integer, String>();
+				calleSeleccionada.put(calleRandom, calles.get(calleRandom));
+				traineraOrio.setCalle(calleSeleccionada);
+				callesYaAsignadas.add(calleRandom);
+				enc = true;
+			}
+		}
 	}
 
-	/**
-	 * public List<Integer> obtenerTiemposTraineras(List<Trainera> traineras) {
-	 * 
-	 * }
-	 **/
 }
