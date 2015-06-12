@@ -212,10 +212,12 @@ public class Trainera {
 		}
 	}
 
-	//regla de tres y sumatorio de total. 570 segundos --> 323 puntos
 	public int getTiempoIda() {
+		//Obtenemos el tiempo que se le corresponde en base a sus puntos
+		int tiempoCorrespondiente = ( 570 * score ) / 323;
+		//El diferencial se suma al total de 570 segundos
+		tiempoIda = (570 - tiempoCorrespondiente ) + 570;
 		return tiempoIda;
-		
 	}
 
 	public void setTiempoIda(int tiempoIda) {
@@ -233,7 +235,8 @@ public class Trainera {
 	public String toString() {
 				return 	"Trainera " + nombre + "\ncon potencia total --> " + potenciaTotal
 				+ "\ncon energia total --> " + energiaTotal + "\ncon experiencia total --> " + experienciaTotal + "\ncon habilidad buena mar --> " + habilidadBuenaMarTotal
-				+ "\ncon habilidad mala mar --> " + habilidadMalaMarTotal + "\ncon score --> " + score + "\ncon calle -->" + calle.toString();
+				+ "\ncon habilidad mala mar --> " + habilidadMalaMarTotal + "\ncon score --> " + score + "\ncon calle -->" + calle.toString()
+				+ "\ncon tiempo de ida --> " + getTiempoIda();
 	}
 
 }

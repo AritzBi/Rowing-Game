@@ -38,14 +38,13 @@ public class Utils {
 	}
 
 	// http://api.openweathermap.org/data/2.5/weather?q=Donostia
-	// mps a km per seconds --> wind speed
 	public static CondicionesMeteo getWeatherDonosti() {
 		CondicionesMeteo condiciones = new CondicionesMeteo();
 
 		OpenWeatherMap owm = new OpenWeatherMap("");
 		CurrentWeather cwd = null;
 		try {
-			cwd = owm.currentWeatherByCityName("Donostia");
+			cwd = owm.currentWeatherByCityName("Donosti");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -57,15 +56,9 @@ public class Utils {
 		Main main = cwd.getMainInstance();
 		condiciones.setMainConditions(main);
 		condiciones.calcularParametroBuenaYMalaMar();
-		
-		GameSession.getInstance().condicionesMeteo = condiciones;
-
+		//Si tiramos de este metodo, lo que hacemos es guardar en la sesion las condiciones meteorologicas
+		GameSession.setInstance(condiciones);
 		return condiciones;
 	}
-
-	public static void main(String[] args) {
-		loadEquipoOrio();
-
-		getWeatherDonosti();
-	}
+	
 }

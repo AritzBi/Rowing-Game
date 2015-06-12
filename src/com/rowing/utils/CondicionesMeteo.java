@@ -14,7 +14,6 @@ public class CondicionesMeteo {
 	private boolean malaMar = false;
 
 	public CondicionesMeteo() {
-
 	}
 
 	public Rain getRain() {
