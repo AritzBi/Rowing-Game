@@ -22,7 +22,7 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 	private TooltipBox tooltip;
 	public TeamSelectionScreen(Rowing game, Equipo equipo) {
 		super(game);
-		background=new Texture(Gdx.files.internal("resources/background.jpg"));
+		background=new Texture(Gdx.files.internal("resources/concha3.jpg"));
 		normalStyle=new TextButtonStyle();
 		normalStyle.font=getSkin().getFont("buttonFont");
 		normalStyle.up=getSkin().getDrawable("normal-button");
@@ -44,7 +44,7 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		this.stage.addActor(listRowers);
 		System.out.println( Gdx.graphics.getWidth());
 		tooltip.setBounds( Gdx.graphics.getWidth()-ListRowers.ROWERS_PER_ROW*ListRowers.SIZE_X-200,0, 200, 200);
-		MusicPlayer.play("menu-theme.ogg");
+		MusicPlayer.play("olasdemar.mp3");
 	}
 
 	public void show(){
