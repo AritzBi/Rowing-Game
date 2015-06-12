@@ -96,6 +96,7 @@ public class ListRowers extends Actor implements InputProcessor  {
 		} else if (Gdx.input.isKeyPressed(Keys.ENTER)) {
 			System.out.println("Focused Slot: "+focusedSlot);
 			System.out.println("Datos del remero: "+equipo.getRemeros().get(focusedSlot));
+			this.addRowerToTrawler(focusedSlot);
 		} 
 		return false;
 	}
@@ -170,6 +171,8 @@ public class ListRowers extends Actor implements InputProcessor  {
 	}
 	
 	public void addRowerToTrawler(int i){
+		Remero remero = this.equipo.getRemeros().get(i);
+		this.equipo.getTrainera().getRemeros().add(remero);
 	}
 
 }

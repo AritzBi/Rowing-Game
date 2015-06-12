@@ -22,6 +22,7 @@ public class Utils {
 		try {
 			equipo = gson.fromJson(new FileReader("resources/data/orio.json"),
 					Equipo.class);
+			equipo.setTrainera(new Trainera());
 			for(int i=0;i<equipo.getRemeros().size();i++){
 				equipo.getRemeros().get(i).setIcon(new TextureRegion(GraphicsLoader.load("images/"+equipo.getRemeros().get(i).getImage())));
 			}

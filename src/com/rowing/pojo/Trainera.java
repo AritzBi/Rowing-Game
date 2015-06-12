@@ -1,5 +1,6 @@
 package com.rowing.pojo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Trainera {
@@ -22,11 +23,12 @@ public class Trainera {
 	private static int HABILIDAD_MALA_MAR_PATRON = 5;
 
 	public Trainera() {
-		calcularPotencialTotal();
+		/*calcularPotencialTotal();
 		calcularEnergiaTotal();
 		calcularExperienciaTotal();
 		calcularHabilidadMalaMarTotal();
-		calcularHabilidadBuenMarTotal();
+		calcularHabilidadBuenMarTotal();*/
+		remeros = new ArrayList<Remero>();
 	}
 
 	public List<Remero> getRemeros() {
