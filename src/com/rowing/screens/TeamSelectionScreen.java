@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.rowing.core.Rowing;
 import com.rowing.hud.ListRowers;
+import com.rowing.hud.TooltipBox;
 import com.rowing.pojo.Equipo;
 import com.rowing.utils.MusicPlayer;
 
@@ -18,6 +19,7 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 	private TextButtonStyle focusedStyle;
 	private int focusedBotton;
 	private Equipo equipo;
+	private TooltipBox tooltip;
 	public TeamSelectionScreen(Rowing game, Equipo equipo) {
 		super(game);
 		background=new Texture(Gdx.files.internal("resources/background.jpg"));
@@ -31,27 +33,34 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		focusedStyle.down=getSkin().getDrawable("pushed-button");
 		buttons=new TextButton[4];
 		focusedBotton=1;
+		this.tooltip = new TooltipBox(this);
+		
 		Rowing.game.inputMultiplexer.addProcessor(this);
 		if(game.getScreen()!=null){
 			game.getScreen().dispose();
 		}
-		ListRowers listRowers = new ListRowers(equipo,this.stage);
+		ListRowers listRowers = new ListRowers(equipo,this.stage, tooltip);
 		Rowing.game.inputMultiplexer.addProcessor(listRowers);
 		this.stage.addActor(listRowers);
+		System.out.println( Gdx.graphics.getWidth());
+		tooltip.setBounds( Gdx.graphics.getWidth()-ListRowers.ROWERS_PER_ROW*ListRowers.SIZE_X-200,0, 200, 200);
 		MusicPlayer.play("menu-theme.ogg");
 	}
 
-	public void render(float delta) {
-	       Gdx.gl.glClearColor( 0f, 0f, 0f, 1f );
-	        Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );
-	        batch.begin();
-	        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-	        //buttons[focusedBotton-1].setStyle(focusedStyle);
-	        //Update delta and draw the actors inside the stage
-	        batch.end();
-	        stage.act( delta );
-	        stage.draw();
+	public void show(){
 		
+	}
+	public void render(float delta) {
+		this.delta=delta;
+		Gdx.gl.glClearColor( 0f, 0f, 0f, 1f );
+		Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );
+		batch.begin();
+		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		//buttons[focusedBotton-1].setStyle(focusedStyle);
+		//Update delta and draw the actors inside the stage
+		batch.end();
+		stage.act( delta );
+		stage.draw();	
 	}
 	@Override
 	public boolean keyDown(int arg0) {

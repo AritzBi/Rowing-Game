@@ -15,6 +15,7 @@ public class AbstractScreen implements Screen{
 	protected SpriteBatch batch;
 	protected Skin skin;
 	protected Table table;
+	protected float delta;
 	public AbstractScreen(Rowing game){
 		this.game=game;
 		this.batch=new SpriteBatch();
@@ -46,13 +47,14 @@ public class AbstractScreen implements Screen{
     }
 	@Override
 	public void render(float delta) {
-	       Gdx.gl.glClearColor( 0f, 0f, 0f, 1f );
-	        Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );
-	        batch.begin();
-	        batch.end();
-	        //Update delta and draw the actors inside the stage
-	        stage.act( delta );
-	        stage.draw();
+		this.delta=delta;
+		Gdx.gl.glClearColor( 0f, 0f, 0f, 1f );
+		Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );
+		batch.begin();
+		batch.end();
+		//Update delta and draw the actors inside the stage
+		stage.act( delta );
+		stage.draw();
 		
 	}
 
@@ -90,6 +92,27 @@ public class AbstractScreen implements Screen{
 		stage.dispose();
         if( batch != null ) batch.dispose();
         if( skin != null ) skin.dispose();
+	}
+	public Rowing getGame() {
+		return game;
+	}
+	public Stage getStage() {
+		return stage;
+	}
+	public void setBatch(SpriteBatch batch) {
+		this.batch = batch;
+	}
+	public void setSkin(Skin skin) {
+		this.skin = skin;
+	}
+	public void setTable(Table table) {
+		this.table = table;
+	}
+	public float getDelta() {
+		return delta;
+	}
+	public void setDelta(float delta) {
+		this.delta = delta;
 	}
 
 }

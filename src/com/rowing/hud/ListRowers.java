@@ -15,39 +15,62 @@ import com.rowing.pojo.Remero;
 
 
 public class ListRowers extends Actor implements InputProcessor  {
-	public Texture slot;
-	public Texture focusSlot;
-	public int width;
-	public int height;
-	public int focusedSlot;
+	private Texture slot;
+	private int focusedSlot;
 	private Equipo equipo;
 	private Stage stage;
-	
-	public ListRowers(Equipo equipo, Stage stage) {
+	public static int SIZE_X=64;
+	public static int SIZE_Y=64;
+	public static int ROWERS_PER_ROW=3;
+	private int rower_num_rows;
+	private TooltipBox tooltip;
+	public ListRowers(Equipo equipo, Stage stage, TooltipBox tooltip) {
 		slot = new Texture(Gdx.files.internal("resources/slot.png"));
-		focusSlot = new Texture(Gdx.files.internal("resources/slot-weapon.png"));
-		this.width = 1280;
-		this.height = 900;
 		focusedSlot = 1;
 		this.equipo=equipo;
 		this.stage=stage;
+		this.tooltip=tooltip;
+		rower_num_rows = equipo.getRemeros().size()/ROWERS_PER_ROW;
+		if (equipo.getRemeros().size()%ROWERS_PER_ROW > 0)
+			rower_num_rows++;
 		
 	}
 	public void draw(SpriteBatch batch, float partenAlpha) {
-		System.out.println("Screen X: "+stage.getWidth());
-		System.out.println("Screen Y: "+stage.getHeight());
+		/*System.out.println("Screen X: "+stage.getWidth());
+		System.out.println("Screen Y: "+stage.getHeight());*/
 		
-		float posX = getX() + 256;
-		float posY = getY();
+		float posX = stage.getWidth() - ROWERS_PER_ROW*SIZE_X;
+		float posY = stage.getHeight() - SIZE_Y;
 		float posFocusX = 0;
 		float posFocusY = 0;
 		boolean existsFocus = false;
 		Remero remeroFocused = null;
-		int j=0;
-		for (int i = equipo.getRemeros().size(); i > 0; i--) {
-			/**j++;
-			if (j == 5)
-				break;**/
+		//int j=0;
+		for (int i = 0; i < equipo.getRemeros().size() ; i++){
+			if (i == focusedSlot) {
+				posFocusX = posX;
+				posFocusY = posY;
+				existsFocus = true;
+			} else {
+				batch.draw(slot, posX, posY, 64, 64);
+			}
+			Remero remero = equipo.getRemeros().get(i);
+			if (i == focusedSlot) {
+				remeroFocused = remero;
+			} else
+				batch.draw(remero.getIcon(), posX + 5, posY + 15, 55, 45);
+			posX += SIZE_X;
+			if ((i - 1) % 3 == 0) {
+				posY -= SIZE_Y;
+				posX = stage.getWidth() - ROWERS_PER_ROW*SIZE_X;
+			}
+			if (existsFocus) {
+				batch.draw(slot, posFocusX, posFocusY, 70, 70);
+				batch.draw(remeroFocused.getIcon(), posFocusX + 5, posFocusY + 15, 61,51);
+			}
+			
+		}
+		/**for (int i = equipo.getRemeros().size(); i > 0; i--) {
 			if (i == focusedSlot) {
 				posFocusX = posX;
 				posFocusY = posY;
@@ -63,18 +86,15 @@ public class ListRowers extends Actor implements InputProcessor  {
 			posX -= 64;
 			if ((i - 1) % 3 == 0) {
 				posY += 64;
-				posX = getX() + 256;
+				posX = stage.getWidth() - ROWERS_PER_ROW*SIZE_X;
 			}
-		}
-		if (existsFocus) {
+		}**/
+		/**if (existsFocus) {
 			batch.draw(slot, posFocusX, posFocusY, 70, 70);
 			batch.draw(remeroFocused.getIcon(), posFocusX + 5, posFocusY + 15, 61,51);
-		}
+		}**/
 	}
-	public void updateRes(int witdh, int height) {
-		this.width = witdh;
-		this.height = height;
-	}
+
 
 	@Override
 	public boolean keyDown(int arg0) {
@@ -106,34 +126,39 @@ public class ListRowers extends Actor implements InputProcessor  {
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		Vector2 pos = stage.screenToStageCoordinates(new Vector2(screenX, screenY));
-		if (pos.x > getX() && pos.x < getX() + 320 && pos.y > getY()
-				&& pos.y < getY()+256) {
-			float posX = getX() + 256;
-			float posY = getY();
-			for (int i = equipo.getRemeros().size(); i > 0; i--) {
-				if (pos.x > posX && pos.x < posX + 64 && pos.y > posY
-						&& pos.y < posY + 64) {
+		/*System.out.println("Pos mouse X "+pos.x);
+		System.out.println("Pos mouse Y "+pos.y);
+		System.out.println(getX());
+		System.out.println(getY());
+		System.out.println("Vector X: "+pos.x);
+		System.out.println("Izquierda de x"+ (stage.getWidth() - ROWERS_PER_ROW*SIZE_X ));
+		System.out.println("Derecha de X: "+ stage.getWidth());
+		System.out.println("Vector Y:"+pos.y);
+		System.out.println("Arriba de Y:" +stage.getHeight() );
+		System.out.println("Abajo de Y:"+(stage.getHeight()-rower_num_rows*SIZE_Y));*/
+		if (pos.x > stage.getWidth() - ROWERS_PER_ROW*SIZE_X && pos.x < stage.getWidth() && pos.y > stage.getHeight()-rower_num_rows*SIZE_Y
+				&& pos.y < stage.getHeight()) {
+			float posX = stage.getWidth() - ROWERS_PER_ROW*SIZE_X;
+			float posY = stage.getHeight() - SIZE_Y;
+			for (int i = 0;i < equipo.getRemeros().size();i++) {
+				if (pos.x > posX && pos.x < posX + SIZE_X && pos.y > posY
+						&& pos.y < posY + SIZE_Y) {
 					focusedSlot = i;
-					/*Item item = SoC.game.playermapper.get(SoC.game.player).inventary[i - 1];
-					if (item != null) {
-						parent.tooltip.setText(item.tooltip, 0f);
+					Remero remero = equipo.getRemeros().get(i) ;
+					if (remero != null) {
+						tooltip.setText(remero.toString(), 0f);
 					} else {
-						parent.tooltip.setText(null, 0);
-					}*/
+						tooltip.setText(null, 0);
+					}
 					return false;
 				}
-				posX -= 64;
-				if ((i - 1) % 5 == 0) {
-					posY += 64;
-					posX = getX() + 256;
+				posX += SIZE_X;
+				if ((i - 1) % 3 == 0) {
+					posY -= SIZE_Y;
+					posX = stage.getWidth() - ROWERS_PER_ROW*SIZE_X;
 				}
 			}
 		} 
-		//else {
-			//focusedSlot = 1;
-			//parent.tooltip.setText(null, 0);
-
-		//}
 		return false;
 	}
 
