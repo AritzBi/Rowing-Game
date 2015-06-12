@@ -53,9 +53,6 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		MusicPlayer.play("olasdemar.mp3");
 	}
 
-	public void show(){
-		
-	}
 	public void render(float delta) {
 		this.delta=delta;
 		Gdx.gl.glClearColor( 0f, 0f, 0f, 1f );
