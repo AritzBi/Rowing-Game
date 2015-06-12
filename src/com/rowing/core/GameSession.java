@@ -10,7 +10,7 @@ public class GameSession {
 	public CondicionesMeteo condicionesMeteo;
 
 	private GameSession() {
-		condicionesMeteo = Utils.getWeatherDonosti();
+		condicionesMeteo = Utils.getWeatherDonosti( false );
 	}
 	
 	private GameSession ( CondicionesMeteo condiciones ) {

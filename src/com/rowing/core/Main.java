@@ -45,7 +45,7 @@ public class Main {
 
 		// 3º paso: se obtiene o no con el botón las condiciones meteorológicas
 		// de Donosti
-		Utils.getWeatherDonosti();
+		Utils.getWeatherDonosti( true );
 
 		// 4º paso: se obtienen las traineras competidoras de la trainera Orio
 		regata.obtenerTrainerasCompetidoras();
@@ -62,11 +62,13 @@ public class Main {
 
 		// 7º paso: tenemos los tiempos de ida de todas las traineras
 		System.out.println(regata.toString());
+		System.out.println("\n***CONDICIONES METEOROLOGICAS DE LA REGATA***");
+		System.out.println(GameSession.getInstance().condicionesMeteo);
 	}
 
 	public void pruebaSinObjetoRegata() {
 		// Al entrar en confeccionar equipo, se requerirá consultar el tiempo!
-		Utils.getWeatherDonosti();
+		Utils.getWeatherDonosti( true );
 
 		GraphicsLoader.initialize();
 		Equipo equipoOrio = Utils.loadEquipoOrio();

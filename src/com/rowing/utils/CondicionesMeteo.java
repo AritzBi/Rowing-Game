@@ -15,6 +15,18 @@ public class CondicionesMeteo {
 
 	public CondicionesMeteo() {
 	}
+	
+	public String toString() {
+		String objet = "";
+		if ( wind != null )
+			objet += "Wind(km/h): " + convertirMilesToKilometers( wind.getWindSpeed() ) + "\n";
+		if ( mainConditions != null )
+		{
+			objet += "Humidity(%): " + mainConditions.getHumidity() + "\n";
+			objet += "Temperature(Fahrenheit): " + mainConditions.getTemperature();
+		}	
+		return objet;
+	}
 
 	public Rain getRain() {
 		return rain;

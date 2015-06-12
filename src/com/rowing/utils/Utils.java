@@ -7,6 +7,7 @@ import net.aksingh.owmjapis.CurrentWeather.Main;
 import net.aksingh.owmjapis.CurrentWeather.Rain;
 import net.aksingh.owmjapis.CurrentWeather.Wind;
 import net.aksingh.owmjapis.OpenWeatherMap;
+import net.aksingh.owmjapis.OpenWeatherMap.Units;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.gson.Gson;
@@ -38,13 +39,14 @@ public class Utils {
 		return equipo;
 	}
 
-	// http://api.openweathermap.org/data/2.5/weather?q=Donostia
-	public static CondicionesMeteo getWeatherDonosti() {
+	public static CondicionesMeteo getWeatherDonosti(
+			boolean guardarCondicionesEnSession) {
 		CondicionesMeteo condiciones = new CondicionesMeteo();
 
 		OpenWeatherMap owm = new OpenWeatherMap("");
 		CurrentWeather cwd = null;
 		try {
+			owm.setUnits(Units.IMPERIAL);
 			cwd = owm.currentWeatherByCityName("Donosti");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -57,9 +59,12 @@ public class Utils {
 		Main main = cwd.getMainInstance();
 		condiciones.setMainConditions(main);
 		condiciones.calcularParametroBuenaYMalaMar();
-		//Si tiramos de este metodo, lo que hacemos es guardar en la sesion las condiciones meteorologicas
-		GameSession.setInstance(condiciones);
+		if (guardarCondicionesEnSession) {
+			// Si tiramos de este metodo, lo que hacemos es guardar en la sesion
+			// las condiciones meteorologicas
+			GameSession.setInstance(condiciones);
+		}
 		return condiciones;
 	}
-	
+
 }
