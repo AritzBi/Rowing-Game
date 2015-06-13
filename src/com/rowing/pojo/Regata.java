@@ -3,9 +3,12 @@ package com.rowing.pojo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.rowing.core.Constants;
+import com.rowing.core.GameSession;
 import com.rowing.logic.BasicLogic;
+import com.rowing.utils.Utils;
 
 public class Regata {
 
@@ -14,7 +17,7 @@ public class Regata {
 	// Guarda las traineras competidoras
 	private List<Trainera> trainerasCompetidoras;
 	// Calles de la regata
-	private Map<Integer, String> calles;
+	public static Map<Integer, String> calles;
 
 	public Regata() {
 		equipo = new Equipo();
@@ -45,6 +48,15 @@ public class Regata {
 		this.calles = calles;
 	}
 
+	public static Integer getCalleBuena() {
+		for (Integer numeroCalle : calles.keySet()) {
+			if (calles.get(numeroCalle).equals(Constants.CALLE_BUENA)) {
+				return numeroCalle;
+			}
+		}
+		return null;
+	}
+
 	public void obtenerTrainerasCompetidoras() {
 		this.trainerasCompetidoras = BasicLogic.obtenerTraineras(equipo
 				.getTrainera());
@@ -61,8 +73,9 @@ public class Regata {
 	}
 
 	/**
-	 * Método que crea los scores asociados a las traineras competidoras y la trainera de Orio
-	 * ¡Después del método crearCallesYAsignarATraineras!
+	 * Método que crea los scores asociados a las traineras competidoras y la
+	 * trainera de Orio ¡Después del método crearCallesYAsignarATraineras!
+	 * 
 	 * @param estrategia
 	 */
 	public void crearScoreDeIdaSegunEstrategia(String estrategia) {
@@ -72,30 +85,152 @@ public class Regata {
 		// Calculamos el score de las traineras competidores con estrategias
 		// aleatorias
 		for (Trainera trainera : getTrainerasCompetidoras()) {
-			
+
 			int estrategiaRandom = 0;
-			if ( trainera.isBuenaCalle() ) {
-				estrategiaRandom = (int) (Math.random() * 3 + 0);
-			}
-			else if ( trainera.isSemiBuenaCalle() ) {
-				estrategiaRandom = (int) (Math.random() * 2 + 0);
-			}
-			else if ( trainera.isMalaCalle() ) {
-				estrategiaRandom = (int) (Math.random() * 3 + 1);
+			if (trainera.isBuenaCalle()) {
+				estrategiaRandom = Utils.generaNumeroAleatorio(0, 2);
+			} else if (trainera.isSemiBuenaCalle()) {
+				estrategiaRandom = Utils.generaNumeroAleatorio(0, 1);
+			} else if (trainera.isMalaCalle()) {
+				estrategiaRandom = Utils.generaNumeroAleatorio(1, 2);
 			}
 			trainera.calcularScoreTrainera_Ida(Constants.ESTRATEGIAS_SALIDA
 					.get(estrategiaRandom));
 		}
 	}
-	
-	//TODO-asimon:No se le puede asignar la estrategia "Change to the best path" a la trainera que vaya por la calle buena!!
-	public void crearScoreDeVueltaSegunEstrategia(String estrategia) {
+
+	public Map<Trainera, Integer> getClasificacionIda() {
+		Map<Trainera,Integer> clasificacionIda =
+                new TreeMap<Trainera,Integer>( trainerasCompetidoras.get(0).new OrdenarPorTiempoIda() );
 		
+		for (Trainera traineraAux : getTrainerasCompetidoras()) {
+			clasificacionIda.put(traineraAux, new Integer ( traineraAux.getTiempoIda() ) );
+		}
+		clasificacionIda.put(equipo.getTrainera(), new Integer ( equipo.getTrainera()
+				.getTiempoIda() ) );
+
+		return clasificacionIda;
 	}
-	
-	public String toString () {
-		return "Regata con TRAINERA ORIO --> " + equipo.getTrainera().toString() + 
-				"\ncon TRAINERAS COMPETIDORAS --> " + trainerasCompetidoras.toString();
+
+	public Map<Trainera, Integer> getClasificacionVuelta() {
+		Map<Trainera,Integer> clasificacioNVuelta =
+                new TreeMap<Trainera,Integer>( trainerasCompetidoras.get(0).new OrdenarPorTiempoVuelta() );
+		
+		for (Trainera traineraAux : getTrainerasCompetidoras()) {
+			clasificacioNVuelta.put(traineraAux, traineraAux.getTiempoVuelta());
+		}
+		clasificacioNVuelta.put(equipo.getTrainera(), equipo.getTrainera()
+				.getTiempoVuelta());
+
+		return clasificacioNVuelta;
+	}
+
+	public Map<Trainera, Integer> getClasificacionFinal() {
+		Map<Trainera,Integer> clasificacioNFinal =
+                new TreeMap<Trainera,Integer>( trainerasCompetidoras.get(0).new OrdenarPorTiempoTotal() );
+		for (Trainera traineraAux : getTrainerasCompetidoras()) {
+			clasificacioNFinal.put(traineraAux, traineraAux.getTiempoVuelta()
+					+ traineraAux.getTiempoIda());
+		}
+		clasificacioNFinal.put(equipo.getTrainera(), equipo.getTrainera()
+				.getTiempoVuelta() + equipo.getTrainera().getTiempoVuelta());
+
+		return clasificacioNFinal;
+	}
+
+	public void crearScoreDeVueltaSegunEstrategia(String estrategia) {
+
+		for (Trainera trainera : getTrainerasCompetidoras()) {
+			int estrategiaElegida = 0;
+			if (trainera.isMalaCalle() && trainera.getEnergiaTotal() < 60) {
+				// coge siempre la estrategia 4 de vuelta!!
+				trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+						.get(3));
+			} else if (trainera.isBuenaCalle()
+					&& trainera.getEnergiaTotal() >= 50
+					&& GameSession.getInstance().condicionesMeteo.isBuenaMar()) {
+				// coge o la estrategia 1 o 5
+				estrategiaElegida = Utils.generaNumeroAleatorio(0, 1);
+				if (estrategiaElegida == 0)
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(0));
+				else
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(4));
+			} else if (trainera.isBuenaCalle()
+					&& trainera.getEnergiaTotal() >= 50
+					&& GameSession.getInstance().condicionesMeteo.isMalaMar()) {
+				// coge o la estrategia 1, 5 o 6
+				estrategiaElegida = Utils.generaNumeroAleatorio(0, 2);
+				if (estrategiaElegida == 0)
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(0));
+				else if (estrategiaElegida == 1)
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(4));
+				else
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(5));
+			} else if (trainera.isSemiBuenaCalle()
+					&& trainera.getEnergiaTotal() > 45
+					&& GameSession.getInstance().condicionesMeteo.isBuenaMar()) {
+				// coge o la estrategia 1,2,4 y 5
+				estrategiaElegida = Utils.generaNumeroAleatorio(0, 3);
+				if (estrategiaElegida == 0)
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(0));
+				else if (estrategiaElegida == 1)
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(1));
+				else if (estrategiaElegida == 2)
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(3));
+				else
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(4));
+			} else if (trainera.isSemiBuenaCalle()
+					&& trainera.getEnergiaTotal() <= 45
+					&& GameSession.getInstance().condicionesMeteo.isBuenaMar()) {
+				// coge o estrategia 2,3,4 o 5
+				estrategiaElegida = Utils.generaNumeroAleatorio(2, 5);
+				trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+						.get(estrategiaElegida - 1));
+			} else if (trainera.isSemiBuenaCalle()
+					&& trainera.getEnergiaTotal() > 45
+					&& GameSession.getInstance().condicionesMeteo.isMalaMar()) {
+				// coge o la estrategia 1,2,4,5 o 6
+				estrategiaElegida = Utils.generaNumeroAleatorio(0, 4);
+				if (estrategiaElegida == 0)
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(0));
+				else if (estrategiaElegida == 1)
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(1));
+				else if (estrategiaElegida == 2)
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(3));
+				else if (estrategiaElegida == 3)
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(4));
+				else
+					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+							.get(5));
+			} else if (trainera.isSemiBuenaCalle()
+					&& trainera.getEnergiaTotal() <= 45
+					&& GameSession.getInstance().condicionesMeteo.isMalaMar()) {
+				// coge o estrategia 2,3,4,5,6
+				estrategiaElegida = Utils.generaNumeroAleatorio(2, 6);
+				trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
+						.get(estrategiaElegida - 1));
+			}
+		}
+	}
+
+	public String toString() {
+		return "Regata con TRAINERA ORIO --> "
+				+ equipo.getTrainera().toString()
+				+ "\ncon TRAINERAS COMPETIDORAS --> "
+				+ trainerasCompetidoras.toString();
 	}
 
 }

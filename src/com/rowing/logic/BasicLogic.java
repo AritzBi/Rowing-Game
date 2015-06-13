@@ -12,6 +12,7 @@ import java.util.Map;
 import com.rowing.core.GameSession;
 import com.rowing.pojo.Trainera;
 import com.rowing.utils.CondicionesMeteo;
+import com.rowing.utils.Utils;
 
 ;
 
@@ -97,7 +98,7 @@ public class BasicLogic {
 	public static Map<Integer, String> obtenerCalles() {
 		Map<Integer, String> calles = new HashMap<Integer, String>();
 
-		int calleBuena = (int) (Math.random() * 4 + 0);
+		int calleBuena = Utils.generaNumeroAleatorio(0, 3);
 		calles.put(calleBuena, CALLE_BUENA);
 		if (calleBuena == 0) {
 			calles.put(1, CALLE_SEMI_BUENA);
@@ -127,7 +128,7 @@ public class BasicLogic {
 		for (Trainera trainera : traineras) {
 			boolean enc = false;
 			while (!enc) {
-				int calleRandom = (int) (Math.random() * 4 + 0);
+				int calleRandom = Utils.generaNumeroAleatorio(0, 3);
 				if (!callesYaAsignadas.contains(calleRandom)) {
 					Map<Integer, String> calleSeleccionada = new HashMap<Integer, String>();
 					calleSeleccionada.put(calleRandom, calles.get(calleRandom));
@@ -140,7 +141,7 @@ public class BasicLogic {
 		// Asignamos calle a la trainera de Orio
 		boolean enc = false;
 		while (!enc) {
-			int calleRandom = (int) (Math.random() * 4 + 0);
+			int calleRandom = Utils.generaNumeroAleatorio(0, 3);
 			if (!callesYaAsignadas.contains(calleRandom)) {
 				Map<Integer, String> calleSeleccionada = new HashMap<Integer, String>();
 				calleSeleccionada.put(calleRandom, calles.get(calleRandom));
