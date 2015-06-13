@@ -11,6 +11,7 @@ public class GameSession {
 
 	private GameSession() {
 		condicionesMeteo = Utils.getWeatherDonosti( false );
+		System.err.println("He sido instanciado");
 	}
 	
 	private GameSession ( CondicionesMeteo condiciones ) {

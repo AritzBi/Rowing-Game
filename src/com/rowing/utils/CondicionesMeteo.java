@@ -23,8 +23,10 @@ public class CondicionesMeteo {
 		if ( mainConditions != null )
 		{
 			objet += "Humidity(%): " + mainConditions.getHumidity() + "\n";
-			objet += "Temperature(Fahrenheit): " + mainConditions.getTemperature();
-		}	
+			objet += "Temperature(Fahrenheit): " + mainConditions.getTemperature() + "\n";
+		}
+		objet += "Calm Seas: " + buenaMar + "\n";
+		objet += "Dangerous Seas: " + malaMar;
 		return objet;
 	}
 
