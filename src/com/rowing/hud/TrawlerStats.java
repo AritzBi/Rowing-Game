@@ -35,26 +35,31 @@ public class TrawlerStats extends Actor {
 		proportion = (float)equipo.getTrainera().getPotenciaTotal()/ (float)Constants.MAX_POTENCY;
         batch.draw(container, getX(),  getY()-offset);
         batch.draw(red_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
+        font.draw(batch,equipo.getTrainera().getPotenciaTotal() + "/" + Constants.MAX_POTENCY, getX() + blue_bar.getWidth()*0.40f,getY()-offset +25);
         offset+=Constants.STATS_BAR_OFFSET;
         //Experiencia
         proportion = (float)equipo.getTrainera().getExperienciaTotal() / (float)Constants.MAX_EXPERIENCE;
         batch.draw(container, getX(),  getY()-offset);
         batch.draw(blue_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
+        font.draw(batch,equipo.getTrainera().getExperienciaTotal() + "/" + Constants.MAX_EXPERIENCE, getX() + blue_bar.getWidth()*0.40f,getY()-offset +25);
         offset+=Constants.STATS_BAR_OFFSET;
         //Energia
         proportion = (float)equipo.getTrainera().getEnergiaTotal() / (float)Constants.MAX_ENERGY;
         batch.draw(container, getX(),  getY()-offset);
         batch.draw(green_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
+        font.draw(batch,equipo.getTrainera().getEnergiaTotal() + "/" + Constants.MAX_ENERGY, getX() + green_bar.getWidth()*0.40f,getY()-offset +25);
         offset+=Constants.STATS_BAR_OFFSET;
         //Buena mar
         proportion = (float)equipo.getTrainera().getHabilidadBuenaMarTotal() / (float)Constants.GOOD_SEA;
         batch.draw(container, getX(),  getY()-offset);
         batch.draw(blue_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
+        font.draw(batch,equipo.getTrainera().getHabilidadBuenaMarTotal() + "/" + Constants.GOOD_SEA, getX() + blue_bar.getWidth()*0.40f,getY()-offset +25);
         offset+=Constants.STATS_BAR_OFFSET;
         //Mala mar
         proportion = (float)equipo.getTrainera().getHabilidadMalaMarTotal() / (float)Constants.BAD_SEA;
         batch.draw(container, getX(),  getY()-offset);
         batch.draw(blue_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
+        font.draw(batch,equipo.getTrainera().getHabilidadMalaMarTotal() + "/" + Constants.BAD_SEA, getX() + blue_bar.getWidth()*0.40f,getY()-offset +25);
 
 		/**float proportion = (float)stats.health / (float)stats.maxHealth;
 		batch.draw(bars, getX() +3, getY() + 40, 0, 0, (int)(bars.getWidth()*proportion), 20);
