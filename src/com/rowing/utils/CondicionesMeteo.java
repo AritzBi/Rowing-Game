@@ -60,14 +60,14 @@ public class CondicionesMeteo {
 			malaMar = true;
 		}
 		else if (mainConditions.getHumidity() > 75.0 && convertirMilesToKilometers(wind.getWindSpeed()) < 22.0) {
-			int probabilidad = (int) (Math.random() * 101 + 1);
+			int probabilidad = Utils.generaNumeroAleatorio(0, 100);
 			if ( probabilidad > 80 ) //Con un 20%, mala mar
 				malaMar = true;
 			else //con un 80%, buena mar
 				buenaMar = true;
 		}
 		else if (mainConditions.getHumidity() < 75.0 && convertirMilesToKilometers(wind.getWindSpeed()) > 22.0) {
-			int probabilidad = (int) (Math.random() * 101 + 1);
+			int probabilidad = Utils.generaNumeroAleatorio(0, 100);
 			if ( probabilidad > 60 ) //Con un 40%, buena mar
 				buenaMar = true;
 			else //con un 60%, mala mar

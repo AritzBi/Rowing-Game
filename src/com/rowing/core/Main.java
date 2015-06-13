@@ -47,6 +47,9 @@ public class Main {
 		// 3º paso: se obtiene o no con el botón las condiciones meteorológicas
 		// de Donosti. ¡¡Hacerlo antes de seleccionar la trainera de Orio!!
 		Utils.getWeatherDonosti( true );
+		
+		System.out.println("\n***CONDICIONES METEOROLOGICAS DE LA REGATA***");
+		System.out.println(GameSession.getInstance().condicionesMeteo);
 
 		// 4º paso: se obtienen las traineras competidoras de la trainera Orio
 		regata.obtenerTrainerasCompetidoras();
@@ -62,14 +65,31 @@ public class Main {
 				.get(0));
 
 		// 7º paso: tenemos los tiempos de ida de todas las traineras
-		System.out.println(regata.toString());
-		System.out.println("\n***CONDICIONES METEOROLOGICAS DE LA REGATA***");
-		System.out.println(GameSession.getInstance().condicionesMeteo);
+		System.out.println("*** CLASIFICACIÓN IDA ****");
+		for(Trainera key: regata.getClasificacionIda().keySet() ){
+            System.out.println(key.getNombre()  +" :: "+ regata.getClasificacionIda().get(key) );
+        }
 		
 		//[OPERACIONES PARA LA VUELTA: necesitamos el seteo de la estrategia de Orio]
-		//8º paso: calcular de nuevo las calles
+		//8º paso: calcular de nuevo las calles y asignarselas a las traineras
 		regata.crearCallesYAsignarATraineras();
 		
+		//9º paso: calcular las estrategias de vuelta de las traineras [se le pasa como parametro la estrategia seleccionada por Orio]
+		//Si el usuario no especifica ninguna, se pondrá la del patrón.
+		//Se calculará también el score asociado a cada trainera
+		regata.crearScoreDeVueltaSegunEstrategia(Constants.ESTRATEGIAS_VUELTA.get(4));
+		
+		//10º paso: obtenemos el score de la vuelta
+		System.out.println("*** CLASIFICACIÓN VUELTA ****");
+		for(Trainera key: regata.getClasificacionVuelta().keySet() ){
+            System.out.println(key.getNombre()  +" :: "+ regata.getClasificacionVuelta().get(key) );
+        }
+		
+		//11º paso: obtenemos la clasificacion final de la regata
+		System.out.println("*** CLASIFICACIÓN FINAL ****");
+		for(Trainera key: regata.getClasificacionFinal().keySet() ){
+            System.out.println(key.getNombre()  +" :: "+ regata.getClasificacionFinal().get(key) );
+        }
 	}
 
 	public void pruebaSinObjetoRegata() {
@@ -103,7 +123,7 @@ public class Main {
 		trainera.calcularScoreTrainera_Ida(estrategia_Orio);
 
 		for (Trainera traineraAux : trainerasCompetidoras) {
-			int estrategiaRandom = (int) (Math.random() * 3 + 0);
+			int estrategiaRandom = Utils.generaNumeroAleatorio(0,2);
 			traineraAux.calcularScoreTrainera_Ida(Constants.ESTRATEGIAS_SALIDA
 					.get(estrategiaRandom));
 		}

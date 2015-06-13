@@ -31,10 +31,6 @@ public class Constants {
 			}
 	);
 	
-	public static final List<String> ESTRAGIAS_VUELTA = Arrays.asList
-	(new String[]
-			{}
-	);
 	public static final int NUM_ROWERS = 13;
 	public static int SIZE_X=64;
 	public static int SIZE_Y=64;

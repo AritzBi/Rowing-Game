@@ -49,13 +49,12 @@ public class Utils {
 	private static void especificarLesionados(Equipo equipo) {
 		//REMEROS
 		List<Integer> remerosLesionados = new ArrayList<Integer>();
-		int remeroLesionado = (int) (Math.random() * equipo.getRemeros().size() + 0);
+		int remeroLesionado = Utils.generaNumeroAleatorio(0, equipo.getRemeros().size()-1);
 		remerosLesionados.add(remeroLesionado);
 		boolean enc = false;
 		int remeroLesionadoDos = 0;
 		while (!enc) {
-			remeroLesionadoDos = (int) (Math.random()
-					* equipo.getRemeros().size() + 0);
+			remeroLesionadoDos = Utils.generaNumeroAleatorio(0, equipo.getRemeros().size()-1);
 			if (!remerosLesionados.contains(remeroLesionadoDos))
 				enc = true;
 		}
@@ -63,9 +62,9 @@ public class Utils {
 		equipo.getRemeros().get(remeroLesionadoDos).setLesionado(1);
 
 		// PATRONES
-		int patronLesionado = (int) (Math.random() * 101 + 0);
+		int patronLesionado = Utils.generaNumeroAleatorio(0, 100);
 		if (patronLesionado > 0 && patronLesionado < 21) {
-			int seleccionarPatron = (int) (Math.random() * 2 + 0);
+			int seleccionarPatron = Utils.generaNumeroAleatorio(0, 1);
 			equipo.getPatrones().get(seleccionarPatron).setLesionado(1);
 		}
 	}
@@ -99,5 +98,11 @@ public class Utils {
 		}
 		return condiciones;
 	}
+	
+	public static int generaNumeroAleatorio(int minimo, int maximo){
+        
+        int num=(int)Math.floor(Math.random()*(minimo-(maximo+1))+(maximo+1));
+        return num;
+    }
 
 }

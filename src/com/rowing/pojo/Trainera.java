@@ -1,12 +1,14 @@
 package com.rowing.pojo;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.rowing.core.Constants;
 import com.rowing.core.GameSession;
+import com.rowing.utils.Utils;
 
 public class Trainera {
 	
@@ -207,10 +209,10 @@ public class Trainera {
 		int modificadorPotencia = 0;
 
 		if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(0))) {
-			modificadorPotencia = 5;
+			modificadorPotencia = 25;
 			energiaTotal -= 20;
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(1))) {
-			modificadorPotencia = 2;
+			modificadorPotencia = 12;
 			energiaTotal -= 10;
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(2))) {
 			modificadorPotencia = -4;
@@ -242,10 +244,18 @@ public class Trainera {
 
 	public int getTiempoIda() {
 		//Obtenemos el tiempo que se le corresponde en base a sus puntos
-		int tiempoCorrespondiente = ( 570 * score ) / 325;
+		int tiempoCorrespondiente = ( 570 * score ) / 350;
 		//El diferencial se suma al total de 570 segundos
 		tiempoIda = (570 - tiempoCorrespondiente ) + 570;
 		return tiempoIda;
+	}
+	
+	public int getTiempoVuelta() {
+		//Obtenemos el tiempo que se le corresponde en base a sus puntos
+		int tiempoCorrespondiente = ( 570 * score ) / 344;
+		//El diferencial se suma al total de 570 segundos
+		tiempoVuelta = (570 - tiempoCorrespondiente ) + 570;
+		return tiempoVuelta;
 	}
 	
 	public void calcularScoreTrainera_Vuelta(String estrategia) {
@@ -253,54 +263,69 @@ public class Trainera {
 		int modificadorPotencia = 0;
 		
 		if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(0))) {
-			modificadorPotencia = 5;
+			modificadorPotencia = 25;
 			energiaTotal -= 20;
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(1))) {
-			modificadorPotencia = 2;
+			modificadorPotencia = 12;
 			energiaTotal -= 10;
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(2))) {
 			modificadorPotencia = -4;
 			energiaTotal += 10;
-		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(3))) {
+		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(3))) //cambiar a la mejor calle
+		{
+			int modificadorPotenciaRandom = 0;
 			if ( isSemiBuenaCalle() ) {
 				energiaTotal -= 5;
-				modificadorPotencia = 10;
-				//TODO-asimon: cambiar a la calle buena!
+				modificadorPotenciaRandom = Utils.generaNumeroAleatorio(7, 9);
 			} else if ( isMalaCalle() ) {
 				energiaTotal -= 10;
-				modificadorPotencia = 2;
+				modificadorPotenciaRandom = Utils.generaNumeroAleatorio(10, 12);
 			}
+			modificadorPotencia = modificadorPotenciaRandom;
+			//Se le asigna a la trainera la calle buena!
+			calle.clear();
+			calle.put(Regata.getCalleBuena(), Constants.CALLE_BUENA);
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(4))) //elección del patron
 		{
 			int experienciaLiderazgoPatron = getPatron().getExperiencia() + getPatron().getLiderazgo();
 			int sumarPotencia = 0;
+			int energiaRestar = Utils.generaNumeroAleatorio(0, 1);
 			if ( experienciaLiderazgoPatron >= 180 ) {
-				//modificador entre 5 y 8
-				sumarPotencia = (int)(Math.random() * 9 + 5);
+				//modificador entre 4 y 8
+				sumarPotencia = Utils.generaNumeroAleatorio(4, 8);
 			}
 			else if ( experienciaLiderazgoPatron >= 160 && experienciaLiderazgoPatron < 180 ) {
-				//modificador entre 3 y 5
-				sumarPotencia = (int)(Math.random() * 6 + 3);
+				//modificador entre 2 y 5
+				sumarPotencia = Utils.generaNumeroAleatorio(2, 5);
 			}
 			else if ( experienciaLiderazgoPatron >= 140 && experienciaLiderazgoPatron < 160 ) {
 				//modificador entre 1 y 3
-				sumarPotencia = (int)(Math.random() *4 + 1);
+				sumarPotencia = Utils.generaNumeroAleatorio(1, 3);
 			}
 			else if ( experienciaLiderazgoPatron < 140 ) {
 				//modificador entre 0 y 1
-				sumarPotencia = (int)(Math.random() *2 + 0);
+				sumarPotencia = Utils.generaNumeroAleatorio(0, 1);
 			}
+			energiaTotal -= energiaRestar;
 			modificadorPotencia = sumarPotencia;
 		}
 		else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(5))) //ola a favor
 		{
 			if ( GameSession.getInstance().condicionesMeteo.isMalaMar() ) {
-				energiaTotal += 15;
-				modificadorPotencia = 4;
+				//random energia 4 y 10
+				int energiaSumar = Utils.generaNumeroAleatorio(4, 10);
+				energiaTotal += energiaSumar;
+				//random modificador potencia 1 y 4
+				int potencia = Utils.generaNumeroAleatorio(1, 4);
+				modificadorPotencia = potencia;
 			}
 			else if ( GameSession.getInstance().condicionesMeteo.isBuenaMar() ) {
-				energiaTotal += 5;
-				modificadorPotencia = 1;
+				//random energia 0 y 2
+				int energiaSumar = Utils.generaNumeroAleatorio(0, 2);
+				energiaTotal += energiaSumar;
+				//random modificador potencia 0 y 2
+				int potencia = Utils.generaNumeroAleatorio(0, 2);
+				modificadorPotencia = potencia;
 			}
 		}
 		
@@ -312,22 +337,23 @@ public class Trainera {
 			energiaTotal -= 40;
 		}
 		
+		int modificadorPenalizacion = 0;
+		if ( energiaTotal < 0 ) {
+			modificadorPenalizacion = energiaTotal;
+		}
+		
 		if (GameSession.getInstance().condicionesMeteo.isBuenaMar()) {
 			score = potenciaTotal + energiaTotal + experienciaTotal
-					+ habilidadBuenaMarTotal + modificadorPotencia;
+					+ habilidadBuenaMarTotal + modificadorPotencia + modificadorPenalizacion;
 		} else if (GameSession.getInstance().condicionesMeteo.isMalaMar()) {
 			score = potenciaTotal + energiaTotal + experienciaTotal
-					+ habilidadMalaMarTotal + modificadorPotencia;
+					+ habilidadMalaMarTotal + modificadorPotencia + modificadorPenalizacion;
 		}
 		
 	}
 	
 	public void setTiempoIda(int tiempoIda) {
 		this.tiempoIda = tiempoIda;
-	}
-
-	public int getTiempoVuelta() {
-		return tiempoVuelta;
 	}
 
 	public void setTiempoVuelta(int tiempoVuelta) {
@@ -342,6 +368,14 @@ public class Trainera {
 		this.estrategiaActual = estrategiaActual;
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 	public String toString() {
 				return 	"\nTrainera " + nombre + "\ncon potencia total --> " + potenciaTotal
 				+ "\ncon energia total --> " + energiaTotal + "\ncon experiencia total --> " + experienciaTotal + "\ncon habilidad buena mar --> " + habilidadBuenaMarTotal
@@ -349,4 +383,27 @@ public class Trainera {
 				+ "\ncon tiempo de ida --> " + getTiempoIda() + "\ncon estrategia actual --> " + getEstrategiaActual();
 	}
 
+	class OrdenarPorTiempoIda implements Comparator<Trainera> {
+
+		@Override
+		public int compare(Trainera o1, Trainera o2) {
+			return ((Integer)(o1.getTiempoIda())).compareTo((Integer)(o2.getTiempoIda()));
+		}
+	}
+	
+	class OrdenarPorTiempoVuelta implements Comparator<Trainera> {
+		
+		@Override
+		public int compare(Trainera o1, Trainera o2) {
+			return ((Integer)(o1.getTiempoVuelta())).compareTo((Integer)(o2.getTiempoVuelta()));
+		}
+	}
+	
+	class OrdenarPorTiempoTotal implements Comparator<Trainera> {
+		
+		@Override
+		public int compare(Trainera o1, Trainera o2) {
+			return ((Integer)(o1.getTiempoVuelta() + o1.getTiempoIda())).compareTo((Integer)(o2.getTiempoVuelta() + o2.getTiempoIda()));
+		}
+	}
 }
