@@ -32,46 +32,49 @@ public class TrawlerStats extends Actor {
 		int offset=0;
 		float proportion=0;
 		//Potencia
+		font.setScale(1.3f);
+        font.draw(batch,"Potency", getX()-95,getY()-offset +26);
+        font.setScale(1f);
 		proportion = (float)equipo.getTrainera().getPotenciaTotal()/ (float)Constants.MAX_POTENCY;
         batch.draw(container, getX(),  getY()-offset);
         batch.draw(red_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
         font.draw(batch,equipo.getTrainera().getPotenciaTotal() + "/" + Constants.MAX_POTENCY, getX() + blue_bar.getWidth()*0.40f,getY()-offset +25);
         offset+=Constants.STATS_BAR_OFFSET;
         //Experiencia
+		font.setScale(1.3f);
+        font.draw(batch,"Experience", getX()-95,getY()-offset +26);
+        font.setScale(1f);
         proportion = (float)equipo.getTrainera().getExperienciaTotal() / (float)Constants.MAX_EXPERIENCE;
         batch.draw(container, getX(),  getY()-offset);
         batch.draw(blue_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
         font.draw(batch,equipo.getTrainera().getExperienciaTotal() + "/" + Constants.MAX_EXPERIENCE, getX() + blue_bar.getWidth()*0.40f,getY()-offset +25);
         offset+=Constants.STATS_BAR_OFFSET;
         //Energia
+		font.setScale(1.3f);
+        font.draw(batch,"Energy", getX()-95,getY()-offset +26);
+        font.setScale(1f);
         proportion = (float)equipo.getTrainera().getEnergiaTotal() / (float)Constants.MAX_ENERGY;
         batch.draw(container, getX(),  getY()-offset);
         batch.draw(green_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
         font.draw(batch,equipo.getTrainera().getEnergiaTotal() + "/" + Constants.MAX_ENERGY, getX() + green_bar.getWidth()*0.40f,getY()-offset +25);
         offset+=Constants.STATS_BAR_OFFSET;
         //Buena mar
+		font.setScale(1.3f);
+        font.draw(batch,"Good Sea", getX()-95,getY()-offset +26);
+        font.setScale(1f);
         proportion = (float)equipo.getTrainera().getHabilidadBuenaMarTotal() / (float)Constants.GOOD_SEA;
         batch.draw(container, getX(),  getY()-offset);
         batch.draw(blue_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
         font.draw(batch,equipo.getTrainera().getHabilidadBuenaMarTotal() + "/" + Constants.GOOD_SEA, getX() + blue_bar.getWidth()*0.40f,getY()-offset +25);
         offset+=Constants.STATS_BAR_OFFSET;
         //Mala mar
+		font.setScale(1.3f);
+        font.draw(batch,"Bad Sea", getX()-95,getY()-offset +26);
+        font.setScale(1f);
         proportion = (float)equipo.getTrainera().getHabilidadMalaMarTotal() / (float)Constants.BAD_SEA;
         batch.draw(container, getX(),  getY()-offset);
         batch.draw(blue_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
         font.draw(batch,equipo.getTrainera().getHabilidadMalaMarTotal() + "/" + Constants.BAD_SEA, getX() + blue_bar.getWidth()*0.40f,getY()-offset +25);
-
-		/**float proportion = (float)stats.health / (float)stats.maxHealth;
-		batch.draw(bars, getX() +3, getY() + 40, 0, 0, (int)(bars.getWidth()*proportion), 20);
-		font.draw(batch, stats.health + "/" + stats.maxHealth, getX() + bars.getWidth()*0.40f, getY() + 56);
-		proportion = (float)stats.mana / (float)stats.maxMana;
-        batch.draw(bars, getX() +3, getY() + 14, 0, 20, (int)(bars.getWidth()*proportion), 20);
-        font.draw(batch, stats.mana + "/" + stats.maxMana, getX() + bars.getWidth()*0.40f, getY() + 30);
-        proportion=(float)stats.experience/(float)stats.maxExperience;
-        batch.draw(bars, getX() +3, getY()-10, 0, 40, (int)(bars.getWidth()*proportion), (int)(13));
-        font.setScale(0.9f);
-        font.draw(batch, stats.experience + "/" + stats.maxExperience, getX() + bars.getWidth()*0.42f, getY()+5);
-        font.setScale(1.0f);**/
 	}
 
 }
