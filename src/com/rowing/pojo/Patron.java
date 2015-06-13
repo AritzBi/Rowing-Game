@@ -25,6 +25,8 @@ public class Patron extends Athlete{
 	
 	private int liderazgo;
 	
+	private boolean used;
+	
 	public String toString() {
 		return  getName()+ " "+getSurname()+"\n"+
 			   getBirthdate()+"\n"+
@@ -119,5 +121,15 @@ public class Patron extends Athlete{
 	public void setLiderazgo(int liderazgo) {
 		this.liderazgo = liderazgo;
 	}
+
+	public boolean isUsed() {
+		return used;
+	}
+
+	public void setUsed(boolean used) {
+		this.used = used;
+	}
+	
+	
 	
 }

@@ -26,6 +26,7 @@ public class Remero extends Athlete{
 
 	private int potencia;
 	
+	private boolean used;
 	public String toString() {
 		return  getName()+ " "+getSurname()+"\n"+
 			   getBirthdate()+"\n"+
@@ -131,5 +132,15 @@ public class Remero extends Athlete{
 	public void setPotencia(int potencia) {
 		this.potencia = potencia;
 	}
+
+	public boolean isUsed() {
+		return used;
+	}
+
+	public void setUsed(boolean used) {
+		this.used = used;
+	}
+	
+	
 
 }

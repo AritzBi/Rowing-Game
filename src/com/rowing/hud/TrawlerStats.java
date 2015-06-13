@@ -15,6 +15,8 @@ public class TrawlerStats extends Actor {
 	public Texture red_bar;
 	public Texture blue_bar;
 	public Texture green_bar;
+	public Texture orange_bar;
+	public Texture yellow_bar;
 	public BitmapFont font;
 	public Equipo equipo;
 	
@@ -23,6 +25,8 @@ public class TrawlerStats extends Actor {
 		red_bar = new Texture(Gdx.files.internal("resources/red_bar.png"));
 		blue_bar = new Texture(Gdx.files.internal("resources/blue_bar.png"));
 		green_bar = new Texture(Gdx.files.internal("resources/green_bar.png"));
+		orange_bar = new Texture(Gdx.files.internal("resources/orange_bar.png"));
+		yellow_bar = new Texture(Gdx.files.internal("resources/brown_bar.png"));
 		font = new BitmapFont();
 		this.equipo = equipo;
 	}
@@ -46,7 +50,7 @@ public class TrawlerStats extends Actor {
         font.setScale(1f);
         proportion = (float)equipo.getTrainera().getExperienciaTotal() / (float)Constants.MAX_EXPERIENCE;
         batch.draw(container, getX(),  getY()-offset);
-        batch.draw(blue_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
+        batch.draw(orange_bar, getX() , getY()-offset +8, 0, 0, (int)(orange_bar.getWidth()*proportion), 20);
         font.draw(batch,equipo.getTrainera().getExperienciaTotal() + "/" + Constants.MAX_EXPERIENCE, getX() + blue_bar.getWidth()*0.40f,getY()-offset +25);
         offset+=Constants.STATS_BAR_OFFSET;
         //Energia
@@ -73,7 +77,7 @@ public class TrawlerStats extends Actor {
         font.setScale(1f);
         proportion = (float)equipo.getTrainera().getHabilidadMalaMarTotal() / (float)Constants.BAD_SEA;
         batch.draw(container, getX(),  getY()-offset);
-        batch.draw(blue_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
+        batch.draw(yellow_bar, getX() , getY()-offset +8, 0, 0, (int)(yellow_bar.getWidth()*proportion), 20);
         font.draw(batch,equipo.getTrainera().getHabilidadMalaMarTotal() + "/" + Constants.BAD_SEA, getX() + blue_bar.getWidth()*0.40f,getY()-offset +25);
 	}
 
