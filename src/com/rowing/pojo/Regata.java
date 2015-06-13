@@ -72,10 +72,25 @@ public class Regata {
 		// Calculamos el score de las traineras competidores con estrategias
 		// aleatorias
 		for (Trainera trainera : getTrainerasCompetidoras()) {
-			int estrategiaRandom = (int) (Math.random() * 3 + 0);
+			
+			int estrategiaRandom = 0;
+			if ( trainera.isBuenaCalle() ) {
+				estrategiaRandom = (int) (Math.random() * 3 + 0);
+			}
+			else if ( trainera.isSemiBuenaCalle() ) {
+				estrategiaRandom = (int) (Math.random() * 2 + 0);
+			}
+			else if ( trainera.isMalaCalle() ) {
+				estrategiaRandom = (int) (Math.random() * 3 + 1);
+			}
 			trainera.calcularScoreTrainera_Ida(Constants.ESTRATEGIAS_SALIDA
 					.get(estrategiaRandom));
 		}
+	}
+	
+	//TODO-asimon:No se le puede asignar la estrategia "Change to the best path" a la trainera que vaya por la calle buena!!
+	public void crearScoreDeVueltaSegunEstrategia(String estrategia) {
+		
 	}
 	
 	public String toString () {

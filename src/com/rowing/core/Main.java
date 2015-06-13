@@ -22,7 +22,8 @@ public class Main {
 		// 1º paso: obtenemos el equipo de Orio y lo seteamos sobre la regata
 		Equipo equipoOrio = Utils.loadEquipoOrio();
 		regata.setEquipo(equipoOrio);
-
+		System.out.println(equipoOrio.getRemeros());
+		System.out.println(equipoOrio.getPatrones());
 		// 2º paso: creamos la trainera del equipo de Orio (ventana de seleccion
 		// de jugadores)
 		List<Remero> remeros = equipoOrio.getRemeros();
@@ -44,7 +45,7 @@ public class Main {
 		equipoOrio.setTrainera(trainera);
 
 		// 3º paso: se obtiene o no con el botón las condiciones meteorológicas
-		// de Donosti
+		// de Donosti. ¡¡Hacerlo antes de seleccionar la trainera de Orio!!
 		Utils.getWeatherDonosti( true );
 
 		// 4º paso: se obtienen las traineras competidoras de la trainera Orio
@@ -64,6 +65,11 @@ public class Main {
 		System.out.println(regata.toString());
 		System.out.println("\n***CONDICIONES METEOROLOGICAS DE LA REGATA***");
 		System.out.println(GameSession.getInstance().condicionesMeteo);
+		
+		//[OPERACIONES PARA LA VUELTA: necesitamos el seteo de la estrategia de Orio]
+		//8º paso: calcular de nuevo las calles
+		regata.crearCallesYAsignarATraineras();
+		
 	}
 
 	public void pruebaSinObjetoRegata() {

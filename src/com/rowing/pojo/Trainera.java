@@ -176,6 +176,27 @@ public class Trainera {
 	public void setCalle(Map<Integer, String> calle) {
 		this.calle = calle;
 	}
+	
+	public String getEstadoCalle() {
+		Set<Integer> calleDeLaTrainera = calle.keySet();
+		String estadoCalle = "";
+		for (Integer calleAux : calleDeLaTrainera) {
+			estadoCalle = calle.get(calleAux);
+		}
+		return estadoCalle;
+	}
+	
+	public boolean isBuenaCalle () {
+		return getEstadoCalle().equals(Constants.CALLE_BUENA);
+	}
+	
+	public boolean isSemiBuenaCalle() {
+		return getEstadoCalle().equals(Constants.CALLE_SEMI_BUENA);
+	}
+	
+	public boolean isMalaCalle() {
+		return getEstadoCalle().equals(Constants.CALLE_MALA);
+	}
 
 	public void calcularScoreTrainera_Ida(String estrategia) {
 		//Especificamos la estrategia de la trainera
@@ -183,13 +204,13 @@ public class Trainera {
 		int modificadorPotencia = 0;
 
 		if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(0))) {
-			modificadorPotencia = 3;
+			modificadorPotencia = 5;
 			energiaTotal -= 20;
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(1))) {
-			modificadorPotencia = 1;
+			modificadorPotencia = 2;
 			energiaTotal -= 10;
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(2))) {
-			modificadorPotencia = -1;
+			modificadorPotencia = -4;
 			energiaTotal += 10;
 		}
 
@@ -218,12 +239,86 @@ public class Trainera {
 
 	public int getTiempoIda() {
 		//Obtenemos el tiempo que se le corresponde en base a sus puntos
-		int tiempoCorrespondiente = ( 570 * score ) / 323;
+		int tiempoCorrespondiente = ( 570 * score ) / 325;
 		//El diferencial se suma al total de 570 segundos
 		tiempoIda = (570 - tiempoCorrespondiente ) + 570;
 		return tiempoIda;
 	}
-
+	
+	public void calcularScoreTrainera_Vuelta(String estrategia) {
+		estrategiaActual = estrategia;
+		int modificadorPotencia = 0;
+		
+		if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(0))) {
+			modificadorPotencia = 5;
+			energiaTotal -= 20;
+		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(1))) {
+			modificadorPotencia = 2;
+			energiaTotal -= 10;
+		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(2))) {
+			modificadorPotencia = -4;
+			energiaTotal += 10;
+		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(3))) {
+			if ( isSemiBuenaCalle() ) {
+				energiaTotal -= 5;
+				modificadorPotencia = 10;
+				//TODO-asimon: cambiar a la calle buena!
+			} else if ( isMalaCalle() ) {
+				energiaTotal -= 10;
+				modificadorPotencia = 2;
+			}
+		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(4))) //elección del patron
+		{
+			int experienciaLiderazgoPatron = getPatron().getExperiencia() + getPatron().getLiderazgo();
+			int sumarPotencia = 0;
+			if ( experienciaLiderazgoPatron >= 180 ) {
+				//modificador entre 5 y 8
+				sumarPotencia = (int)(Math.random() * 9 + 5);
+			}
+			else if ( experienciaLiderazgoPatron >= 160 && experienciaLiderazgoPatron < 180 ) {
+				//modificador entre 3 y 5
+				sumarPotencia = (int)(Math.random() * 6 + 3);
+			}
+			else if ( experienciaLiderazgoPatron >= 140 && experienciaLiderazgoPatron < 160 ) {
+				//modificador entre 1 y 3
+				sumarPotencia = (int)(Math.random() *4 + 1);
+			}
+			else if ( experienciaLiderazgoPatron < 140 ) {
+				//modificador entre 0 y 1
+				sumarPotencia = (int)(Math.random() *2 + 0);
+			}
+			modificadorPotencia = sumarPotencia;
+		}
+		else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(5))) //ola a favor
+		{
+			if ( GameSession.getInstance().condicionesMeteo.isMalaMar() ) {
+				energiaTotal += 15;
+				modificadorPotencia = 4;
+			}
+			else if ( GameSession.getInstance().condicionesMeteo.isBuenaMar() ) {
+				energiaTotal += 5;
+				modificadorPotencia = 1;
+			}
+		}
+		
+		if (isBuenaCalle()) {
+			energiaTotal -= 30;
+		} else if (isSemiBuenaCalle()) {
+			energiaTotal -= 35;
+		} else {
+			energiaTotal -= 40;
+		}
+		
+		if (GameSession.getInstance().condicionesMeteo.isBuenaMar()) {
+			score = potenciaTotal + energiaTotal + experienciaTotal
+					+ habilidadBuenaMarTotal + modificadorPotencia;
+		} else if (GameSession.getInstance().condicionesMeteo.isMalaMar()) {
+			score = potenciaTotal + energiaTotal + experienciaTotal
+					+ habilidadMalaMarTotal + modificadorPotencia;
+		}
+		
+	}
+	
 	public void setTiempoIda(int tiempoIda) {
 		this.tiempoIda = tiempoIda;
 	}

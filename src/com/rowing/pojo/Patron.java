@@ -26,11 +26,12 @@ public class Patron {
 	private int liderazgo;
 	
 	public String toString() {
-		return getName()+ " "+getSurname()+"\n"+
+		return "\nPatron-->\n" + getName()+ " "+getSurname()+"\n"+
 			   getBirthdate()+"\n"+
 			   "Experiencia: "+getExperiencia()+"\n"+
 			   "Buena mar: "+getBuena_mar()+"\n"+
-			   "Mala mar: "+getMala_mar()+"\n";
+			   "Mala mar: "+getMala_mar()+"\n"+
+			   "Lesionado: "+isLesionado()+"\n";
 	}
 
 	public String getName() {
@@ -103,6 +104,10 @@ public class Patron {
 
 	public void setLesionado(int lesionado) {
 		this.lesionado = lesionado;
+	}
+	
+	public boolean isLesionado() {
+		return (lesionado == 1);
 	}
 
 	public int getLiderazgo() {

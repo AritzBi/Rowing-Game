@@ -19,6 +19,18 @@ public class Constants {
 			 "Come up with conservative way and reserve forces"}
 	);
 	
+	public static final List<String> ESTRATEGIAS_VUELTA = Arrays.asList
+	(new String[]
+			{"Come up with Maximum Power and Keep Up", 
+			 "Come up with Maximum Power and Maintain A Stable Rhythm",
+			 "Come up with conservative way and reserve forces",
+			 "Change to the best path",
+			 "Allow captain to choose the strategy",
+			 "Take advantage of the waves´ direction",
+			 
+			}
+	);
+	
 	public static final List<String> ESTRAGIAS_VUELTA = Arrays.asList
 	(new String[]
 			{}
