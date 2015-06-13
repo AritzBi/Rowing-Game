@@ -1,6 +1,8 @@
 package com.rowing.utils;
 
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.CurrentWeather.Main;
@@ -39,7 +41,33 @@ public class Utils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		especificarLesionados(equipo);
 		return equipo;
+	}
+
+	private static void especificarLesionados(Equipo equipo) {
+		//REMEROS
+		List<Integer> remerosLesionados = new ArrayList<Integer>();
+		int remeroLesionado = (int) (Math.random() * equipo.getRemeros().size() + 0);
+		remerosLesionados.add(remeroLesionado);
+		boolean enc = false;
+		int remeroLesionadoDos = 0;
+		while (!enc) {
+			remeroLesionadoDos = (int) (Math.random()
+					* equipo.getRemeros().size() + 0);
+			if (!remerosLesionados.contains(remeroLesionadoDos))
+				enc = true;
+		}
+		equipo.getRemeros().get(remeroLesionado).setLesionado(1);
+		equipo.getRemeros().get(remeroLesionadoDos).setLesionado(1);
+
+		// PATRONES
+		int patronLesionado = (int) (Math.random() * 101 + 0);
+		if (patronLesionado > 0 && patronLesionado < 21) {
+			int seleccionarPatron = (int) (Math.random() * 2 + 0);
+			equipo.getPatrones().get(seleccionarPatron).setLesionado(1);
+		}
 	}
 
 	public static CondicionesMeteo getWeatherDonosti(
@@ -50,6 +78,8 @@ public class Utils {
 		CurrentWeather cwd = null;
 		try {
 			owm.setUnits(Units.IMPERIAL);
+			owm.setApiKey("ecf63f5f77f19982212e116e2e1a5baa");
+
 			cwd = owm.currentWeatherByCityName("Donosti");
 		} catch (Exception e) {
 			e.printStackTrace();

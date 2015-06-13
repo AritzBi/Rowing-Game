@@ -26,13 +26,14 @@ public class Patron extends Athlete{
 	private int liderazgo;
 	
 	public String toString() {
-		return getName()+ " "+getSurname()+"\n"+
+		return "\nPatron-->\n" + getName()+ " "+getSurname()+"\n"+
 			   getBirthdate()+"\n"+
 			   "Experiencia: "+getExperiencia()+"\n"+
 			   "Buena mar: "+getBuena_mar()+"\n"+
 			   "Mala mar: "+getMala_mar()+"\n"+
 			   "Experiencia: "+getExperiencia()+"\n"+
-			   "Liderazgo: "+getLiderazgo();
+			   "Liderazgo: "+getLiderazgo()+"\n"+
+			   "Lesionado: " +isLesionado();
 	}
 
 	public String getName() {
@@ -105,6 +106,10 @@ public class Patron extends Athlete{
 
 	public void setLesionado(int lesionado) {
 		this.lesionado = lesionado;
+	}
+	
+	public boolean isLesionado() {
+		return (lesionado == 1);
 	}
 
 	public int getLiderazgo() {

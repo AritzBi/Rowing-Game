@@ -27,13 +27,14 @@ public class Remero extends Athlete{
 	private int potencia;
 	
 	public String toString() {
-		return getName()+ " "+getSurname()+"\n"+
+		return "\nRemero--> \n" + getName()+ " "+getSurname()+"\n"+
 			   getBirthdate()+"\n"+
 			   "Energia: "+getEnergia()+"\n"+
 			   "Potencia: "+getPotencia()+"\n"+
 			   "Experiencia: "+getExperiencia()+"\n"+
 			   "Buena mar: "+getBuena_mar()+"\n"+
-			   "Mala mar: "+getMala_mar()+"\n"
+			   "Mala mar: "+getMala_mar()+"\n"+
+			   "Lesionado: "+isLesionado()+"\n"
 			   ;
 	}
 
