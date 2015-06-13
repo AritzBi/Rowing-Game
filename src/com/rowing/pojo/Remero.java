@@ -2,7 +2,7 @@ package com.rowing.pojo;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class Remero {
+public class Remero extends Athlete{
 
 	private String name;
 

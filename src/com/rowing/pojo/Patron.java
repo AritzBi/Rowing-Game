@@ -3,7 +3,7 @@ package com.rowing.pojo;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 
-public class Patron {
+public class Patron extends Athlete{
 
 	private String name;
 	
@@ -30,7 +30,9 @@ public class Patron {
 			   getBirthdate()+"\n"+
 			   "Experiencia: "+getExperiencia()+"\n"+
 			   "Buena mar: "+getBuena_mar()+"\n"+
-			   "Mala mar: "+getMala_mar()+"\n";
+			   "Mala mar: "+getMala_mar()+"\n"+
+			   "Experiencia: "+getExperiencia()+"\n"+
+			   "Liderazgo: "+getLiderazgo();
 	}
 
 	public String getName() {

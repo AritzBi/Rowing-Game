@@ -33,6 +33,9 @@ public class Utils {
 												+ equipo.getRemeros().get(i)
 														.getImage())));
 			}
+			for (int i = 0; i<equipo.getPatrones().size();i++){
+				equipo.getPatrones().get(i).setIcon(new TextureRegion(GraphicsLoader.load("images/"+equipo.getPatrones().get(i).getImage())));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

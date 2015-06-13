@@ -1,15 +1,19 @@
 package com.rowing.hud;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.rowing.core.Constants;
+import com.rowing.pojo.Athlete;
 import com.rowing.pojo.Equipo;
 import com.rowing.pojo.Remero;
 
@@ -25,29 +29,33 @@ public class ListRowers extends Actor implements InputProcessor  {
 	public static int ROWERS_PER_ROW=3;
 	private int rower_num_rows;
 	private TooltipBox tooltip;
+	private ArrayList<Athlete>athletes;
+	public BitmapFont font;
 	public ListRowers(Equipo equipo, Stage stage, TooltipBox tooltip) {
 		slot = new Texture(Gdx.files.internal("resources/slot.png"));
 		focusedSlot = -1;
 		this.equipo=equipo;
 		this.stage=stage;
 		this.tooltip=tooltip;
-		rower_num_rows = equipo.getRemeros().size()/ROWERS_PER_ROW;
-		if (equipo.getRemeros().size()%ROWERS_PER_ROW > 0)
+		font = new BitmapFont();
+		athletes = new ArrayList<Athlete>();
+		athletes.addAll(equipo.getRemeros());
+		athletes.addAll(equipo.getPatrones());
+		rower_num_rows =athletes.size()/ROWERS_PER_ROW;
+		if (athletes.size()%ROWERS_PER_ROW > 0)
 			rower_num_rows++;
 		
 	}
 	public void draw(SpriteBatch batch, float partenAlpha) {
 		/*System.out.println("Screen X: "+stage.getWidth());
 		System.out.println("Screen Y: "+stage.getHeight());*/
-		
 		float posX = stage.getWidth() - ROWERS_PER_ROW*Constants.SIZE_X;
 		float posY = stage.getHeight() - Constants.SIZE_Y;
 		float posFocusX = 0;
 		float posFocusY = 0;
 		boolean existsFocus = false;
-		Remero remeroFocused = null;
-		//int j=0;
-		for (int i = 0; i < equipo.getRemeros().size() ; i++){
+		Athlete remeroFocused = null;
+		for (int i = 0; i < athletes.size() ; i++){
 			existsFocus = false;
 			if (i == focusedSlot) {
 				posFocusX = posX;
@@ -56,11 +64,16 @@ public class ListRowers extends Actor implements InputProcessor  {
 			} else {
 				batch.draw(slot, posX, posY, 64, 64);
 			}
-			Remero remero = equipo.getRemeros().get(i);
+			Athlete remero =athletes.get(i);
 			if (i == focusedSlot) {
 				remeroFocused = remero;
-			} else
+			} else{
 				batch.draw(remero.getIcon(), posX + 5, posY + 15, 55, 45);
+				if (remero instanceof Remero)
+					font.draw(batch, "Trawler", posX + slot.getWidth()*0.10f, posY+ slot.getHeight()*0.2f);
+				else
+					font.draw(batch, "Skipper", posX + slot.getWidth()*0.10f, posY+ slot.getHeight()*0.2f);
+			}
 			posX += Constants.SIZE_X;
 			if ((i - 1) % 3 == 0) {
 				posY -= Constants.SIZE_Y;
@@ -70,7 +83,11 @@ public class ListRowers extends Actor implements InputProcessor  {
 				batch.draw(slot, posFocusX, posFocusY, 70, 70);
 				batch.draw(slot, posFocusX, posFocusY, 70, 70);
 				batch.draw(remeroFocused.getIcon(), posFocusX + 5, posFocusY + 15, 61,51);
-				remero = equipo.getRemeros().get(focusedSlot) ;
+				if (remero instanceof Remero)
+					font.draw(batch, "Trawler", posFocusX + slot.getWidth()*0.10f +5, posFocusY+ slot.getHeight()*0.2f);
+				else
+					font.draw(batch, "Skipper", posFocusX + slot.getWidth()*0.10f +5, posFocusY+ slot.getHeight()*0.2f);
+				remero = athletes.get(focusedSlot) ;
 				if (remero != null) {
 					tooltip.setText(remero.toString(), 0f);
 				} else {
@@ -91,14 +108,14 @@ public class ListRowers extends Actor implements InputProcessor  {
 	public boolean keyTyped(char arg0) {
 
 		if (Gdx.input.isKeyPressed(Keys.TAB)) {
-			if (focusedSlot == equipo.getRemeros().size()-1) {
+			if (focusedSlot == athletes.size()-1) {
 				focusedSlot = 0;
 			} else {
 				focusedSlot++;
 			}
 		} else if (Gdx.input.isKeyPressed(Keys.ENTER)) {
 			System.out.println("Focused Slot: "+focusedSlot);
-			System.out.println("Datos del remero: "+equipo.getRemeros().get(focusedSlot));
+			System.out.println("Datos del remero: "+athletes.get(focusedSlot));
 			this.addRowerToTrawler(focusedSlot);
 		} 
 		return false;
@@ -117,7 +134,7 @@ public class ListRowers extends Actor implements InputProcessor  {
 				&& pos.y < stage.getHeight()) {
 			float posX = stage.getWidth() - ROWERS_PER_ROW*Constants.SIZE_X;
 			float posY = stage.getHeight() - Constants.SIZE_Y;
-			for (int i = 0;i < equipo.getRemeros().size();i++) {
+			for (int i = 0;i < athletes.size();i++) {
 				if (pos.x > posX && pos.x < posX + Constants.SIZE_X && pos.y > posY
 						&& pos.y < posY + Constants.SIZE_Y) {
 					focusedSlot = i;
@@ -151,7 +168,7 @@ public class ListRowers extends Actor implements InputProcessor  {
 					&& pos.y < stage.getHeight()) {
 				float posX = stage.getWidth() - ROWERS_PER_ROW*Constants.SIZE_X;
 				float posY = stage.getHeight() - Constants.SIZE_Y;
-				for (int i = 0;i < equipo.getRemeros().size();i++) {
+				for (int i = 0;i < athletes.size();i++) {
 					if (pos.x > posX && pos.x < posX + Constants.SIZE_X && pos.y > posY
 							&& pos.y < posY + Constants.SIZE_Y) {
 						this.addRowerToTrawler(i);
