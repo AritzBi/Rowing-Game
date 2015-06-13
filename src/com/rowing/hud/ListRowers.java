@@ -24,6 +24,9 @@ import com.rowing.pojo.Remero;
 
 public class ListRowers extends Actor implements InputProcessor  {
 	private Texture slot;
+	private Texture first_aid;
+	private Texture oar;
+	private Texture rudder;
 	private int focusedSlot;
 	private Equipo equipo;
 	private Stage stage;
@@ -38,6 +41,9 @@ public class ListRowers extends Actor implements InputProcessor  {
 		this.equipo=equipo;
 		this.stage=stage;
 		this.tooltip=tooltip;
+		this.rudder= new Texture(Gdx.files.internal("resources/timon.png"));
+		this.oar= new Texture(Gdx.files.internal("resources/remo.png"));
+		this.first_aid =  new Texture(Gdx.files.internal(("resources/botiquin.png")));
 		font = new BitmapFont();
 		athletes = new ArrayList<Athlete>();
 		athletes.addAll(equipo.getRemeros());
@@ -70,6 +76,15 @@ public class ListRowers extends Actor implements InputProcessor  {
 				remeroFocused = remero;
 			} else{
 				batch.draw(remero.getIcon(), posX + 5, posY + 15, 55, 45);
+				if(remero.getLesionado() == 1){
+					batch.draw(first_aid, posX + 10, posY + 25, 45, 35);
+				}
+				if(remero.isUsed()){
+					if (remero instanceof Remero)
+						batch.draw(oar, posX, posY+15, 50, 50);
+					else
+						batch.draw(rudder, posX+7, posY+15, 50, 50);
+				}
 				if (remero instanceof Remero)
 					font.draw(batch, "Trawler", posX + slot.getWidth()*0.10f, posY+ slot.getHeight()*0.2f);
 				else
@@ -84,6 +99,16 @@ public class ListRowers extends Actor implements InputProcessor  {
 				batch.draw(slot, posFocusX, posFocusY, 70, 70);
 				batch.draw(slot, posFocusX, posFocusY, 70, 70);
 				batch.draw(remeroFocused.getIcon(), posFocusX + 5, posFocusY + 15, 61,51);
+				
+				if(remero.getLesionado() == 1){
+					batch.draw(first_aid, posFocusX + 5, posFocusY + 25, 55, 45);
+				}
+				if(remero.isUsed()){
+					if (remero instanceof Remero)
+						batch.draw(oar, posFocusX  +10,posFocusY +15, 56, 56);
+					else
+						batch.draw(rudder, posFocusX  +10,posFocusY +15, 56, 56);
+				}
 				if (remero instanceof Remero)
 					font.draw(batch, "Trawler", posFocusX + slot.getWidth()*0.10f +5, posFocusY+ slot.getHeight()*0.2f);
 				else
@@ -198,21 +223,32 @@ public class ListRowers extends Actor implements InputProcessor  {
 	
 	public void addRowerToTrawler(int i){
 		Athlete athlete = this.athletes.get(i);
+		if(athlete.getLesionado() == 1)
+			return;
+		else if(athlete.isUsed())
+			return;
 		if (athlete instanceof Remero){
-			if(!this.equipo.getTrainera().getRemeros().contains(athlete) && this.equipo.getTrainera().getRemeros().size()<Constants.NUM_ROWERS)
+			if(!this.equipo.getTrainera().getRemeros().contains(athlete) && this.equipo.getTrainera().getRemeros().size()<Constants.NUM_ROWERS){
 				this.equipo.getTrainera().getRemeros().add((Remero) athlete);
+				((Remero)athlete).setUsed(true);
+			}
 			else
 				System.out.println("The trawler is full or the rower is already in the trawler");
 		}else{
 			i = i-this.equipo.getRemeros().size();
 			Patron patron=this.equipo.getPatrones().get(i);
+			System.out.println(patron);
 			if (equipo.trainera.getPatron()==null){
 				equipo.trainera.setPatron(patron);
+				((Patron)athlete).setUsed(true);
 			}else{
 				if(equipo.trainera.getPatron()==patron)
 					System.out.println("The captain is already in the trawler");
-				else
+				else{
+					equipo.trainera.getPatron().setUsed(false);
+					patron.setUsed(true);
 					equipo.trainera.setPatron(patron);
+				}
 			}
 		}
 

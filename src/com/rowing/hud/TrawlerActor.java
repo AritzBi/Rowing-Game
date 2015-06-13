@@ -1,8 +1,8 @@
 package com.rowing.hud;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,10 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.rowing.core.Constants;
 import com.rowing.pojo.Equipo;
+import com.rowing.pojo.Patron;
+import com.rowing.pojo.Remero;
 
 public class TrawlerActor extends Actor implements InputProcessor{
 	private Texture trawler;
 	private Texture slot;
+	private Texture oar;
+	private Texture rudder;
 	private Equipo equipo;
 	private Stage stage;
 	private int focusedSlot;
@@ -23,6 +27,8 @@ public class TrawlerActor extends Actor implements InputProcessor{
 	public BitmapFont font;
 	public TrawlerActor(Equipo equipo, Stage stage) {
 		this.trawler = new Texture(Gdx.files.internal("resources/trainera.png"));
+		this.oar= new Texture(Gdx.files.internal("resources/remo.png"));
+		this.rudder= new Texture(Gdx.files.internal("resources/timon.png"));
 		this.equipo=equipo;
 		this.stage=stage;
 		font = new BitmapFont();
@@ -41,10 +47,12 @@ public class TrawlerActor extends Actor implements InputProcessor{
 		for (int i = 0; i<7; i++){
 			if (i == focusedSlot){
 				batch.draw(slot, posX, getY()+trawler.getHeight(), 70, 70);
+				batch.draw(oar, posX+10,getY()+trawler.getHeight()+15, 56, 56);
 				batch.draw(slot, posX, getY()+trawler.getHeight(), 70, 70);	
 				font.draw(batch, "Trawler", posX + slot.getWidth()*0.10f+5,  getY()+trawler.getHeight()+slot.getHeight()*0.2f);
 			}
 			else{
+				batch.draw(oar, posX, getY()+trawler.getHeight()+15, 50, 50);
 				batch.draw(slot, posX, getY()+trawler.getHeight(), 64, 64);
 				font.draw(batch, "Trawler", posX + slot.getWidth()*0.10f,  getY()+trawler.getHeight()+slot.getHeight()*0.2f);
 			}
@@ -62,10 +70,12 @@ public class TrawlerActor extends Actor implements InputProcessor{
 		for(int i= 7 ; i < Constants.NUM_ROWERS ; i++){
 			if (i == focusedSlot){
 				batch.draw(slot, posX, trawler.getHeight()-getY(), 70, 70);
+				batch.draw(oar, posX+10,trawler.getHeight()-getY()+15, 56, 56);
 				batch.draw(slot, posX, trawler.getHeight()-getY(), 70, 70);
 				font.draw(batch, "Trawler", posX + slot.getWidth()*0.10f+5, trawler.getHeight()-getY()+slot.getHeight()*0.2f);
 			}
 			else{
+				batch.draw(oar, posX+10,trawler.getHeight()-getY()+15, 50, 50);
 				batch.draw(slot, posX,trawler.getHeight()-getY(), 64, 64);
 				font.draw(batch, "Trawler", posX + slot.getWidth()*0.10f, trawler.getHeight()-getY()+slot.getHeight()*0.2f);
 			}
@@ -81,12 +91,14 @@ public class TrawlerActor extends Actor implements InputProcessor{
 		}
 		if (focusedSlot == Constants.NUM_ROWERS){
 			batch.draw(slot, getX()-Constants.SIZE_X, getY() + Constants.SIZE_Y/2, 70, 70);
+			batch.draw(rudder, getX()-Constants.SIZE_X+5, getY() + Constants.SIZE_Y/2+15, 56, 56);
 			batch.draw(slot, getX()-Constants.SIZE_X, getY() + Constants.SIZE_Y/2, 70, 70);
 			font.draw(batch, "Captain", getX()-Constants.SIZE_X + slot.getWidth()*0.10f+5,getY() + Constants.SIZE_Y/2+slot.getHeight()*0.2f);
 			if(equipo.getTrainera().getPatron()!= null){
 				batch.draw(equipo.getTrainera().getPatron().getIcon(),getX()-Constants.SIZE_X+5,getY() + Constants.SIZE_Y/2+15, 61,51);
 			}
 		}else{
+			batch.draw(rudder, getX()-Constants.SIZE_X+5, getY() + Constants.SIZE_Y/2+15, 50, 50);
 			batch.draw(slot, getX()-Constants.SIZE_X, getY() + Constants.SIZE_Y/2, 64, 64);
 			font.draw(batch, "Captain", getX()-Constants.SIZE_X + slot.getWidth()*0.10f,getY() + Constants.SIZE_Y/2+slot.getHeight()*0.2f);
 			if(equipo.getTrainera().getPatron()!= null){
@@ -181,10 +193,16 @@ public class TrawlerActor extends Actor implements InputProcessor{
 		return false;
 	}
 	public void removeRowerFromTrawler(int position){
-		if (! (position >= equipo.getTrainera().getRemeros().size()))
-			this.equipo.getTrainera().getRemeros().remove(position);
+		Remero remero;
+		if (! (position >= equipo.getTrainera().getRemeros().size())){
+			remero = (Remero) this.equipo.getTrainera().getRemeros().remove(position);
+			remero.setUsed(false);
+		}
 	}
 	public void removeCaptainFromTrawler(){
+		Patron patron = equipo.getTrainera().getPatron();
+		if (patron != null)
+			patron.setUsed(false);
 		this.equipo.getTrainera().setPatron(null);
 	}
 	@Override
