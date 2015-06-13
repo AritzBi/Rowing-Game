@@ -13,12 +13,16 @@ public class TrawlerStats extends Actor {
 	
 	public Texture container;
 	public Texture red_bar;
+	public Texture blue_bar;
+	public Texture green_bar;
 	public BitmapFont font;
 	public Equipo equipo;
 	
 	public TrawlerStats(Equipo equipo){
 		container = new Texture(Gdx.files.internal("resources/container.png"));
-		//red_bar = new Texture(Gdx.files.internal("resources/red_bar.png"));
+		red_bar = new Texture(Gdx.files.internal("resources/red_bar.png"));
+		blue_bar = new Texture(Gdx.files.internal("resources/blue_bar.png"));
+		green_bar = new Texture(Gdx.files.internal("resources/green_bar.png"));
 		font = new BitmapFont();
 		this.equipo = equipo;
 	}
@@ -26,20 +30,32 @@ public class TrawlerStats extends Actor {
 	public void draw (SpriteBatch batch, float parentAlpha) {
         equipo.getTrainera().calcularParametrosDeLaTrainera();
 		int offset=0;
+		float proportion=0;
 		//Potencia
+		proportion = (float)equipo.getTrainera().getPotenciaTotal()/ (float)Constants.MAX_POTENCY;
         batch.draw(container, getX(),  getY()-offset);
+        batch.draw(red_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
         offset+=Constants.STATS_BAR_OFFSET;
         //Experiencia
+        proportion = (float)equipo.getTrainera().getExperienciaTotal() / (float)Constants.MAX_EXPERIENCE;
         batch.draw(container, getX(),  getY()-offset);
+        batch.draw(blue_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
         offset+=Constants.STATS_BAR_OFFSET;
         //Energia
+        proportion = (float)equipo.getTrainera().getEnergiaTotal() / (float)Constants.MAX_ENERGY;
         batch.draw(container, getX(),  getY()-offset);
+        batch.draw(green_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
         offset+=Constants.STATS_BAR_OFFSET;
         //Buena mar
+        proportion = (float)equipo.getTrainera().getHabilidadBuenaMarTotal() / (float)Constants.GOOD_SEA;
         batch.draw(container, getX(),  getY()-offset);
+        batch.draw(blue_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
         offset+=Constants.STATS_BAR_OFFSET;
         //Mala mar
+        proportion = (float)equipo.getTrainera().getHabilidadMalaMarTotal() / (float)Constants.BAD_SEA;
         batch.draw(container, getX(),  getY()-offset);
+        batch.draw(blue_bar, getX() , getY()-offset +8, 0, 0, (int)(blue_bar.getWidth()*proportion), 20);
+
 		/**float proportion = (float)stats.health / (float)stats.maxHealth;
 		batch.draw(bars, getX() +3, getY() + 40, 0, 0, (int)(bars.getWidth()*proportion), 20);
 		font.draw(batch, stats.health + "/" + stats.maxHealth, getX() + bars.getWidth()*0.40f, getY() + 56);
