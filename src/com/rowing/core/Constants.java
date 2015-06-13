@@ -38,4 +38,11 @@ public class Constants {
 	public static final int NUM_ROWERS = 13;
 	public static int SIZE_X=64;
 	public static int SIZE_Y=64;
+	public static int STATS_BAR_OFFSET=50;
+	
+	public static int MAX_POTENCY=100;
+	public static int MAX_EXPERIENCE=100;
+	public static int MAX_ENERGY=100;
+	public static int GOOD_SEA=108;
+	public static int BAD_SEA=129;
 }

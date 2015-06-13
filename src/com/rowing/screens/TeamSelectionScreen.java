@@ -43,9 +43,9 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		if(game.getScreen()!=null){
 			game.getScreen().dispose();
 		}
-		/**TrawlerStats trawlerStats = new TrawlerStats(equipo);
+		TrawlerStats trawlerStats = new TrawlerStats(equipo);
 		this.stage.addActor(trawlerStats);
-		trawlerStats.setPosition(200, Gdx.graphics.getHeight()-200);**/
+		trawlerStats.setPosition(200, Gdx.graphics.getHeight()-200);
 		ListRowers listRowers = new ListRowers(equipo,this.stage, tooltip);
 		this.trawlerActor =new TrawlerActor(equipo,stage);
 		this.trawlerActor.setPosition(TrawlerActor.OFFSET_X, TrawlerActor.OFFSET_Y);

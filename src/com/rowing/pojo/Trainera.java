@@ -96,7 +96,8 @@ public class Trainera {
 		for (Remero remero : getRemeros()) {
 			experienciaTotal += remero.getExperiencia();
 		}
-		experienciaTotal += patron.getExperiencia();
+		if (patron != null)
+			experienciaTotal += patron.getExperiencia();
 
 		int existePatron = patron != null ? 1 : 0;
 		if (experienciaTotal != 0)
@@ -109,7 +110,8 @@ public class Trainera {
 		for (Remero remero : getRemeros()) {
 			habilidadBuenaMarTotal += remero.getBuena_mar();
 		}
-		habilidadBuenaMarTotal += (patron.getBuena_mar() * HABILIDAD_BUENA_MAR_PATRON);
+		if (patron != null)
+			habilidadBuenaMarTotal += (patron.getBuena_mar() * HABILIDAD_BUENA_MAR_PATRON);
 
 		int existePatron = patron != null ? 1 : 0;
 		if (habilidadBuenaMarTotal != 0)
@@ -122,7 +124,8 @@ public class Trainera {
 		for (Remero remero : getRemeros()) {
 			habilidadMalaMarTotal += remero.getMala_mar();
 		}
-		habilidadMalaMarTotal += (patron.getMala_mar() * HABILIDAD_MALA_MAR_PATRON);
+		if (patron != null)
+			habilidadMalaMarTotal += (patron.getMala_mar() * HABILIDAD_MALA_MAR_PATRON);
 
 		int existePatron = patron != null ? 1 : 0;
 		if (habilidadMalaMarTotal != 0)

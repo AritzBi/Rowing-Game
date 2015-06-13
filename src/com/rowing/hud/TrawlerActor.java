@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -19,10 +20,12 @@ public class TrawlerActor extends Actor implements InputProcessor{
 	private int focusedSlot;
 	public static int OFFSET_X=100;
 	public static int OFFSET_Y=100;
+	public BitmapFont font;
 	public TrawlerActor(Equipo equipo, Stage stage) {
 		this.trawler = new Texture(Gdx.files.internal("resources/trainera.png"));
 		this.equipo=equipo;
 		this.stage=stage;
+		font = new BitmapFont();
 		slot = new Texture(Gdx.files.internal("resources/slot.png"));
 		focusedSlot = 0;
 	}
@@ -39,9 +42,12 @@ public class TrawlerActor extends Actor implements InputProcessor{
 			if (i == focusedSlot){
 				batch.draw(slot, posX, getY()+trawler.getHeight(), 70, 70);
 				batch.draw(slot, posX, getY()+trawler.getHeight(), 70, 70);	
+				font.draw(batch, "Trawler", posX + slot.getWidth()*0.10f+5,  getY()+trawler.getHeight()+slot.getHeight()*0.2f);
 			}
-			else
+			else{
 				batch.draw(slot, posX, getY()+trawler.getHeight(), 64, 64);
+				font.draw(batch, "Trawler", posX + slot.getWidth()*0.10f,  getY()+trawler.getHeight()+slot.getHeight()*0.2f);
+			}
 			posX+=trawler.getWidth()/7;
 		}
 		posX=getX();
@@ -57,9 +63,12 @@ public class TrawlerActor extends Actor implements InputProcessor{
 			if (i == focusedSlot){
 				batch.draw(slot, posX, trawler.getHeight()-getY(), 70, 70);
 				batch.draw(slot, posX, trawler.getHeight()-getY(), 70, 70);
+				font.draw(batch, "Trawler", posX + slot.getWidth()*0.10f+5, trawler.getHeight()-getY()+slot.getHeight()*0.2f);
 			}
-			else
+			else{
 				batch.draw(slot, posX,trawler.getHeight()-getY(), 64, 64);
+				font.draw(batch, "Trawler", posX + slot.getWidth()*0.10f, trawler.getHeight()-getY()+slot.getHeight()*0.2f);
+			}
 			posX+=trawler.getWidth()/7;
 		}
 		posX=getX();
@@ -73,11 +82,13 @@ public class TrawlerActor extends Actor implements InputProcessor{
 		if (focusedSlot == Constants.NUM_ROWERS){
 			batch.draw(slot, getX()-Constants.SIZE_X, getY() + Constants.SIZE_Y/2, 70, 70);
 			batch.draw(slot, getX()-Constants.SIZE_X, getY() + Constants.SIZE_Y/2, 70, 70);
+			font.draw(batch, "Captain", getX()-Constants.SIZE_X + slot.getWidth()*0.10f+5,getY() + Constants.SIZE_Y/2+slot.getHeight()*0.2f);
 			if(equipo.getTrainera().getPatron()!= null){
 				batch.draw(equipo.getTrainera().getPatron().getIcon(),getX()-Constants.SIZE_X+5,getY() + Constants.SIZE_Y/2+15, 61,51);
 			}
 		}else{
 			batch.draw(slot, getX()-Constants.SIZE_X, getY() + Constants.SIZE_Y/2, 64, 64);
+			font.draw(batch, "Captain", getX()-Constants.SIZE_X + slot.getWidth()*0.10f,getY() + Constants.SIZE_Y/2+slot.getHeight()*0.2f);
 			if(equipo.getTrainera().getPatron()!= null){
 				batch.draw(equipo.getTrainera().getPatron().getIcon(),getX()-Constants.SIZE_X+5,getY() + Constants.SIZE_Y/2+15, 55,45);
 			}
@@ -163,11 +174,18 @@ public class TrawlerActor extends Actor implements InputProcessor{
 					posX+=trawler.getWidth()/7;
 				}
 			} 
+			else if(pos.x < getX()-Constants.SIZE_X+Constants.SIZE_X && pos.x >getX()-Constants.SIZE_X && pos.y <  getY() + Constants.SIZE_Y/2 +Constants.SIZE_Y&& pos.y > getY() + Constants.SIZE_Y/2){
+				removeCaptainFromTrawler();
+			}
 		}
 		return false;
 	}
 	public void removeRowerFromTrawler(int position){
-		this.equipo.getTrainera().getRemeros().remove(position);
+		if (! (position >= equipo.getTrainera().getRemeros().size()))
+			this.equipo.getTrainera().getRemeros().remove(position);
+	}
+	public void removeCaptainFromTrawler(){
+		this.equipo.getTrainera().setPatron(null);
 	}
 	@Override
 	public boolean touchDragged(int arg0, int arg1, int arg2) {

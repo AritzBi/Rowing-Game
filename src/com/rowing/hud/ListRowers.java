@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.rowing.core.Constants;
 import com.rowing.pojo.Athlete;
 import com.rowing.pojo.Equipo;
+import com.rowing.pojo.Patron;
 import com.rowing.pojo.Remero;
 
 
@@ -72,7 +73,7 @@ public class ListRowers extends Actor implements InputProcessor  {
 				if (remero instanceof Remero)
 					font.draw(batch, "Trawler", posX + slot.getWidth()*0.10f, posY+ slot.getHeight()*0.2f);
 				else
-					font.draw(batch, "Skipper", posX + slot.getWidth()*0.10f, posY+ slot.getHeight()*0.2f);
+					font.draw(batch, "Captain", posX + slot.getWidth()*0.10f, posY+ slot.getHeight()*0.2f);
 			}
 			posX += Constants.SIZE_X;
 			if ((i - 1) % 3 == 0) {
@@ -86,7 +87,7 @@ public class ListRowers extends Actor implements InputProcessor  {
 				if (remero instanceof Remero)
 					font.draw(batch, "Trawler", posFocusX + slot.getWidth()*0.10f +5, posFocusY+ slot.getHeight()*0.2f);
 				else
-					font.draw(batch, "Skipper", posFocusX + slot.getWidth()*0.10f +5, posFocusY+ slot.getHeight()*0.2f);
+					font.draw(batch, "Captain", posFocusX + slot.getWidth()*0.10f +5, posFocusY+ slot.getHeight()*0.2f);
 				remero = athletes.get(focusedSlot) ;
 				if (remero != null) {
 					tooltip.setText(remero.toString(), 0f);
@@ -114,8 +115,6 @@ public class ListRowers extends Actor implements InputProcessor  {
 				focusedSlot++;
 			}
 		} else if (Gdx.input.isKeyPressed(Keys.ENTER)) {
-			System.out.println("Focused Slot: "+focusedSlot);
-			System.out.println("Datos del remero: "+athletes.get(focusedSlot));
 			this.addRowerToTrawler(focusedSlot);
 		} 
 		return false;
@@ -198,11 +197,25 @@ public class ListRowers extends Actor implements InputProcessor  {
 	}
 	
 	public void addRowerToTrawler(int i){
-		Remero remero = this.equipo.getRemeros().get(i);
-		if(!this.equipo.getTrainera().getRemeros().contains(remero) && this.equipo.getTrainera().getRemeros().size()<Constants.NUM_ROWERS)
-			this.equipo.getTrainera().getRemeros().add(remero);
-		else
-			System.out.println("The trawler is full or the rower is already in the trawler");
+		Athlete athlete = this.athletes.get(i);
+		if (athlete instanceof Remero){
+			if(!this.equipo.getTrainera().getRemeros().contains(athlete) && this.equipo.getTrainera().getRemeros().size()<Constants.NUM_ROWERS)
+				this.equipo.getTrainera().getRemeros().add((Remero) athlete);
+			else
+				System.out.println("The trawler is full or the rower is already in the trawler");
+		}else{
+			i = i-this.equipo.getRemeros().size();
+			Patron patron=this.equipo.getPatrones().get(i);
+			if (equipo.trainera.getPatron()==null){
+				equipo.trainera.setPatron(patron);
+			}else{
+				if(equipo.trainera.getPatron()==patron)
+					System.out.println("The captain is already in the trawler");
+				else
+					equipo.trainera.setPatron(patron);
+			}
+		}
+
 	}
 
 }

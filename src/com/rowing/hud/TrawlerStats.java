@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.rowing.core.Constants;
 import com.rowing.pojo.Equipo;
 
 
@@ -24,9 +25,21 @@ public class TrawlerStats extends Actor {
 	@Override
 	public void draw (SpriteBatch batch, float parentAlpha) {
         equipo.getTrainera().calcularParametrosDeLaTrainera();
-		
-        batch.draw(container, getX(),  getY());
-		
+		int offset=0;
+		//Potencia
+        batch.draw(container, getX(),  getY()-offset);
+        offset+=Constants.STATS_BAR_OFFSET;
+        //Experiencia
+        batch.draw(container, getX(),  getY()-offset);
+        offset+=Constants.STATS_BAR_OFFSET;
+        //Energia
+        batch.draw(container, getX(),  getY()-offset);
+        offset+=Constants.STATS_BAR_OFFSET;
+        //Buena mar
+        batch.draw(container, getX(),  getY()-offset);
+        offset+=Constants.STATS_BAR_OFFSET;
+        //Mala mar
+        batch.draw(container, getX(),  getY()-offset);
 		/**float proportion = (float)stats.health / (float)stats.maxHealth;
 		batch.draw(bars, getX() +3, getY() + 40, 0, 0, (int)(bars.getWidth()*proportion), 20);
 		font.draw(batch, stats.health + "/" + stats.maxHealth, getX() + bars.getWidth()*0.40f, getY() + 56);
