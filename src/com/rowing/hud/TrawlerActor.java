@@ -24,7 +24,7 @@ public class TrawlerActor extends Actor implements InputProcessor{
 		this.equipo=equipo;
 		this.stage=stage;
 		slot = new Texture(Gdx.files.internal("resources/slot.png"));
-		focusedSlot = 1;
+		focusedSlot = 0;
 	}
 	
 	public void draw(SpriteBatch batch, float partenAlpha) {
@@ -70,6 +70,19 @@ public class TrawlerActor extends Actor implements InputProcessor{
 				batch.draw(equipo.getTrainera().getRemeros().get(i).getIcon(),posX+5,trawler.getHeight()-getY()+15, 55,45);
 			posX+=trawler.getWidth()/7;
 		}
+		if (focusedSlot == Constants.NUM_ROWERS){
+			batch.draw(slot, getX()-Constants.SIZE_X, getY() + Constants.SIZE_Y/2, 70, 70);
+			batch.draw(slot, getX()-Constants.SIZE_X, getY() + Constants.SIZE_Y/2, 70, 70);
+			if(equipo.getTrainera().getPatron()!= null){
+				batch.draw(equipo.getTrainera().getPatron().getIcon(),getX()-Constants.SIZE_X+5,getY() + Constants.SIZE_Y/2+15, 61,51);
+			}
+		}else{
+			batch.draw(slot, getX()-Constants.SIZE_X, getY() + Constants.SIZE_Y/2, 64, 64);
+			if(equipo.getTrainera().getPatron()!= null){
+				batch.draw(equipo.getTrainera().getPatron().getIcon(),getX()-Constants.SIZE_X+5,getY() + Constants.SIZE_Y/2+15, 55,45);
+			}
+		}
+
 	}
 
 	@Override
@@ -110,7 +123,12 @@ public class TrawlerActor extends Actor implements InputProcessor{
 				}
 				posX+=trawler.getWidth()/7;
 			}
-		} 
+			//getX()-Constants.SIZE_X, getY() + Constants.SIZE_Y/2
+		}else if(pos.x < getX()-Constants.SIZE_X+Constants.SIZE_X && pos.x >getX()-Constants.SIZE_X && pos.y <  getY() + Constants.SIZE_Y/2 +Constants.SIZE_Y&& pos.y > getY() + Constants.SIZE_Y/2 ){
+			focusedSlot=Constants.NUM_ROWERS;
+		}else{
+			focusedSlot=-1;
+		}
 		return false;
 	}
 

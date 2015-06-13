@@ -11,6 +11,7 @@ import com.rowing.core.Rowing;
 import com.rowing.hud.ListRowers;
 import com.rowing.hud.TooltipBox;
 import com.rowing.hud.TrawlerActor;
+import com.rowing.hud.TrawlerStats;
 import com.rowing.pojo.Equipo;
 import com.rowing.utils.MusicPlayer;
 
@@ -42,13 +43,17 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		if(game.getScreen()!=null){
 			game.getScreen().dispose();
 		}
+		/**TrawlerStats trawlerStats = new TrawlerStats(equipo);
+		this.stage.addActor(trawlerStats);
+		trawlerStats.setPosition(200, Gdx.graphics.getHeight()-200);**/
 		ListRowers listRowers = new ListRowers(equipo,this.stage, tooltip);
 		this.trawlerActor =new TrawlerActor(equipo,stage);
 		this.trawlerActor.setPosition(TrawlerActor.OFFSET_X, TrawlerActor.OFFSET_Y);
+		this.stage.addActor(trawlerActor);
 		Rowing.game.inputMultiplexer.addProcessor(trawlerActor);
 		Rowing.game.inputMultiplexer.addProcessor(listRowers);
 		this.stage.addActor(listRowers);
-		this.stage.addActor(trawlerActor);
+
 		tooltip.setBounds( Gdx.graphics.getWidth()-(ListRowers.ROWERS_PER_ROW*Constants.SIZE_X*3),Gdx.graphics.getHeight()-200, 200, 200);
 		MusicPlayer.play("olasdemar.mp3");
 	}
