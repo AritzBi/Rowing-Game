@@ -48,6 +48,7 @@ public class ListRowers extends Actor implements InputProcessor  {
 		Remero remeroFocused = null;
 		//int j=0;
 		for (int i = 0; i < equipo.getRemeros().size() ; i++){
+			existsFocus = false;
 			if (i == focusedSlot) {
 				posFocusX = posX;
 				posFocusY = posY;
@@ -66,6 +67,7 @@ public class ListRowers extends Actor implements InputProcessor  {
 				posX = stage.getWidth() - ROWERS_PER_ROW*Constants.SIZE_X;
 			}
 			if (existsFocus) {
+				batch.draw(slot, posFocusX, posFocusY, 70, 70);
 				batch.draw(slot, posFocusX, posFocusY, 70, 70);
 				batch.draw(remeroFocused.getIcon(), posFocusX + 5, posFocusY + 15, 61,51);
 			}

@@ -2,6 +2,7 @@ package com.rowing.hud;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -35,8 +36,10 @@ public class TrawlerActor extends Actor implements InputProcessor{
 		batch.draw(trawler, getX(), getY());
 		float posX=getX();
 		for (int i = 0; i<7; i++){
-			if (i == focusedSlot)
+			if (i == focusedSlot){
 				batch.draw(slot, posX, getY()+trawler.getHeight(), 70, 70);
+				batch.draw(slot, posX, getY()+trawler.getHeight(), 70, 70);	
+			}
 			else
 				batch.draw(slot, posX, getY()+trawler.getHeight(), 64, 64);
 			posX+=trawler.getWidth()/7;
@@ -51,8 +54,10 @@ public class TrawlerActor extends Actor implements InputProcessor{
 		}
 		posX=getX();
 		for(int i= 7 ; i < Constants.NUM_ROWERS ; i++){
-			if (i == focusedSlot)
+			if (i == focusedSlot){
 				batch.draw(slot, posX, trawler.getHeight()-getY(), 70, 70);
+				batch.draw(slot, posX, trawler.getHeight()-getY(), 70, 70);
+			}
 			else
 				batch.draw(slot, posX,trawler.getHeight()-getY(), 64, 64);
 			posX+=trawler.getWidth()/7;
@@ -60,9 +65,9 @@ public class TrawlerActor extends Actor implements InputProcessor{
 		posX=getX();
 		for(int i= 7 ; i < equipo.getTrainera().getRemeros().size() && i < Constants.NUM_ROWERS ; i++){
 			if (focusedSlot == i)
-				batch.draw(equipo.getTrainera().getRemeros().get(i).getIcon(),posX,trawler.getHeight()-getY()+15, 61,51);
+				batch.draw(equipo.getTrainera().getRemeros().get(i).getIcon(),posX+5,trawler.getHeight()-getY()+15, 61,51);
 			else
-				batch.draw(equipo.getTrainera().getRemeros().get(i).getIcon(),posX,trawler.getHeight()-getY()+15, 55,45);
+				batch.draw(equipo.getTrainera().getRemeros().get(i).getIcon(),posX+5,trawler.getHeight()-getY()+15, 55,45);
 			posX+=trawler.getWidth()/7;
 		}
 	}
@@ -116,11 +121,36 @@ public class TrawlerActor extends Actor implements InputProcessor{
 	}
 
 	@Override
-	public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		Vector2 pos = stage.screenToStageCoordinates(new Vector2(screenX, screenY));
+
+		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
+			if (pos.x > getX() && pos.x < trawler.getWidth()+getX() && pos.y < (getY()+trawler.getHeight()+Constants.SIZE_Y) && pos.y>(getY()-Constants.SIZE_Y)) {
+				float posX=getX();
+				for (int i = 0; i<7; i++){
+					if(pos.x>posX && pos.x<posX+Constants.SIZE_X && pos.y >getY()+trawler.getHeight() && pos.y < getY()+trawler.getHeight()+Constants.SIZE_Y){
+						//focusedSlot=i;
+						removeRowerFromTrawler(i);
+						return false;
+					}
+					posX+=trawler.getWidth()/7;
+				}
+				posX=getX();
+				for(int i= 7 ; i < Constants.NUM_ROWERS ; i++){
+					if(pos.x>posX && pos.x<posX+Constants.SIZE_X && pos.y >getY()-Constants.SIZE_Y && pos.y<getY()){
+						//focusedSlot=i;
+						removeRowerFromTrawler(i);
+						return false;
+					}
+					posX+=trawler.getWidth()/7;
+				}
+			} 
+		}
 		return false;
 	}
-
+	public void removeRowerFromTrawler(int position){
+		this.equipo.getTrainera().getRemeros().remove(position);
+	}
 	@Override
 	public boolean touchDragged(int arg0, int arg1, int arg2) {
 		// TODO Auto-generated method stub
