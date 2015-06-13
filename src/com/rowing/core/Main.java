@@ -76,7 +76,7 @@ public class Main {
 		// 7º paso: obtenemos los tiempos de ida de todas las traineras
 		System.out.println("*** CLASIFICACIÓN IDA ****");
 		for(Trainera key: regata.getClasificacionIda().keySet() ){
-            System.out.println(key.getNombre()  +" :: "+ regata.getClasificacionIda().get(key) );
+            System.out.println(key.getNombre()  +" :: "+ Utils.obtenerMinutosYSegundos(regata.getClasificacionIda().get(key)) );
         }
 		System.out.println("** ESTADO TRAINERAS EN LA IDA ***");
 		System.out.println(regata.getEquipo().getTrainera());
@@ -103,7 +103,7 @@ public class Main {
 		//10º paso: obtenemos el score de la vuelta
 		System.out.println("*** CLASIFICACIÓN VUELTA ****");
 		for(Trainera key: regata.getClasificacionVuelta().keySet() ){
-            System.out.println(key.getNombre()  +" :: "+ regata.getClasificacionVuelta().get(key) );
+            System.out.println(key.getNombre()  +" :: "+ Utils.obtenerMinutosYSegundos( regata.getClasificacionVuelta().get(key) ) );
         }
 		
 		System.out.println("** ESTADO TRAINERAS EN LA VUELTA ***");
@@ -113,7 +113,7 @@ public class Main {
 		//11º paso: obtenemos la clasificacion final de la regata
 		System.out.println("*** CLASIFICACIÓN FINAL ****");
 		for(Trainera key: regata.getClasificacionFinal().keySet() ){
-            System.out.println(key.getNombre()  +" :: "+ regata.getClasificacionFinal().get(key) );
+            System.out.println(key.getNombre()  +" :: "+ Utils.obtenerMinutosYSegundos ( regata.getClasificacionFinal().get(key) ) );
         }
 		
 		//Solo a modo de comprobacion
