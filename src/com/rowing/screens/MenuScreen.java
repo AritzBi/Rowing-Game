@@ -20,7 +20,6 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
 	private Texture background;
 	private int focusedBotton;
 	private TextButton startGameButton;
-	private TextButton loadGameButton;
 	private TextButton optionsButton;
 	private TextButton exitButton;
 	private TextButton []buttons;
@@ -38,14 +37,12 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
 		focusedStyle.up=getSkin().getDrawable("focused-button");
 		focusedStyle.down=getSkin().getDrawable("pushed-button");
 		startGameButton = new TextButton( "START GAME", normalStyle);
-		loadGameButton = new TextButton( "LOAD GAME", normalStyle);
 		optionsButton = new TextButton( "OPTIONS", normalStyle);
 		exitButton = new TextButton( "EXIT", normalStyle );
 		buttons=new TextButton[4];
 		buttons[0]=startGameButton;
-		buttons[1]=loadGameButton;
-		buttons[2]=optionsButton;
-		buttons[3]=exitButton;
+		buttons[1]=optionsButton;
+		buttons[2]=exitButton;
 		focusedBotton=1;
 		Rowing.game.inputMultiplexer.addProcessor(this);
 		if(game.getScreen()!=null){
@@ -99,44 +96,7 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
         table.add( startGameButton ).size( 300, 60 ).uniform().spaceBottom( 10 );
         table.row();
 
-        // register the button "options"
-        loadGameButton.addListener( new InputListener() {
-            @Override
-            public void touchUp(
-                InputEvent event,
-                float x,
-                float y,
-                int pointer,
-                int button )
-            {
-            	if(button==0){
-	                //SoC.game.clearProcessors();
-	                //SoC.game.setScreen(new LoadScreen(game));
-            	}
-
-            }
-            @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) 
-            {
-                return true;
-            }
-        } );
         
-        loadGameButton.addListener(new ClickListener(){
-        	public boolean mouseMoved(InputEvent event,
-                    float x,
-                    float y){
-        		if(focusedBotton!=2){
-        			buttons[focusedBotton-1].setStyle(normalStyle);
-        		}
-        		focusedBotton=2;
-        		return true;
-        		
-        	}
-
-        });
-        table.add( loadGameButton ).uniform().fill().spaceBottom( 10 );
-        table.row();
 
         // register the button "high scores"
         optionsButton.addListener( new InputListener() {
@@ -164,10 +124,10 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
         	public boolean mouseMoved(InputEvent event,
                     float x,
                     float y){
-        		if(focusedBotton!=3){
+        		if(focusedBotton!=2){
         			buttons[focusedBotton-1].setStyle(normalStyle);
         		}
-        		focusedBotton=3;
+        		focusedBotton=2;
         		return true;
         		
         	}
@@ -200,10 +160,10 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
         	public boolean mouseMoved(InputEvent event,
                     float x,
                     float y){
-        		if(focusedBotton!=4){
+        		if(focusedBotton!=3){
         			buttons[focusedBotton-1].setStyle(normalStyle);
         		}
-        		focusedBotton=4;
+        		focusedBotton=3;
         		return true;
         		
         	}
@@ -229,14 +189,14 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
 		if( keycode == Keys.W || keycode == Keys.UP){
 			buttons[focusedBotton-1].setStyle(normalStyle);
 			if(focusedBotton==1)
-				focusedBotton=4;
+				focusedBotton=3;
 			else
 				focusedBotton--;
 			return true;
 		}else{
 			if(keycode == Keys.S || keycode == Keys.DOWN){
 				buttons[focusedBotton-1].setStyle(normalStyle);
-				if(focusedBotton==4)
+				if(focusedBotton==3)
 					focusedBotton=1;
 				else
 					focusedBotton++;
@@ -244,21 +204,15 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
 			}else{
 				if(keycode == Keys.ENTER){
 					if(focusedBotton==1){
-		                //SoC.game.clearProcessors();
-		                //SoC.game.setScreen(new CharacterScreen(game));
+		                Rowing.game.clearProcessors();
+		                Rowing.game.setScreen(new TeamSelectionScreen(game,Utils.loadEquipoOrio()));
 					}else{
 						if(focusedBotton==2){
-			                //SoC.game.clearProcessors();
-			                //SoC.game.setScreen(new LoadScreen(game));
+			                Rowing.game.clearProcessors();
+			                Rowing.game.setScreen(new OptionsScreen(game,true));
 						}else{
 							if(focusedBotton==3){
-				                Rowing.game.clearProcessors();
-				                Rowing.game.setScreen(new OptionsScreen(game,true));
-							}else{
-								if(focusedBotton==4){
-									System.exit(0);
-					                
-								}
+								System.exit(0);
 							}
 						}
 					}
