@@ -77,7 +77,7 @@ public class CondicionesMeteo {
 		}
 	}
 
-	public float convertirMilesToKilometers(float miles) {
+	public static float convertirMilesToKilometers(float miles) {
 		return (float) (miles * 1.609344);
 	}
 
