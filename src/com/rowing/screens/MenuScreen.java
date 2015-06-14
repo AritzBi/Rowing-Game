@@ -206,13 +206,16 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
 					if(focusedBotton==1){
 		                Rowing.game.clearProcessors();
 		                Rowing.game.setScreen(new TeamSelectionScreen(game,Utils.loadEquipoOrio()));
+		                return true;
 					}else{
 						if(focusedBotton==2){
 			                Rowing.game.clearProcessors();
 			                Rowing.game.setScreen(new OptionsScreen(game,true));
+			                return true;
 						}else{
 							if(focusedBotton==3){
 								System.exit(0);
+								
 							}
 						}
 					}
