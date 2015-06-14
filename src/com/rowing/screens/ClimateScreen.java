@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.rowing.core.GameSession;
 import com.rowing.core.Rowing;
 import com.rowing.pojo.Equipo;
@@ -53,6 +56,9 @@ public class ClimateScreen extends AbstractScreen implements InputProcessor {
 	public void show() {
 		super.show();
 		Table table = super.getTable();
+		table.setFillParent(false);
+		table.setBounds(300, 200, 700, 400);
+		table.setBackground(new NinePatchDrawable(getNinePatch(("resources/dialog-box.png"))));
 		
 		normalStyle=new TextButtonStyle();
 		normalStyle.font=skin.getFont("buttonFont");
@@ -131,6 +137,12 @@ public class ClimateScreen extends AbstractScreen implements InputProcessor {
 		table.add(badSea);
 		table.add(badSeaText).pad(10);
 
+	}
+	
+	private NinePatch getNinePatch(String fname) {
+	    
+		final Texture t = new Texture(Gdx.files.internal(fname));
+	    return new NinePatch( new TextureRegion(t, 1, 1 , t.getWidth() - 2, t.getHeight() - 2), 10, 10, 10, 10);
 	}
 
 	@Override
