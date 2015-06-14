@@ -9,9 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.rowing.core.Constants;
 import com.rowing.core.Rowing;
 import com.rowing.pojo.Equipo;
 import com.rowing.screens.ClimateScreen;
+import com.rowing.screens.StrategySelectionScreen;
 
 public class TrawlerSelectionButton extends Table implements InputProcessor{
 	private Table table;
@@ -59,7 +61,8 @@ public class TrawlerSelectionButton extends Table implements InputProcessor{
                 int button )
             {
             	if(button==0){
-            		System.out.println("asda");
+            		Rowing.game.clearProcessors();
+	                Rowing.game.setScreen(new StrategySelectionScreen(game,equipo,Constants.ESTRATEGIAS_SALIDA));;
             	}
 
             }
