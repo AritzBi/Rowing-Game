@@ -67,7 +67,7 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
         TextButton button;
         System.out.println(buttons.length);
         for(int i=0;i < buttons.length ; i++){
-        	int position = i;
+        	final int position = i;
         	System.out.println(buttons.length);
         	button = buttons[i];
         	button.addListener( new InputListener() {
@@ -96,10 +96,14 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
             	public boolean mouseMoved(InputEvent event,
                         float x,
                         float y){
-            		if(focusedBotton!=1){
-            			buttons[focusedBotton-1].setStyle(normalStyle);
+            		focusedBotton=position+1;
+            		if(focusedBotton==position+1){
+            			buttons[position].setStyle(focusedStyle);
             		}
-            		//focusedBotton=i+1;
+            		for(int j=0;j<buttons.length;j++){
+            			if(j!=position)
+            				buttons[j].setStyle(normalStyle);
+            		}
             		return true;
             		
             	}
