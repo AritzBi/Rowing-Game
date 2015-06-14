@@ -13,6 +13,7 @@ import com.rowing.hud.GameMenu;
 import com.rowing.hud.ListRowers;
 import com.rowing.hud.TooltipBox;
 import com.rowing.hud.TrawlerActor;
+import com.rowing.hud.TrawlerSelectionButton;
 import com.rowing.hud.TrawlerStats;
 import com.rowing.pojo.Equipo;
 import com.rowing.utils.MusicPlayer;
@@ -27,6 +28,7 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 	private TooltipBox tooltip;
 	private TrawlerActor trawlerActor;
 	private GameMenu gameMenu;
+	private TrawlerSelectionButton trawlerSelectionButton;
 	public TeamSelectionScreen(Rowing game, Equipo equipo) {
 		super(game);
 		background=new Texture(Gdx.files.internal("resources/concha3.jpg"));
@@ -59,6 +61,10 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		Rowing.game.inputMultiplexer.addProcessor(listRowers);
 		this.stage.addActor(listRowers);
 		tooltip.setBounds( Gdx.graphics.getWidth()-(ListRowers.ROWERS_PER_ROW*Constants.SIZE_X*3),Gdx.graphics.getHeight()-200, 200, 200);
+		trawlerSelectionButton=new TrawlerSelectionButton(game,skin);
+		Rowing.game.inputMultiplexer.addProcessor(trawlerSelectionButton);
+		trawlerSelectionButton.setPosition(700, Gdx.graphics.getHeight()-100);
+		this.stage.addActor(trawlerSelectionButton);
 		MusicPlayer.play("olasdemar.mp3");
 	}
 
