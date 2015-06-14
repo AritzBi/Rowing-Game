@@ -21,7 +21,7 @@ import com.rowing.utils.Utils;
 
 public class StrategySelectionScreen extends AbstractScreen implements InputProcessor{
 	private Texture background;
-	private Game game;
+	private Rowing game;
 	private Equipo equipo;
 	private int focusedBotton;
 	private Table table;
@@ -85,7 +85,8 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
                     int button )
                 {
                 	if(button==0){
-                		
+    	                Rowing.game.clearProcessors();
+    	                Rowing.game.setScreen(new RegattaScreen(game));	
                 	}
 
                 }
