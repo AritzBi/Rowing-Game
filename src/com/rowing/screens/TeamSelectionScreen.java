@@ -61,7 +61,7 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		Rowing.game.inputMultiplexer.addProcessor(listRowers);
 		this.stage.addActor(listRowers);
 		tooltip.setBounds( Gdx.graphics.getWidth()-(ListRowers.ROWERS_PER_ROW*Constants.SIZE_X*3),Gdx.graphics.getHeight()-200, 200, 200);
-		trawlerSelectionButton=new TrawlerSelectionButton(game,skin);
+		trawlerSelectionButton=new TrawlerSelectionButton(game,skin,equipo);
 		Rowing.game.inputMultiplexer.addProcessor(trawlerSelectionButton);
 		trawlerSelectionButton.setPosition(700, Gdx.graphics.getHeight()-100);
 		this.stage.addActor(trawlerSelectionButton);

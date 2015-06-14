@@ -10,7 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.rowing.core.Rowing;
-import com.rowing.screens.MenuScreen;
+import com.rowing.pojo.Equipo;
+import com.rowing.screens.ClimateScreen;
 
 public class TrawlerSelectionButton extends Table implements InputProcessor{
 	private Table table;
@@ -22,9 +23,11 @@ public class TrawlerSelectionButton extends Table implements InputProcessor{
 	private TextButtonStyle focusedStyle;
 	private Rowing game;
 	private Skin skin;
-	public TrawlerSelectionButton(Rowing game,Skin skin) {
+	private Equipo equipo;
+	public TrawlerSelectionButton(final Rowing game,Skin skin,final Equipo equipo) {
 		this.game=game;
 		table=this;
+		this.equipo=equipo;
 		this.focusedButton=1;
 		this.skin=skin;
 		normalStyle=new TextButtonStyle();
@@ -95,7 +98,8 @@ public class TrawlerSelectionButton extends Table implements InputProcessor{
                 int button )
             {
             	if(button==0){
-            		System.out.println("asda");
+            		Rowing.game.clearProcessors();
+	                Rowing.game.setScreen(new ClimateScreen(game,equipo));
             	}
 
             }
