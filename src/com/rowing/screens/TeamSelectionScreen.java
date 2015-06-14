@@ -63,7 +63,7 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		tooltip.setBounds( Gdx.graphics.getWidth()-(ListRowers.ROWERS_PER_ROW*Constants.SIZE_X*3),Gdx.graphics.getHeight()-200, 200, 200);
 		trawlerSelectionButton=new TrawlerSelectionButton(game,skin,equipo);
 		Rowing.game.inputMultiplexer.addProcessor(trawlerSelectionButton);
-		trawlerSelectionButton.setPosition(700, Gdx.graphics.getHeight()-100);
+		trawlerSelectionButton.setPosition(700, Gdx.graphics.getHeight()-300);
 		this.stage.addActor(trawlerSelectionButton);
 		MusicPlayer.play("olasdemar.mp3");
 	}
