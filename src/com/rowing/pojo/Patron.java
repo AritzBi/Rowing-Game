@@ -33,7 +33,6 @@ public class Patron extends Athlete{
 			   "Experiencia: "+getExperiencia()+"\n"+
 			   "Buena mar: "+getBuena_mar()+"\n"+
 			   "Mala mar: "+getMala_mar()+"\n"+
-			   "Experiencia: "+getExperiencia()+"\n"+
 			   "Liderazgo: "+getLiderazgo()+"\n"+
 			   "Lesionado: " +isLesionado();
 	}

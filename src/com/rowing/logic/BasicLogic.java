@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.rowing.core.GameSession;
+import com.rowing.pojo.Patron;
 import com.rowing.pojo.Trainera;
 import com.rowing.utils.CondicionesMeteo;
 import com.rowing.utils.Utils;
@@ -39,7 +40,7 @@ public class BasicLogic {
 		int habilidadMalaMar = trainera.getHabilidadMalaMarTotal();
 		trainera.nombre = "ORIO";
 		
-		// TRAINERA DONOSTIARRA
+		// TRAINERA DONOSTIARRA: "la peor de todas"
 		int DONOSTI_SUMATORIO_PUNTOS = 4;
 		Trainera traineraDonostiarra = new Trainera();
 		traineraDonostiarra.setEnergiaTotal(energia);
@@ -54,9 +55,16 @@ public class BasicLogic {
 			traineraDonostiarra.setHabilidadMalaMarTotal(habilidadMalaMar
 					- 2);
 		traineraDonostiarra.nombre = "DONOSTIARRA";
+		//Calculamos el patron donostiarra
+		Patron patronDonostiarra = new Patron();
+		int experienciaRandom = Utils.generaNumeroAleatorio(1, 5);
+		patronDonostiarra.setExperiencia(trainera.getPatron().getExperiencia() - experienciaRandom );
+		int liderazgoRandom = Utils.generaNumeroAleatorio(1, 5);
+		patronDonostiarra.setLiderazgo(trainera.getPatron().getLiderazgo() - liderazgoRandom );
+		traineraDonostiarra.setPatron(patronDonostiarra);
 		traineras.add(traineraDonostiarra);
 
-		// TRAINERA HONDARRIBI
+		// TRAINERA HONDARRIBI: "mejor en buena mar"
 		int HONDARRIBI_SUMATORIO_PUNTOS = 4;
 
 		Trainera traineraHondarribi = new Trainera();
@@ -71,9 +79,16 @@ public class BasicLogic {
 			traineraHondarribi.setHabilidadMalaMarTotal(habilidadMalaMar
 					- HONDARRIBI_SUMATORIO_PUNTOS);
 		traineraHondarribi.nombre = "HONDARRIBI";
+		//Calculamos patron de Hondarribi
+		Patron patronHondarribi = new Patron();
+		experienciaRandom = Utils.generaNumeroAleatorio(-1, 3);
+		patronHondarribi.setExperiencia(trainera.getPatron().getExperiencia() + experienciaRandom );
+		liderazgoRandom = Utils.generaNumeroAleatorio(-1, 3);
+		patronHondarribi.setLiderazgo(trainera.getPatron().getLiderazgo() + liderazgoRandom );
+		traineraHondarribi.setPatron(patronDonostiarra);
 		traineras.add(traineraHondarribi);
 
-		// TRAINERA KAIKU
+		// TRAINERA KAIKU: "mejor en mala mar"
 
 		Trainera traineraKaiku = new Trainera();
 		traineraKaiku.setEnergiaTotal(energia);
@@ -84,6 +99,14 @@ public class BasicLogic {
 		else
 			traineraKaiku.setHabilidadMalaMarTotal(habilidadMalaMar + 3);
 		traineraKaiku.nombre = "KAIKU";
+		//Calculamos patron de Kaiku
+		Patron patronKaiku = new Patron();
+		experienciaRandom = Utils.generaNumeroAleatorio(-2, 2);
+		patronKaiku.setExperiencia(trainera.getPatron().getExperiencia() + experienciaRandom );
+		liderazgoRandom = Utils.generaNumeroAleatorio(-2, 2);
+		patronKaiku.setLiderazgo(trainera.getPatron().getLiderazgo() + liderazgoRandom );
+		traineraKaiku.setPatron(patronKaiku);
+		
 		traineras.add(traineraKaiku);
 
 		return traineras;

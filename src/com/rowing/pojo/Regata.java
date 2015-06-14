@@ -1,6 +1,7 @@
 package com.rowing.pojo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -60,6 +61,22 @@ public class Regata {
 	public void obtenerTrainerasCompetidoras() {
 		this.trainerasCompetidoras = BasicLogic.obtenerTraineras(equipo
 				.getTrainera());
+	}
+	
+	public void crearCallesVuelta() {
+		this.calles = BasicLogic.obtenerCalles();
+		//Modificamos el estado de las calles que tienen asociadas las traineras
+		Map<Integer,String> nuevaCalle = new HashMap<Integer, String>();
+		int numeroCalleOrio = getEquipo().getTrainera().getNumeroCalle();
+		nuevaCalle.put(numeroCalleOrio, calles.get(numeroCalleOrio) );
+		//Actualizamos el valor de orio
+		getEquipo().getTrainera().setCalle(nuevaCalle);
+		//Actualizamos los valores de las traineras competidoras
+		for ( Trainera traineraAux: getTrainerasCompetidoras() ) {
+			nuevaCalle.clear();
+			nuevaCalle.put( traineraAux.getNumeroCalle(), calles.get(traineraAux.getNumeroCalle()) );
+			traineraAux.setCalle(nuevaCalle);
+		}
 	}
 
 	/**

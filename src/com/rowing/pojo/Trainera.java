@@ -40,7 +40,7 @@ public class Trainera {
 	private Map<Integer, String> calle;
 
 	private int score = 0;
-	
+	//Hablamos de la estrategia de ida de la trainera
 	private String estrategiaActual;
 
 	public Trainera() {
@@ -182,6 +182,15 @@ public class Trainera {
 		this.calle = calle;
 	}
 	
+	public Integer getNumeroCalle() {
+		Set<Integer> calleDeLaTrainera = calle.keySet();
+		Integer numeroCalle = null;
+		for (Integer numeroCalleAux : calleDeLaTrainera) {
+			numeroCalle = numeroCalleAux;
+		}
+		return numeroCalle;
+	}
+	
 	public String getEstadoCalle() {
 		Set<Integer> calleDeLaTrainera = calle.keySet();
 		String estadoCalle = "";
@@ -218,7 +227,7 @@ public class Trainera {
 			energiaTotal -= 10;
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(2))) //Come up with conservative way and reserve forces
 		{
-			modificadorPotencia = -4;
+			modificadorPotencia = -8;
 			energiaTotal += 10;
 		}
 
@@ -262,21 +271,30 @@ public class Trainera {
 	}
 	
 	public void calcularScoreTrainera_Vuelta(String estrategia) {
-		estrategiaActual = estrategia;
+		
 		int modificadorPotencia = 0;
 		
 		if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(0))) //Come up with Maximum Power and Keep Up
 		{
 			modificadorPotencia = 25;
 			energiaTotal -= 20;
+			//Si selecciona dos veces esta estrategia..
+			if ( estrategiaActual.equals(estrategia) )
+			{
+				energiaTotal -= 15;
+			}
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(1))) //Come up with Maximum Power and Maintain A Stable Rhythm
 		{
 			modificadorPotencia = 12;
 			energiaTotal -= 10;
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(2))) //Come up with conservative way and reserve forces
 		{
-			modificadorPotencia = -4;
+			modificadorPotencia = -8;
 			energiaTotal += 10;
+			//Si selecciona dos veces esta estrategia..
+			if ( estrategiaActual.equals(estrategia) ) {
+				modificadorPotencia += -10;
+			}
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(3))) //cambiar a la mejor calle
 		{
 			int modificadorPotenciaRandom = 0;
@@ -288,7 +306,7 @@ public class Trainera {
 				modificadorPotenciaRandom = Utils.generaNumeroAleatorio(10, 12);
 			}
 			modificadorPotencia = modificadorPotenciaRandom;
-			//Se le asigna a la trainera la calle buena!
+			//Se le asigna a la trainera la calle buena!!
 			calle.clear();
 			calle.put(Regata.getCalleBuena(), Constants.CALLE_BUENA);
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(4))) //elección del patron

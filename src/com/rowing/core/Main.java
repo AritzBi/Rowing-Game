@@ -84,7 +84,7 @@ public class Main {
 		
 		//[VUELTA DE LA REGATA]
 		//8º paso: calcular de nuevo las calles y asignarselas a las traineras
-		regata.crearCallesYAsignarATraineras();
+		regata.crearCallesVuelta();
 		
 		//9º paso: calcular las estrategias de vuelta de las traineras [se le pasa como parametro la estrategia seleccionada por Orio]
 		//Si el usuario no especifica ninguna, se pondrá la del patrón.
