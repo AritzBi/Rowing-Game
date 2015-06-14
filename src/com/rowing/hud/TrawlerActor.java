@@ -134,7 +134,7 @@ public class TrawlerActor extends Actor implements InputProcessor{
 			for (int i = 0; i<7; i++){
 				if(pos.x>posX && pos.x<posX+Constants.SIZE_X && pos.y >getY()+trawler.getHeight() && pos.y < getY()+trawler.getHeight()+Constants.SIZE_Y){
 					focusedSlot=i;
-					return false;
+					return true;
 				}
 				posX+=trawler.getWidth()/7;
 			}
@@ -142,7 +142,7 @@ public class TrawlerActor extends Actor implements InputProcessor{
 			for(int i= 7 ; i < Constants.NUM_ROWERS ; i++){
 				if(pos.x>posX && pos.x<posX+Constants.SIZE_X && pos.y >getY()-Constants.SIZE_Y && pos.y<getY()){
 					focusedSlot=i;
-					return false;
+					return true;
 				}
 				posX+=trawler.getWidth()/7;
 			}
@@ -172,7 +172,7 @@ public class TrawlerActor extends Actor implements InputProcessor{
 					if(pos.x>posX && pos.x<posX+Constants.SIZE_X && pos.y >getY()+trawler.getHeight() && pos.y < getY()+trawler.getHeight()+Constants.SIZE_Y){
 						//focusedSlot=i;
 						removeRowerFromTrawler(i);
-						return false;
+						return true;
 					}
 					posX+=trawler.getWidth()/7;
 				}
@@ -181,7 +181,7 @@ public class TrawlerActor extends Actor implements InputProcessor{
 					if(pos.x>posX && pos.x<posX+Constants.SIZE_X && pos.y >getY()-Constants.SIZE_Y && pos.y<getY()){
 						//focusedSlot=i;
 						removeRowerFromTrawler(i);
-						return false;
+						return true;
 					}
 					posX+=trawler.getWidth()/7;
 				}

@@ -139,8 +139,10 @@ public class ListRowers extends Actor implements InputProcessor  {
 			} else {
 				focusedSlot++;
 			}
+			return true;
 		} else if (Gdx.input.isKeyPressed(Keys.ENTER)) {
 			this.addRowerToTrawler(focusedSlot);
+			return true;
 		} 
 		return false;
 	}
@@ -162,7 +164,7 @@ public class ListRowers extends Actor implements InputProcessor  {
 				if (pos.x > posX && pos.x < posX + Constants.SIZE_X && pos.y > posY
 						&& pos.y < posY + Constants.SIZE_Y) {
 					focusedSlot = i;
-					return false;
+					return true;
 				}
 				posX += Constants.SIZE_X;
 				if ((i - 1) % 3 == 0) {
@@ -196,7 +198,7 @@ public class ListRowers extends Actor implements InputProcessor  {
 					if (pos.x > posX && pos.x < posX + Constants.SIZE_X && pos.y > posY
 							&& pos.y < posY + Constants.SIZE_Y) {
 						this.addRowerToTrawler(i);
-						return false;
+						return true;
 					}
 					posX += Constants.SIZE_X;
 					if ((i - 1) % 3 == 0) {

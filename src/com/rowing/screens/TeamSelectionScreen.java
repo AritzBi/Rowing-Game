@@ -1,6 +1,7 @@
 package com.rowing.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.rowing.core.Constants;
 import com.rowing.core.Rowing;
+import com.rowing.hud.GameMenu;
 import com.rowing.hud.ListRowers;
 import com.rowing.hud.TooltipBox;
 import com.rowing.hud.TrawlerActor;
@@ -24,6 +26,7 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 	private Equipo equipo;
 	private TooltipBox tooltip;
 	private TrawlerActor trawlerActor;
+	private GameMenu gameMenu;
 	public TeamSelectionScreen(Rowing game, Equipo equipo) {
 		super(game);
 		background=new Texture(Gdx.files.internal("resources/concha3.jpg"));
@@ -38,7 +41,9 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		buttons=new TextButton[4];
 		focusedBotton=1;
 		this.tooltip = new TooltipBox(this);
-		
+		this.gameMenu=new GameMenu(this.skin,game);
+		gameMenu.setPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2+50 );
+		gameMenu.setViewport(Gdx.graphics.getHeight());;
 		Rowing.game.inputMultiplexer.addProcessor(this);
 		if(game.getScreen()!=null){
 			game.getScreen().dispose();
@@ -53,7 +58,6 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		Rowing.game.inputMultiplexer.addProcessor(trawlerActor);
 		Rowing.game.inputMultiplexer.addProcessor(listRowers);
 		this.stage.addActor(listRowers);
-
 		tooltip.setBounds( Gdx.graphics.getWidth()-(ListRowers.ROWERS_PER_ROW*Constants.SIZE_X*3),Gdx.graphics.getHeight()-200, 200, 200);
 		MusicPlayer.play("olasdemar.mp3");
 	}
@@ -70,9 +74,22 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		stage.act( delta );
 		stage.draw();	
 	}
+	
+	public void toogleGameMenu(){
+		if(!gameMenu.hasParent()){
+			stage.addActor(gameMenu);
+			game.inputMultiplexer.addProcessor(gameMenu);
+		}else{
+			gameMenu.remove();
+			game.inputMultiplexer.removeProcessor(gameMenu);
+		}
+	}
 	@Override
-	public boolean keyDown(int arg0) {
-		// TODO Auto-generated method stub
+	public boolean keyDown(int keycode) {
+		if(keycode==Input.Keys.ESCAPE){
+			this.toogleGameMenu();
+			return true;
+		}
 		return false;
 	}
 
