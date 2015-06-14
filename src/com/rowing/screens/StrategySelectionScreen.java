@@ -67,6 +67,7 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
         TextButton button;
         System.out.println(buttons.length);
         for(int i=0;i < buttons.length ; i++){
+        	int position = i;
         	System.out.println(buttons.length);
         	button = buttons[i];
         	button.addListener( new InputListener() {
