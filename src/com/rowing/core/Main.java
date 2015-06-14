@@ -1,5 +1,8 @@
 package com.rowing.core;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +22,17 @@ public class Main {
 		// Inicializamos el objeto regata...
 		Regata regata = new Regata();
 
-		// 1º paso: obtenemos el equipo de Orio y lo seteamos sobre la regata
+		// 1º paso: obtenemos el equipo de Orio del JSON y lo seteamos sobre el objeto Regata
 		Equipo equipoOrio = Utils.loadEquipoOrio();
 		regata.setEquipo(equipoOrio);
-		System.out.println(equipoOrio.getRemeros());
-		System.out.println(equipoOrio.getPatrones());
-		// 2º paso: creamos la trainera del equipo de Orio (ventana de seleccion
-		// de jugadores)
+		
+		//2º paso: se obtiene el tiempo de Donosti y se guarda sobre la sesión del juego
+		Utils.getWeatherDonosti( true );
+		
+		System.out.println("\n***CONDICIONES METEOROLOGICAS DE LA REGATA***");
+		System.out.println(GameSession.getInstance().condicionesMeteo);
+		
+		// 3º paso: creamos la trainera del equipo de Orio (ventana de seleccion de jugadores)
 		List<Remero> remeros = equipoOrio.getRemeros();
 		List<Patron> patrones = equipoOrio.getPatrones();
 
@@ -37,19 +44,10 @@ public class Main {
 		Trainera trainera = new Trainera();
 		trainera.setPatron(patrones.get(0));
 		trainera.setRemeros(remerosParaTrainera);
-		// Necesitamos hacer esto al seleccionar todos para que se calculen los
-		// parametros de la trainera!!
+		// Necesitamos hacer esto al seleccionar todos los remeros y el patron para que se calculen los parametros de la trainera!!
 		trainera.calcularParametrosDeLaTrainera();
-		// Setteamos la trainera sobre el equipo de Orio que esta a nivel de la
-		// regata
+		// Setteamos la trainera sobre el equipo de Orio que esta a nivel del objeto Regata!!
 		equipoOrio.setTrainera(trainera);
-
-		// 3º paso: se obtiene o no con el botón las condiciones meteorológicas
-		// de Donosti. ¡¡Hacerlo antes de seleccionar la trainera de Orio!!
-		Utils.getWeatherDonosti( true );
-		
-		System.out.println("\n***CONDICIONES METEOROLOGICAS DE LA REGATA***");
-		System.out.println(GameSession.getInstance().condicionesMeteo);
 
 		// 4º paso: se obtienen las traineras competidoras de la trainera Orio
 		regata.obtenerTrainerasCompetidoras();
@@ -61,35 +59,66 @@ public class Main {
 		// 6º paso: se obtienen los scores de ida para las traineras según la
 		// estrategia seleccionada (después de la ventana de seleccionar
 		// estrategia)
+		System.out.println("Estrategias existentes:");
+		System.out.println(Constants.ESTRATEGIAS_SALIDA);
+		System.out.println("Selecciona el nº de la estrategia para Orio (IDA): ");
+		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+		String linea = null;
+		try {
+			linea = bufferRead.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		regata.crearScoreDeIdaSegunEstrategia(Constants.ESTRATEGIAS_SALIDA
-				.get(0));
+				.get(Integer.valueOf(linea)));
 
-		// 7º paso: tenemos los tiempos de ida de todas las traineras
+		// 7º paso: obtenemos los tiempos de ida de todas las traineras
 		System.out.println("*** CLASIFICACIÓN IDA ****");
 		for(Trainera key: regata.getClasificacionIda().keySet() ){
-            System.out.println(key.getNombre()  +" :: "+ regata.getClasificacionIda().get(key) );
+            System.out.println(key.getNombre()  +" :: "+ Utils.obtenerMinutosYSegundos(regata.getClasificacionIda().get(key)) );
         }
+		System.out.println("** ESTADO TRAINERAS EN LA IDA ***");
+		System.out.println(regata.getEquipo().getTrainera());
+		System.out.println(regata.getTrainerasCompetidoras());
 		
-		//[OPERACIONES PARA LA VUELTA: necesitamos el seteo de la estrategia de Orio]
+		//[VUELTA DE LA REGATA]
 		//8º paso: calcular de nuevo las calles y asignarselas a las traineras
 		regata.crearCallesYAsignarATraineras();
 		
 		//9º paso: calcular las estrategias de vuelta de las traineras [se le pasa como parametro la estrategia seleccionada por Orio]
 		//Si el usuario no especifica ninguna, se pondrá la del patrón.
 		//Se calculará también el score asociado a cada trainera
-		regata.crearScoreDeVueltaSegunEstrategia(Constants.ESTRATEGIAS_VUELTA.get(4));
+		System.out.println("Estrategias existentes:");
+		System.out.println(Constants.ESTRATEGIAS_VUELTA);
+		System.out.println("Selecciona el nº de la estrategia para Orio (VUELTA): ");
+		bufferRead = new BufferedReader(new InputStreamReader(System.in));
+		try {
+			linea = bufferRead.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		regata.crearScoreDeVueltaSegunEstrategia(Constants.ESTRATEGIAS_VUELTA.get(Integer.valueOf(linea)));
 		
 		//10º paso: obtenemos el score de la vuelta
 		System.out.println("*** CLASIFICACIÓN VUELTA ****");
 		for(Trainera key: regata.getClasificacionVuelta().keySet() ){
-            System.out.println(key.getNombre()  +" :: "+ regata.getClasificacionVuelta().get(key) );
+            System.out.println(key.getNombre()  +" :: "+ Utils.obtenerMinutosYSegundos( regata.getClasificacionVuelta().get(key) ) );
         }
+		
+		System.out.println("** ESTADO TRAINERAS EN LA VUELTA ***");
+		System.out.println(regata.getEquipo().getTrainera());
+		System.out.println(regata.getTrainerasCompetidoras());
 		
 		//11º paso: obtenemos la clasificacion final de la regata
 		System.out.println("*** CLASIFICACIÓN FINAL ****");
 		for(Trainera key: regata.getClasificacionFinal().keySet() ){
-            System.out.println(key.getNombre()  +" :: "+ regata.getClasificacionFinal().get(key) );
+            System.out.println(key.getNombre()  +" :: "+ Utils.obtenerMinutosYSegundos ( regata.getClasificacionFinal().get(key) ) );
         }
+		
+		//Solo a modo de comprobacion
+		System.out.println("\n***CONDICIONES METEOROLOGICAS DE LA REGATA***");
+		System.out.println(GameSession.getInstance().condicionesMeteo);
 	}
 
 	public void pruebaSinObjetoRegata() {

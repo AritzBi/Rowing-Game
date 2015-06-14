@@ -3,6 +3,7 @@ package com.rowing.utils;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.CurrentWeather.Main;
@@ -104,5 +105,9 @@ public class Utils {
         int num=(int)Math.floor(Math.random()*(minimo-(maximo+1))+(maximo+1));
         return num;
     }
+	
+	public static String obtenerMinutosYSegundos ( int segundos ) {
+		return String.format("%d min, %d sec", TimeUnit.SECONDS.toMinutes(segundos), segundos - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(segundos)) );
+	}
 
 }

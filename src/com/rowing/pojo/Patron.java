@@ -28,7 +28,7 @@ public class Patron extends Athlete{
 	private boolean used;
 	
 	public String toString() {
-		return "\nPatron-->\n" + getName()+ " "+getSurname()+"\n"+
+		return  getName()+ " "+getSurname()+"\n"+
 			   getBirthdate()+"\n"+
 			   "Experiencia: "+getExperiencia()+"\n"+
 			   "Buena mar: "+getBuena_mar()+"\n"+

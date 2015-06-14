@@ -208,13 +208,16 @@ public class Trainera {
 		estrategiaActual = estrategia;
 		int modificadorPotencia = 0;
 
-		if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(0))) {
+		if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(0))) //Come up with Maximum Power and Keep Up
+		{
 			modificadorPotencia = 25;
 			energiaTotal -= 20;
-		} else if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(1))) {
+		} else if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(1))) //Come up with Maximum Power and Maintain A Stable Rhythm
+		{
 			modificadorPotencia = 12;
 			energiaTotal -= 10;
-		} else if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(2))) {
+		} else if (estrategia.equals(Constants.ESTRATEGIAS_SALIDA.get(2))) //Come up with conservative way and reserve forces
+		{
 			modificadorPotencia = -4;
 			energiaTotal += 10;
 		}
@@ -262,13 +265,16 @@ public class Trainera {
 		estrategiaActual = estrategia;
 		int modificadorPotencia = 0;
 		
-		if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(0))) {
+		if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(0))) //Come up with Maximum Power and Keep Up
+		{
 			modificadorPotencia = 25;
 			energiaTotal -= 20;
-		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(1))) {
+		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(1))) //Come up with Maximum Power and Maintain A Stable Rhythm
+		{
 			modificadorPotencia = 12;
 			energiaTotal -= 10;
-		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(2))) {
+		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(2))) //Come up with conservative way and reserve forces
+		{
 			modificadorPotencia = -4;
 			energiaTotal += 10;
 		} else if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(3))) //cambiar a la mejor calle
@@ -387,7 +393,11 @@ public class Trainera {
 
 		@Override
 		public int compare(Trainera o1, Trainera o2) {
-			return ((Integer)(o1.getTiempoIda())).compareTo((Integer)(o2.getTiempoIda()));
+			int resultado = ((Integer)(o1.getTiempoIda())).compareTo((Integer)(o2.getTiempoIda()));
+			int resultadoNom = 0;
+			if ( resultado == 0 )
+				resultadoNom = o1.getNombre().compareTo(o2.getNombre());
+			return resultado + resultadoNom;
 		}
 	}
 	
@@ -395,7 +405,11 @@ public class Trainera {
 		
 		@Override
 		public int compare(Trainera o1, Trainera o2) {
-			return ((Integer)(o1.getTiempoVuelta())).compareTo((Integer)(o2.getTiempoVuelta()));
+			int resultado = ((Integer)(o1.getTiempoVuelta())).compareTo((Integer)(o2.getTiempoVuelta()));
+			int resultadoNom = 0;
+			if ( resultado == 0 )
+				resultadoNom = o1.getNombre().compareTo(o2.getNombre());
+			return resultado + resultadoNom;
 		}
 	}
 	
@@ -403,7 +417,11 @@ public class Trainera {
 		
 		@Override
 		public int compare(Trainera o1, Trainera o2) {
-			return ((Integer)(o1.getTiempoVuelta() + o1.getTiempoIda())).compareTo((Integer)(o2.getTiempoVuelta() + o2.getTiempoIda()));
+			int resultado = ((Integer)(o1.getTiempoVuelta() + o1.getTiempoIda())).compareTo((Integer)(o2.getTiempoVuelta() + o2.getTiempoIda()));
+			int resultadoNom = 0;
+			if ( resultado == 0 )
+				resultadoNom = o1.getNombre().compareTo(o2.getNombre());
+			return resultado + resultadoNom;
 		}
 	}
 }

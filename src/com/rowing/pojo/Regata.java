@@ -140,6 +140,8 @@ public class Regata {
 
 	public void crearScoreDeVueltaSegunEstrategia(String estrategia) {
 
+		equipo.getTrainera().calcularScoreTrainera_Vuelta(estrategia);
+		
 		for (Trainera trainera : getTrainerasCompetidoras()) {
 			int estrategiaElegida = 0;
 			if (trainera.isMalaCalle() && trainera.getEnergiaTotal() < 60) {
