@@ -39,6 +39,7 @@ public class Regata {
 
 	public void setTrainerasCompetidoras(List<Trainera> trainerasCompetidoras) {
 		this.trainerasCompetidoras = trainerasCompetidoras;
+		System.out.println(this.trainerasCompetidoras);
 	}
 
 	public Map<Integer, String> getCalles() {
@@ -73,7 +74,7 @@ public class Regata {
 		getEquipo().getTrainera().setCalle(nuevaCalle);
 		//Actualizamos los valores de las traineras competidoras
 		for ( Trainera traineraAux: getTrainerasCompetidoras() ) {
-			nuevaCalle.clear();
+			nuevaCalle = new HashMap<Integer, String>();
 			nuevaCalle.put( traineraAux.getNumeroCalle(), calles.get(traineraAux.getNumeroCalle()) );
 			traineraAux.setCalle(nuevaCalle);
 		}
@@ -161,87 +162,114 @@ public class Regata {
 		
 		for (Trainera trainera : getTrainerasCompetidoras()) {
 			int estrategiaElegida = 0;
+			String estrategiaSeleccionada = "";
 			if (trainera.isMalaCalle() && trainera.getEnergiaTotal() < 60) {
 				// coge siempre la estrategia 4 de vuelta!!
-				trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-						.get(3));
+				estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(3);
+			}
+			else if ( trainera.isMalaCalle() && trainera.getEnergiaTotal() >= 60 ) {
+				estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(0);
 			} else if (trainera.isBuenaCalle()
-					&& trainera.getEnergiaTotal() >= 50
 					&& GameSession.getInstance().condicionesMeteo.isBuenaMar()) {
-				// coge o la estrategia 1 o 5
-				estrategiaElegida = Utils.generaNumeroAleatorio(0, 1);
-				if (estrategiaElegida == 0)
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(0));
+				if ( trainera.getEnergiaTotal() >= 50 )
+				{
+					// coge o la estrategia 1 o 5
+					estrategiaElegida = Utils.generaNumeroAleatorio(0, 1);
+					if (estrategiaElegida == 0)
+						estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(0);
+					else
+						estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(4);
+				}
 				else
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(4));
+				{
+					//coge o estrategia 2,3 o 5
+					estrategiaElegida = Utils.generaNumeroAleatorio(0, 2);
+					if (estrategiaElegida == 0)
+						estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(1);
+					else if ( estrategiaElegida == 1)
+						estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(2);
+					else
+						estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(4);
+				}
 			} else if (trainera.isBuenaCalle()
-					&& trainera.getEnergiaTotal() >= 50
 					&& GameSession.getInstance().condicionesMeteo.isMalaMar()) {
-				// coge o la estrategia 1, 5 o 6
-				estrategiaElegida = Utils.generaNumeroAleatorio(0, 2);
-				if (estrategiaElegida == 0)
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(0));
-				else if (estrategiaElegida == 1)
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(4));
+				if ( trainera.getEnergiaTotal() >= 50 )
+				{
+					// coge o la estrategia 1, 5 o 6
+					estrategiaElegida = Utils.generaNumeroAleatorio(0, 2);
+					if (estrategiaElegida == 0)
+						estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(0);
+					else if (estrategiaElegida == 1)
+						estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(4);
+					else
+						estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(5);
+				}
 				else
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(5));
+				{
+					//coge o la estrategia 2,5 y 6
+					estrategiaElegida = Utils.generaNumeroAleatorio(0, 2);
+					if (estrategiaElegida == 0)
+						estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(1);
+					else if ( estrategiaElegida == 1)
+						estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(4);
+					else
+						estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(5);
+				}
 			} else if (trainera.isSemiBuenaCalle()
 					&& trainera.getEnergiaTotal() > 45
 					&& GameSession.getInstance().condicionesMeteo.isBuenaMar()) {
 				// coge o la estrategia 1,2,4 y 5
-				estrategiaElegida = Utils.generaNumeroAleatorio(0, 3);
-				if (estrategiaElegida == 0)
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(0));
-				else if (estrategiaElegida == 1)
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(1));
-				else if (estrategiaElegida == 2)
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(3));
+				if ( trainera.getEstrategiaActual().equals(Constants.ESTRATEGIAS_SALIDA.get(0)) 
+						&& trainera.getEnergiaTotal() < 40 ) {
+					estrategiaElegida = Utils.generaNumeroAleatorio(1, 3);
+				}
 				else
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(4));
+				{
+					estrategiaElegida = Utils.generaNumeroAleatorio(0, 3);
+				}
+				if (estrategiaElegida == 0)
+					estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(0);
+				else if (estrategiaElegida == 1)
+					estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(1);
+				else if (estrategiaElegida == 2)
+					estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(3);
+				else
+					estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(4);
 			} else if (trainera.isSemiBuenaCalle()
 					&& trainera.getEnergiaTotal() <= 45
 					&& GameSession.getInstance().condicionesMeteo.isBuenaMar()) {
 				// coge o estrategia 2,3,4 o 5
 				estrategiaElegida = Utils.generaNumeroAleatorio(2, 5);
-				trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-						.get(estrategiaElegida - 1));
+				estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA.get(estrategiaElegida - 1);
 			} else if (trainera.isSemiBuenaCalle()
 					&& trainera.getEnergiaTotal() > 45
 					&& GameSession.getInstance().condicionesMeteo.isMalaMar()) {
 				// coge o la estrategia 1,2,4,5 o 6
 				estrategiaElegida = Utils.generaNumeroAleatorio(0, 4);
 				if (estrategiaElegida == 0)
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(0));
+					estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA
+							.get(0);
 				else if (estrategiaElegida == 1)
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(1));
+					estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA
+							.get(1);
 				else if (estrategiaElegida == 2)
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(3));
+					estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA
+							.get(3);
 				else if (estrategiaElegida == 3)
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(4));
+					estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA
+							.get(4);
 				else
-					trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-							.get(5));
+					estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA
+							.get(5);
 			} else if (trainera.isSemiBuenaCalle()
 					&& trainera.getEnergiaTotal() <= 45
 					&& GameSession.getInstance().condicionesMeteo.isMalaMar()) {
 				// coge o estrategia 2,3,4,5,6
 				estrategiaElegida = Utils.generaNumeroAleatorio(2, 6);
-				trainera.calcularScoreTrainera_Vuelta(Constants.ESTRATEGIAS_VUELTA
-						.get(estrategiaElegida - 1));
+				estrategiaSeleccionada = Constants.ESTRATEGIAS_VUELTA
+						.get(estrategiaElegida - 1);
 			}
+			trainera.calcularScoreTrainera_Vuelta(estrategiaSeleccionada);
 		}
 	}
 
