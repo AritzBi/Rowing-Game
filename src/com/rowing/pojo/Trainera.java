@@ -42,6 +42,7 @@ public class Trainera {
 	private int score = 0;
 	//Hablamos de la estrategia de ida de la trainera
 	private String estrategiaActual;
+	private String estrategiaVuelta;
 
 	public Trainera() {
 		remeros = new ArrayList<Remero>();
@@ -212,6 +213,14 @@ public class Trainera {
 		return getEstadoCalle().equals(Constants.CALLE_MALA);
 	}
 
+	public String getEstrategiaVuelta() {
+		return estrategiaVuelta;
+	}
+
+	public void setEstrategiaVuelta(String estrategiaVuelta) {
+		this.estrategiaVuelta = estrategiaVuelta;
+	}
+
 	public void calcularScoreTrainera_Ida(String estrategia) {
 		//Especificamos la estrategia de la trainera
 		estrategiaActual = estrategia;
@@ -271,7 +280,7 @@ public class Trainera {
 	}
 	
 	public void calcularScoreTrainera_Vuelta(String estrategia) {
-		
+		estrategiaVuelta = estrategia;
 		int modificadorPotencia = 0;
 		
 		if (estrategia.equals(Constants.ESTRATEGIAS_VUELTA.get(0))) //Come up with Maximum Power and Keep Up
@@ -404,7 +413,7 @@ public class Trainera {
 				return 	"\nTrainera " + nombre + "\ncon potencia total --> " + potenciaTotal
 				+ "\ncon energia total --> " + energiaTotal + "\ncon experiencia total --> " + experienciaTotal + "\ncon habilidad buena mar --> " + habilidadBuenaMarTotal
 				+ "\ncon habilidad mala mar --> " + habilidadMalaMarTotal + "\ncon score --> " + score + "\ncon calle -->" + calle.toString()
-				+ "\ncon tiempo de ida --> " + getTiempoIda() + "\ncon estrategia actual --> " + getEstrategiaActual();
+				+ "\ncon tiempo de ida --> " + getTiempoIda() + "\ncon estrategia ida --> " + getEstrategiaActual() + "\ncon estrategia vuelta --> " + getEstrategiaVuelta();
 	}
 
 	class OrdenarPorTiempoIda implements Comparator<Trainera> {
