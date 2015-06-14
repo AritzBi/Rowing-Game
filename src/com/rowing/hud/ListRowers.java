@@ -224,6 +224,8 @@ public class ListRowers extends Actor implements InputProcessor  {
 	}
 	
 	public void addRowerToTrawler(int i){
+		if (i == -1)
+			return;
 		Athlete athlete = this.athletes.get(i);
 		if(athlete.getLesionado() == 1)
 			return;

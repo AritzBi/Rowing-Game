@@ -131,9 +131,11 @@ public class TrawlerSelectionButton extends Table implements InputProcessor{
 	public boolean keyDown(int keycode) {
 		if(keycode == Input.Keys.ENTER){
 			if(focusedButton==1){
-				//Call show strategies
+        		Rowing.game.clearProcessors();
+                Rowing.game.setScreen(new StrategySelectionScreen(game,equipo,Constants.ESTRATEGIAS_SALIDA));;
 			}else if(focusedButton==2){
-				//Call climate
+        		Rowing.game.clearProcessors();
+                Rowing.game.setScreen(new ClimateScreen(game,equipo));
 			}
 			return true;
 		}
