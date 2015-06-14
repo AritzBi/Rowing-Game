@@ -308,11 +308,11 @@ public class Trainera {
 		{
 			int modificadorPotenciaRandom = 0;
 			if ( isSemiBuenaCalle() ) {
-				energiaTotal -= 5;
-				modificadorPotenciaRandom = Utils.generaNumeroAleatorio(7, 9);
-			} else if ( isMalaCalle() ) {
 				energiaTotal -= 10;
-				modificadorPotenciaRandom = Utils.generaNumeroAleatorio(10, 12);
+				modificadorPotenciaRandom = Utils.generaNumeroAleatorio(10, 14);
+			} else if ( isMalaCalle() ) {
+				energiaTotal -= 15;
+				modificadorPotenciaRandom = Utils.generaNumeroAleatorio(15, 17);
 			}
 			modificadorPotencia = modificadorPotenciaRandom;
 			//Se le asigna a la trainera la calle buena!!

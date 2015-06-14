@@ -59,6 +59,8 @@ public class Main {
 		// 6º paso: se obtienen los scores de ida para las traineras según la
 		// estrategia seleccionada (después de la ventana de seleccionar
 		// estrategia)
+		System.out.println("CALLE DE IDA PARA ORIO");
+		System.out.println(regata.getEquipo().getTrainera().getCalle());
 		System.out.println("Estrategias existentes:");
 		System.out.println(Constants.ESTRATEGIAS_SALIDA);
 		System.out.println("Selecciona el nº de la estrategia para Orio (IDA): ");
@@ -71,7 +73,7 @@ public class Main {
 		}
 		
 		regata.crearScoreDeIdaSegunEstrategia(Constants.ESTRATEGIAS_SALIDA
-				.get(Integer.valueOf(linea)));
+				.get(Integer.valueOf(linea)-1));
 
 		// 7º paso: obtenemos los tiempos de ida de todas las traineras
 		System.out.println("*** CLASIFICACIÓN IDA ****");
@@ -85,10 +87,11 @@ public class Main {
 		//[VUELTA DE LA REGATA]
 		//8º paso: calcular de nuevo las calles y asignarselas a las traineras
 		regata.crearCallesVuelta();
-		System.out.println(regata.getTrainerasCompetidoras());
 		//9º paso: calcular las estrategias de vuelta de las traineras [se le pasa como parametro la estrategia seleccionada por Orio]
 		//Si el usuario no especifica ninguna, se pondrá la del patrón.
 		//Se calculará también el score asociado a cada trainera
+		System.out.println("CALLE DE VUELTA PARA ORIO");
+		System.out.println(regata.getEquipo().getTrainera().getCalle());
 		System.out.println("Estrategias existentes:");
 		System.out.println(Constants.ESTRATEGIAS_VUELTA);
 		System.out.println("Selecciona el nº de la estrategia para Orio (VUELTA): ");
@@ -98,7 +101,7 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		regata.crearScoreDeVueltaSegunEstrategia(Constants.ESTRATEGIAS_VUELTA.get(Integer.valueOf(linea)));
+		regata.crearScoreDeVueltaSegunEstrategia(Constants.ESTRATEGIAS_VUELTA.get(Integer.valueOf(linea)-1));
 		
 		//10º paso: obtenemos el score de la vuelta
 		System.out.println("*** CLASIFICACIÓN VUELTA ****");
