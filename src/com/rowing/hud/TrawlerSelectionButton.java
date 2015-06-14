@@ -45,7 +45,7 @@ public class TrawlerSelectionButton extends Table implements InputProcessor{
 		buttons=new TextButton[2];
 		buttons[0]=goToTheRaceButton;
 		buttons[1]=showClimate;
-		focusedButton=-1;
+		focusedButton=1;
 		goToTheRaceButton.addListener( new InputListener() {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) 
@@ -129,7 +129,7 @@ public class TrawlerSelectionButton extends Table implements InputProcessor{
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if(keycode == Input.Keys.ENTER){
+		/*if(keycode == Input.Keys.ENTER){
 			if(focusedButton==1){
         		Rowing.game.clearProcessors();
                 Rowing.game.setScreen(new StrategySelectionScreen(game,equipo,Constants.ESTRATEGIAS_SALIDA));;
@@ -150,14 +150,14 @@ public class TrawlerSelectionButton extends Table implements InputProcessor{
 		}else{
 			if(keycode==Input.Keys.DOWN){
 				buttons[focusedButton-1].setStyle(normalStyle);
-				if(focusedButton==2)
+				if(focusedButton>=2)
 					focusedButton=1;
 				else
 					focusedButton++;
 				buttons[focusedButton-1].setStyle(focusedStyle);
 				return true;
 			}
-		}	
+		}	*/
 		return false;
 	}
 
