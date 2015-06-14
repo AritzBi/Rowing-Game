@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.rowing.core.Rowing;
+import com.rowing.screens.AbstractScreen;
 import com.rowing.screens.MenuScreen;
 import com.rowing.screens.TeamSelectionScreen;
 import com.rowing.utils.Utils;
@@ -27,12 +28,14 @@ public class GameMenu extends Table implements InputProcessor {
 	private TextButtonStyle focusedStyle;
 	private int height;
 	private Rowing game;
-	public GameMenu(Skin skin,final Rowing game){
+	private AbstractScreen parent;
+	public GameMenu(Skin skin,final Rowing game,AbstractScreen parent){
 		this.game=game;
 		table=this;
 		this.skin = skin;
 		this.height=900;
 		this.focusedButton=1;
+		this.parent=parent;
 		normalStyle=new TextButtonStyle();
 		normalStyle.font=skin.getFont("buttonFont");
 		normalStyle.up=skin.getDrawable("normal-button");
@@ -173,10 +176,11 @@ public class GameMenu extends Table implements InputProcessor {
 	
 	@Override
 	public boolean keyDown(int keycode) {
-		System.out.println("kyss");
+		if(keycode == Input.Keys.ESCAPE)
+			parent.toogleGameMenu();
 		if(keycode == Input.Keys.ENTER){
 			if(focusedButton==1){
-				//SoC.game.world.getSystem(HudSystem.class).toogleGameMenu();
+				parent.toogleGameMenu();
 			}else if(focusedButton==2){
 				game.clearProcessors();
 				game.setScreen(new MenuScreen(game));

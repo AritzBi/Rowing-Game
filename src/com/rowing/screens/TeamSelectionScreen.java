@@ -43,7 +43,7 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 		buttons=new TextButton[4];
 		focusedBotton=1;
 		this.tooltip = new TooltipBox(this);
-		this.gameMenu=new GameMenu(this.skin,game);
+		this.gameMenu=new GameMenu(this.skin,game,this);
 		gameMenu.setPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2+50 );
 		gameMenu.setViewport(Gdx.graphics.getHeight());;
 		Rowing.game.inputMultiplexer.addProcessor(this);
@@ -84,10 +84,12 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 	public void toogleGameMenu(){
 		if(!gameMenu.hasParent()){
 			stage.addActor(gameMenu);
+			game.archiveProcessors();
 			game.inputMultiplexer.addProcessor(gameMenu);
 		}else{
 			gameMenu.remove();
 			game.inputMultiplexer.removeProcessor(gameMenu);
+			game.restoreInputProcessors();
 		}
 	}
 	@Override

@@ -45,6 +45,9 @@ public class AbstractScreen implements Screen{
         }
         return batch;
     }
+    
+    public void toogleGameMenu(){
+    }
 	@Override
 	public void render(float delta) {
 		this.delta=delta;
