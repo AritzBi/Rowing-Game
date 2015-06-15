@@ -5,11 +5,10 @@ import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.rowing.core.Constants;
+import com.rowing.graphics.AnimatedRenderer;
 import com.rowing.graphics.DirectionalAnimatedRenderer;
 
 
@@ -46,10 +45,14 @@ public class GraphicsLoader {
 	   	}
 		
 		return move;
-		
-
-
-		
+	}
+	
+	public static AnimatedRenderer loadFireworks(){
+		AnimatedRenderer fireworks = new AnimatedRenderer(true);
+		TextureRegion[][] tmp = TextureRegion.split(load("fireworks_sprite.png"), 64, 72);
+		fireworks.animation = new Animation(0.2f/4, tmp[0]);
+		return fireworks;
+	   	
 	}
 
 	
