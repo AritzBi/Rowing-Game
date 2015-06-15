@@ -35,7 +35,7 @@ public class Utils {
 					Equipo.class);
 			Trainera traineraAux = new Trainera();
 			traineraAux.setIcon(new TextureRegion(GraphicsLoader.load("logoorio.gif") ) );
-			equipo.setTrainera(new Trainera());
+			equipo.setTrainera(traineraAux);
 			for (int i = 0; i < equipo.getRemeros().size(); i++) {
 				equipo.getRemeros()
 						.get(i)

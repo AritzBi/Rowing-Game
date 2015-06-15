@@ -151,6 +151,15 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		}
 		//Pintamos la trainera de Orio
 		Trainera traineraOrio = regata.getEquipo().getTrainera();
+		if(traineraOrio.getNumeroCalle()==0){
+			batch.draw(traineraOrio.getIcon(),Constants.SET_POS_X_0,Gdx.graphics.getHeight()-Constants.SET_POS_Y_0-10,20,20);
+		}else if(traineraOrio.getNumeroCalle()==1){
+			batch.draw(traineraOrio.getIcon(),Constants.SET_POS_X_1,Gdx.graphics.getHeight()-Constants.SET_POS_Y_1-10,20,20);
+		}else if(traineraOrio.getNumeroCalle()==2){
+			batch.draw(traineraOrio.getIcon(),Constants.SET_POS_X_2,Gdx.graphics.getHeight()-Constants.SET_POS_Y_2-10,20,20);
+		}else{
+			batch.draw(traineraOrio.getIcon(),Constants.SET_POS_X_3,Gdx.graphics.getHeight()-Constants.SET_POS_Y_3-10,20,20);
+		}
 		if(!callesHanLlegado.contains(traineraOrio.getNumeroCalle()))
 			traineraOrio.setPosition_x(traineraOrio.getPosition_x()+ traineraOrio.getVelocity_x()*delta);
 		if(traineraOrio.getPosition_x()>Constants.CIABOGA_X && !callesHanLlegado.contains(traineraOrio.getNumeroCalle()) ){
