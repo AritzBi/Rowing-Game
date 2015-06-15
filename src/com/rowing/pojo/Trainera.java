@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rowing.core.Constants;
 import com.rowing.core.GameSession;
 import com.rowing.utils.Utils;
@@ -31,6 +32,8 @@ public class Trainera {
 	private int tiempoVuelta;
 	
 	public String nombre;
+	
+	private TextureRegion icon;
 
 	private static int HABILIDAD_BUENA_MAR_PATRON = 2;
 	private static int HABILIDAD_MALA_MAR_PATRON = 5;
@@ -43,6 +46,12 @@ public class Trainera {
 	//Hablamos de la estrategia de ida de la trainera
 	private String estrategiaActual;
 	private String estrategiaVuelta;
+	
+	private float position_x;
+	private float position_y;
+	
+	private float velocity_x;
+	private float velocity_y;
 
 	public Trainera() {
 		remeros = new ArrayList<Remero>();
@@ -451,4 +460,46 @@ public class Trainera {
 			return resultado + resultadoNom;
 		}
 	}
+
+	public float getPosition_x() {
+		return position_x;
+	}
+
+	public void setPosition_x(float position_x) {
+		this.position_x = position_x;
+	}
+
+	public float getPosition_y() {
+		return position_y;
+	}
+
+	public void setPosition_y(float position_y) {
+		this.position_y = position_y;
+	}
+
+	public float getVelocity_x() {
+		return velocity_x;
+	}
+
+	public void setVelocity_x(float velocity_x) {
+		this.velocity_x = velocity_x;
+	}
+
+	public float getVelocity_y() {
+		return velocity_y;
+	}
+
+	public void setVelocity_y(float velocity_y) {
+		this.velocity_y = velocity_y;
+	}
+
+	public TextureRegion getIcon() {
+		return icon;
+	}
+
+	public void setIcon(TextureRegion icon) {
+		this.icon = icon;
+	}
+	
+	
 }

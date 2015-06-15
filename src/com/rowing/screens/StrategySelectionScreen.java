@@ -1,9 +1,7 @@
 package com.rowing.screens;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
@@ -17,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.rowing.core.Constants;
 import com.rowing.core.Rowing;
 import com.rowing.pojo.Equipo;
-import com.rowing.utils.Utils;
+import com.rowing.pojo.Regata;
 
 public class StrategySelectionScreen extends AbstractScreen implements InputProcessor{
 	private Texture background;
@@ -29,7 +27,9 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 	private TextButtonStyle normalStyle;
 	private TextButtonStyle focusedStyle;
 	private List<String>strategies;
-	public StrategySelectionScreen(Rowing game,Equipo equipo,List<String> estrategiasSalida) {
+	private Regata regata;
+	
+	public StrategySelectionScreen(Rowing game,Equipo equipo) {
 		super(game);
 		background=new Texture(Gdx.files.internal("resources/conchatarde.jpg"));
 		this.game=game;
@@ -44,10 +44,10 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 		focusedStyle.font=getSkin().getFont("buttonFont");
 		focusedStyle.up=getSkin().getDrawable("focused-button");
 		focusedStyle.down=getSkin().getDrawable("pushed-button");
-		this.strategies=estrategiasSalida;
-		buttons=new TextButton[estrategiasSalida.size()];
+		this.strategies=Constants.ESTRATEGIAS_SALIDA;
+		buttons=new TextButton[Constants.ESTRATEGIAS_SALIDA.size()];
 		int i=0;
-		for(String strategy : estrategiasSalida){
+		for(String strategy : Constants.ESTRATEGIAS_SALIDA){
 			buttons[i]=new TextButton( strategy, normalStyle);
 			buttons[i].setWidth(300);
 			buttons[i].setBounds(0, 0, 300, 60);
@@ -57,6 +57,11 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 		if(game.getScreen()!=null){
 			game.getScreen().dispose();
 		}
+		//creamos la instancia de la regata
+		regata = new Regata();
+		regata.setEquipo(equipo);
+		regata.obtenerTrainerasCompetidoras();
+		regata.crearCallesYAsignarATraineras();
 	}
 	
     public void show()
@@ -86,7 +91,8 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
                 {
                 	if(button==0){
     	                Rowing.game.clearProcessors();
-    	                Rowing.game.setScreen(new RegattaScreen(game));	
+    	                regata.crearScoreDeIdaSegunEstrategia( Constants.ESTRATEGIAS_SALIDA.get(position) );
+    	                Rowing.game.setScreen(new RegattaScreen(game, regata ));	
                 	}
 
                 }
