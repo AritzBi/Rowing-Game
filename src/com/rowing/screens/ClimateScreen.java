@@ -20,6 +20,7 @@ import com.rowing.core.Rowing;
 import com.rowing.pojo.Equipo;
 import com.rowing.utils.CondicionesMeteo;
 import com.rowing.utils.MusicPlayer;
+import com.rowing.utils.Utils;
 
 public class ClimateScreen extends AbstractScreen implements InputProcessor {
 	private Texture background;
@@ -59,7 +60,7 @@ public class ClimateScreen extends AbstractScreen implements InputProcessor {
 		Table table = super.getTable();
 		table.setFillParent(false);
 		table.setBounds(300, 200, 700, 400);
-		table.setBackground(new NinePatchDrawable(getNinePatch(("resources/dialog-box.png"))));
+		table.setBackground(new NinePatchDrawable(Utils.getNinePatch(("resources/dialog-box.png"))));
 		
 		normalStyle=new TextButtonStyle();
 		normalStyle.font=skin.getFont("buttonFont");
@@ -138,12 +139,6 @@ public class ClimateScreen extends AbstractScreen implements InputProcessor {
 		table.add(badSea);
 		table.add(badSeaText).pad(10);
 
-	}
-	
-	private NinePatch getNinePatch(String fname) {
-	    
-		final Texture t = new Texture(Gdx.files.internal(fname));
-	    return new NinePatch( new TextureRegion(t, 1, 1 , t.getWidth() - 2, t.getHeight() - 2), 10, 10, 10, 10);
 	}
 
 	@Override

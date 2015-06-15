@@ -1,9 +1,15 @@
 package com.rowing.screens;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.rowing.core.Constants;
 import com.rowing.core.Rowing;
 import com.rowing.graphics.DirectionalAnimatedRenderer;
@@ -21,9 +27,14 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 	private int calleOrio;
 	private boolean reached;
 	private GoToStrategySelection goToStrategySelection;
+	private boolean ida;
+	private int valor = 0;
+	private List<Integer> callesHanLlegado = new ArrayList<Integer>();
 
-	public RegattaScreen(Rowing game, Regata regata) {
+	public RegattaScreen(Rowing game, Regata regata, boolean ida) {
 		super(game);
+		this.ida = ida;
+		this.regata = regata;
 		boat_renderer = GraphicsLoader.loadBoat();
 		goToStrategySelection=new GoToStrategySelection(this);
 		goToStrategySelection.setPosition(700, Gdx.graphics.getHeight()-300 );
@@ -36,35 +47,62 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		actualizarPosXeYEnBaseACalle(regata.getEquipo().getTrainera(), true );
 		background = new Texture(Gdx.files.internal("resources/conchaid.png"));
 		MusicPlayer.play("traineracorto.mp3");
-		this.regata = regata;
-
-		System.out.println("** CLASIFICACIï¿½N IDA ***");
-		for (Trainera key : regata.getClasificacionIda().keySet()) {
-			System.out.println(key.getNombre()
-					+ " :: "
-					+ Utils.obtenerMinutosYSegundos(regata
-							.getClasificacionIda().get(key)));
+		
+		if ( ida )
+		{
+			System.out.println("** CLASIFICACIÓN IDA ***");
+			for (Trainera key : regata.getClasificacionIda().keySet()) {
+				System.out.println(key.getNombre()
+						+ " :: "
+						+ Utils.obtenerMinutosYSegundos(regata
+								.getClasificacionIda().get(key)));
+			}
+			
+			System.out.println("** ESTADO TRAINERAS EN LA IDA ***");
+			System.out.println(regata.getEquipo().getTrainera());
+			System.out.println(regata.getTrainerasCompetidoras());
 		}
+		else
+		{
+			System.out.println("** CLASIFICACIÓN VUELTA ***");
+			for (Trainera key : regata.getClasificacionVuelta().keySet()) {
+				System.out.println(key.getNombre()
+						+ " :: "
+						+ Utils.obtenerMinutosYSegundos(regata
+								.getClasificacionVuelta().get(key)));
+			}
+		}
+
 		//SETEAR LAS VELOCIDADES DE LAS 4 traineras
 		for ( Trainera trainera : regata.getTrainerasCompetidoras() ) {
 			actualizarVelocidad(trainera);
 		}
 		actualizarVelocidad(regata.getEquipo().getTrainera());
 		
-		System.out.println("** ESTADO TRAINERAS EN LA IDA ***");
-		System.out.println(regata.getEquipo().getTrainera());
-		System.out.println(regata.getTrainerasCompetidoras());
+		pintarTablaConInfoCalles();
 	}
 	
 	private void actualizarVelocidad ( Trainera traineraAux ) {
-		float tiempoCorrespondiente = ( ( 60f * 570  ) ) / traineraAux.getTiempoIda();
+		if ( ida ) {
+			float tiempoCorrespondiente = ( ( 60f * 570  ) ) / traineraAux.getTiempoIda();
+			traineraAux.setVelocity_x(tiempoCorrespondiente);
+		}
+		else {
+			actualizarVelocidadTiempoFinal ( traineraAux );
+		}
+		
+	}
+	
+	private void actualizarVelocidadTiempoFinal ( Trainera traineraAux ) {
+		float tiempoCorrespondiente = (( 70f * 1140 ) ) / traineraAux.getTiempoTotal();
 		traineraAux.setVelocity_x(tiempoCorrespondiente);
-		System.out.println("A la calle: " + traineraAux.getNumeroCalle() + " del equipo " + traineraAux.getNombre() + " se le asigna " + tiempoCorrespondiente);
 	}
 	
 	private void actualizarPosXeYEnBaseACalle(Trainera traineraAux, boolean isOrio ) {
 		int calle = traineraAux.getNumeroCalle();
-		calleOrio = calle;
+		if ( isOrio ) {
+			calleOrio = calle;
+		}
 		if (calle == 0) {
 			traineraAux.setPosition_x( Constants.SET_POS_X_0 );
 			traineraAux.setPosition_y(Gdx.graphics.getHeight()-Constants.SET_POS_Y_0 );
@@ -78,9 +116,13 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 			traineraAux.setPosition_x( Constants.SET_POS_X_3 );
 			traineraAux.setPosition_y(Gdx.graphics.getHeight()-Constants.SET_POS_Y_3 );
 		}
+		if ( !ida ) {
+			traineraAux.setPosition_x(Constants.CIABOGA_X);
+		}
 	}
 
 	public void render(float delta) {
+		
 		this.delta = delta;
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -90,78 +132,121 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		for ( int i = 0; i < regata.getTrainerasCompetidoras().size(); i++ )
 		{
 			Trainera traineraAux = regata.getTrainerasCompetidoras().get(i);
-			if(!reached)
+			if(!callesHanLlegado.contains(traineraAux.getNumeroCalle()))
 				traineraAux.setPosition_x(traineraAux.getPosition_x()+ traineraAux.getVelocity_x()*delta);
 			batch.draw(boat_renderer.frame(delta), traineraAux.getPosition_x(), traineraAux.getPosition_y());
-			if(traineraAux.getPosition_x()>Constants.CIABOGA_X && !reached){
-				stage.addActor(goToStrategySelection);
-				Rowing.game.inputMultiplexer.addProcessor(goToStrategySelection);
-				reached=true;
+			if( traineraAux.getPosition_x()>Constants.CIABOGA_X && !callesHanLlegado.contains(traineraAux.getNumeroCalle()) ){
+				//stage.addActor(goToStrategySelection);
+				//Rowing.game.inputMultiplexer.addProcessor(goToStrategySelection);
+				//reached=true;
+				callesHanLlegado.add(traineraAux.getNumeroCalle());
+				((Label)(super.getTable().getChildren().get(Constants.CONSTANTE_EDITAR_TABLA+( 4*traineraAux.getNumeroCalle()) )  )).setText( Utils.obtenerMinutosYSegundos(traineraAux.getTiempoIda() ) );
 			}
 				
 		}
 		//Pintamos la trainera de Orio
 		Trainera traineraOrio = regata.getEquipo().getTrainera();
-		if(!reached)
+		if(!callesHanLlegado.contains(traineraOrio.getNumeroCalle()))
 			traineraOrio.setPosition_x(traineraOrio.getPosition_x()+ traineraOrio.getVelocity_x()*delta);
-		if(traineraOrio.getPosition_x()>Constants.CIABOGA_X && !reached){
+		if(traineraOrio.getPosition_x()>Constants.CIABOGA_X && !callesHanLlegado.contains(traineraOrio.getNumeroCalle()) ){
+			//stage.addActor(goToStrategySelection);
+			//Rowing.game.inputMultiplexer.addProcessor(goToStrategySelection);
+			//reached=true;
+			callesHanLlegado.add(traineraOrio.getNumeroCalle());
+			((Label)(super.getTable().getChildren().get(Constants.CONSTANTE_EDITAR_TABLA+( 4*traineraOrio.getNumeroCalle()) )  )).setText( Utils.obtenerMinutosYSegundos(traineraOrio.getTiempoIda() ) );
+		}
+		
+		if ( callesHanLlegado.size() == 4)
+		{
 			stage.addActor(goToStrategySelection);
 			Rowing.game.inputMultiplexer.addProcessor(goToStrategySelection);
-			reached=true;
 		}
+		
 		batch.draw(boat_renderer.frame(delta), traineraOrio.getPosition_x(), traineraOrio.getPosition_y());
 		batch.end();
-		if (reached){
-			stage.act( delta );
-			stage.draw();	
+		
+		stage.act( delta );
+		stage.draw();
+		
+	}
+	
+	private void pintarTablaConInfoCalles () {
+		
+		Table table = super.getTable();
+		Label lRoad = new Label("Road", skin);
+		Label lTeam = new Label("Team", skin);
+		Label lType = new Label("Type", skin);
+		Label lTime = new Label("Time", skin);
+		
+		table.setFillParent(false);
+		table.top();
+		table.center();
+		table.setBounds( (Gdx.graphics.getWidth()/2) -(Constants.WIDTH_TABLE_STATS_ROADS/2) , Gdx.graphics.getHeight()- (Constants.HEIGHT_TABLE_STATS_ROADS+20) , Constants.WIDTH_TABLE_STATS_ROADS, Constants.HEIGHT_TABLE_STATS_ROADS);
+		table.setBackground(new NinePatchDrawable(Utils.getNinePatch(("resources/dialog-box.png"))));
+		table.add(lRoad).pad(0, 50, 15, 50);
+		table.add(lTeam).pad(0, 50, 15, 50);
+		table.add(lType).pad(0, 50, 15, 50);
+		table.add(lTime).pad(0, 50, 15, 50);
+		table.row();
+		
+		//Rellenamos las traineras de la competición...
+		Trainera [] traineras = new Trainera [4];
+		traineras[regata.getEquipo().getTrainera().getNumeroCalle()] = regata.getEquipo().getTrainera();
+		for ( int i = 0; i < regata.getTrainerasCompetidoras().size();i++ )  {
+			Trainera aux = regata.getTrainerasCompetidoras().get(i);
+			traineras[aux.getNumeroCalle()] = aux;
 		}
+		for ( int i = 0; i < traineras.length; i++ ) {
+			pintarTraineraEnFila(traineras[i]);
+		}
+
+	}
+	
+	private void pintarTraineraEnFila ( Trainera traineraAux ) {
+		table.add(String.valueOf( traineraAux.getNumeroCalle() ) );
+		table.add(traineraAux.getNombre());
+		table.add(traineraAux.getEstadoEnIngles());
+		table.add(String.valueOf(valor));
+		table.row();
 	}
 
 	@Override
 	public boolean keyDown(int arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyTyped(char arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int arg0, int arg1) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(int arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int arg0, int arg1, int arg2) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

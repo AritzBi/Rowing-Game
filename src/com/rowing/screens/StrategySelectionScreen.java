@@ -28,9 +28,17 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 	private List<String>strategies;
 	private Regata regata;
 	private Timer timer;
+	private boolean orio;
 	
+	/**
+	 * 
+	 * @param regata
+	 * @param orio. Si es true significa que estamos en la vuelta!!
+	 * @param strategies
+	 */
 	public StrategySelectionScreen(Regata regata,boolean orio, List<String> strategies ) {
 		super(Rowing.game);
+		this.orio = orio;
 		this.strategies = strategies;
 		if (orio)
 			background=new Texture(Gdx.files.internal("resources/oriociaboga.jpg"));
@@ -47,8 +55,7 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 		focusedStyle.up=getSkin().getDrawable("focused-button");
 		focusedStyle.down=getSkin().getDrawable("pushed-button");
 		
-		if ( strategies.equals(Constants.ESTRATEGIAS_VUELTA) )
-		{
+		if ( orio ) {
 			//1º paso: generar calles de vuelta
 			regata.crearCallesVuelta();
 			if ( regata.getEquipo().getTrainera().isBuenaCalle() )  {
@@ -100,8 +107,17 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
                 {
                 	if(button==0){
     	                Rowing.game.clearProcessors();
-    	                regata.crearScoreDeIdaSegunEstrategia( Constants.ESTRATEGIAS_SALIDA.get(position) );
-    	                Rowing.game.setScreen(new RegattaScreen(game, regata ));	
+    	                
+    	                if ( orio ) //si estamos en la vuelta
+    	                {
+    	                	regata.crearScoreDeVueltaSegunEstrategia( strategies.get(position) );
+    	                	Rowing.game.setScreen(new RegattaScreen(Rowing.game, regata, false ));
+    	                }
+    	                else
+    	                {
+    	                    regata.crearScoreDeIdaSegunEstrategia( Constants.ESTRATEGIAS_SALIDA.get(position) );
+        	                Rowing.game.setScreen(new RegattaScreen(Rowing.game, regata, true ));	
+    	                }
                 	}
 
                 }
@@ -129,8 +145,7 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
             table.row();
         }
         
-        if ( strategies.equals(Constants.ESTRATEGIAS_VUELTA) )
-        {
+        if ( orio ) {
         	timer = new Timer();
             timer.schedule(new RemindTask(), Constants.TIEMPO_PARA_ELEGIR_ESTRATEGIA_VUELTA );
         }
@@ -182,7 +197,7 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
         public void run() {
         	regata.crearScoreDeIdaSegunEstrategia( Constants.ESTRATEGIAS_VUELTA.get(4) );
             timer.cancel();
-            Rowing.game.setScreen( new RegattaScreen( game, regata ));
+            Rowing.game.setScreen( new RegattaScreen( Rowing.game, regata, false ));
         }
     }
 }

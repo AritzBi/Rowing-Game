@@ -1,9 +1,13 @@
 package com.rowing.utils;
 
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.CurrentWeather.Main;
@@ -12,6 +16,9 @@ import net.aksingh.owmjapis.CurrentWeather.Wind;
 import net.aksingh.owmjapis.OpenWeatherMap;
 import net.aksingh.owmjapis.OpenWeatherMap.Units;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.gson.Gson;
 import com.rowing.core.GameSession;
@@ -84,7 +91,12 @@ public class Utils {
 
 			cwd = owm.currentWeatherByCityName("Donosti");
 		} catch (Exception e) {
-			e.printStackTrace();
+			//Si falla lo probamos otra vez!!
+			try {
+				cwd = owm.currentWeatherByCityName("Donosti");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 
 		Rain rain = cwd.getRainInstance();
@@ -101,6 +113,7 @@ public class Utils {
 		}
 		return condiciones;
 	}
+
 	
 	public static int generaNumeroAleatorio(int minimo, int maximo){
         
@@ -110,6 +123,12 @@ public class Utils {
 	
 	public static String obtenerMinutosYSegundos ( int segundos ) {
 		return String.format("%d min, %d sec", TimeUnit.SECONDS.toMinutes(segundos), segundos - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(segundos)) );
+	}
+	
+	public static NinePatch getNinePatch(String fname) {
+	    
+		final Texture t = new Texture(Gdx.files.internal(fname));
+	    return new NinePatch( new TextureRegion(t, 1, 1 , t.getWidth() - 2, t.getHeight() - 2), 10, 10, 10, 10);
 	}
 
 }

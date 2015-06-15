@@ -151,6 +151,10 @@ public class Trainera {
 	public void setPotenciaTotal(int potenciaTotal) {
 		this.potenciaTotal = potenciaTotal;
 	}
+	
+	public int getTiempoTotal() {
+		return tiempoIda + tiempoVuelta;
+	}
 
 	public int getEnergiaTotal() {
 		return energiaTotal;
@@ -208,6 +212,16 @@ public class Trainera {
 			estadoCalle = calle.get(calleAux);
 		}
 		return estadoCalle;
+	}
+	
+	public String getEstadoEnIngles() {
+		if ( getEstadoCalle().equals(Constants.CALLE_BUENA) )
+			return Constants.CALLE_BUENA_EN;
+		else if ( getEstadoCalle().equals(Constants.CALLE_SEMI_BUENA))
+			return Constants.CALLE_SEMI_BUENA_EN;
+		else if ( getEstadoCalle().equals(Constants.CALLE_MALA))
+			return Constants.CALLE_MALA_EN;
+		return null;
 	}
 	
 	public boolean isBuenaCalle () {
