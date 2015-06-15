@@ -53,7 +53,9 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 	}
 	
 	private void actualizarVelocidad ( Trainera traineraAux ) {
-		traineraAux.setVelocity_x(50f);
+		float tiempoCorrespondiente = ( ( 60f * 570  ) ) / traineraAux.getTiempoIda();
+		traineraAux.setVelocity_x(tiempoCorrespondiente);
+		System.out.println("A la calle: " + traineraAux.getNumeroCalle() + " del equipo " + traineraAux.getNombre() + " se le asigna " + tiempoCorrespondiente);
 	}
 	
 	private void actualizarPosXeYEnBaseACalle(Trainera traineraAux, boolean isOrio ) {
