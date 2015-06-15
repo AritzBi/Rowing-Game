@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.rowing.core.Rowing;
 import com.rowing.graphics.DirectionalAnimatedRenderer;
 import com.rowing.utils.GraphicsLoader;
+import com.rowing.utils.MusicPlayer;
 
 public class RegattaScreen extends AbstractScreen implements InputProcessor{
 	DirectionalAnimatedRenderer boat_renderer;
@@ -25,6 +26,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor{
 		pos_x_1=100f;
 		pos_y_1=200f;
 		background = new Texture(Gdx.files.internal("resources/conchaid.png"));
+		MusicPlayer.play("traineracorto.mp3");
 	}
 	public void render(float delta) {
 		//pos_x_1+=(50)*delta;

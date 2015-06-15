@@ -19,6 +19,7 @@ import com.rowing.core.GameSession;
 import com.rowing.core.Rowing;
 import com.rowing.pojo.Equipo;
 import com.rowing.utils.CondicionesMeteo;
+import com.rowing.utils.MusicPlayer;
 
 public class ClimateScreen extends AbstractScreen implements InputProcessor {
 	private Texture background;
@@ -32,10 +33,10 @@ public class ClimateScreen extends AbstractScreen implements InputProcessor {
 	public ClimateScreen(Rowing game, Equipo equipo) {
 		super(game);
 		background = new Texture(Gdx.files.internal("resources/farotiempo.jpg"));
-		
+		MusicPlayer.play("wind.mp3");
 		this.game = game;
 		this.equipo = equipo;
-		// conseguimos las condiciones meteorologicas de la sesión del juego
+		// conseguimos las condiciones meteorologicas de la sesiï¿½n del juego
 		this.condicionesMeteo = GameSession.getInstance().condicionesMeteo;
 	}
 
