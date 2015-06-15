@@ -219,7 +219,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 	}
 	
 	private void pintarTraineraEnFila ( Trainera traineraAux ) {
-		table.add(String.valueOf( traineraAux.getNumeroCalle() ) );
+		table.add(String.valueOf( traineraAux.getNumeroCalle()+1 ) );
 		table.add(traineraAux.getNombre());
 		table.add(traineraAux.getEstadoEnIngles());
 		table.add(String.valueOf(valor));
