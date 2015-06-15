@@ -67,7 +67,7 @@ public class TrawlerSelectionButton extends Table implements InputProcessor{
             		if ( equipo.getTrainera().getPatron() != null && equipo.getTrainera().getRemeros().size() == Constants.NUM_ROWERS ) 
             		{
             			Rowing.game.clearProcessors();
-            			Rowing.game.setScreen(new StrategySelectionScreen(game,equipo));
+            			Rowing.game.setScreen(new StrategySelectionScreen(game,equipo,false));
             		}
             	}
 

@@ -18,10 +18,12 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 	private Texture background;
 	private Regata regata;
 	private int calleOrio;
+	private boolean reached;
 
 	public RegattaScreen(Rowing game, Regata regata) {
 		super(game);
 		boat_renderer = GraphicsLoader.loadBoat();
+		reached = false;
 		// traineras competidoras
 		for (int i = 0; i < regata.getTrainerasCompetidoras().size(); i++) {
 			Trainera traineraAux = regata.getTrainerasCompetidoras().get(i);
@@ -32,7 +34,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		MusicPlayer.play("traineracorto.mp3");
 		this.regata = regata;
 
-		System.out.println("** CLASIFICACIÓN IDA ***");
+		System.out.println("** CLASIFICACIï¿½N IDA ***");
 		for (Trainera key : regata.getClasificacionIda().keySet()) {
 			System.out.println(key.getNombre()
 					+ " :: "

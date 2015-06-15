@@ -22,7 +22,7 @@ public class AbstractScreen implements Screen{
 		this.stage=new Stage(0,0,true);
         Rowing.game.inputMultiplexer.addProcessor(stage);
 	}
-	protected Skin getSkin()
+	public Skin getSkin()
 	{
 	        if( skin == null ) {
 	            skin = new Skin(  Gdx.files.internal( "resources/skin2.json" ) );

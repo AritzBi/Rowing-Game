@@ -29,9 +29,13 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 	private List<String>strategies;
 	private Regata regata;
 	
-	public StrategySelectionScreen(Rowing game,Equipo equipo) {
+	public StrategySelectionScreen(Rowing game,Equipo equipo,boolean orio) {
 		super(game);
-		background=new Texture(Gdx.files.internal("resources/conchatarde.jpg"));
+		if (orio)
+			background=new Texture(Gdx.files.internal("resources/oriociaboga.jpg"));
+		else
+			background=new Texture(Gdx.files.internal("resources/conchatarde.jpg"));
+
 		this.game=game;
 		this.equipo=equipo;
 		focusedBotton=1;
