@@ -26,7 +26,7 @@ public class Constants {
 			 "Come up with conservative way and reserve forces",
 			 "Change to the best path",
 			 "Allow captain to choose the strategy",
-			 "Take advantage of the wavesï¿½ direction",
+			 "Take advantage of the waves´ direction",
 			 
 			}
 	);
@@ -53,4 +53,6 @@ public class Constants {
 	public static float SET_POS_Y_3 = 385f;
 	
 	public static float CIABOGA_X = 500f;
+	
+	public static int TIEMPO_PARA_ELEGIR_ESTRATEGIA_VUELTA = 15000;
 }

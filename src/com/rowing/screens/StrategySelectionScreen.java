@@ -1,6 +1,8 @@
 package com.rowing.screens;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -14,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.rowing.core.Constants;
 import com.rowing.core.Rowing;
-import com.rowing.pojo.Equipo;
 import com.rowing.pojo.Regata;
 
 public class StrategySelectionScreen extends AbstractScreen implements InputProcessor{
@@ -26,6 +27,7 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 	private TextButtonStyle focusedStyle;
 	private List<String>strategies;
 	private Regata regata;
+	private Timer timer;
 	
 	public StrategySelectionScreen(Regata regata,boolean orio, List<String> strategies ) {
 		super(Rowing.game);
@@ -45,6 +47,16 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 		focusedStyle.up=getSkin().getDrawable("focused-button");
 		focusedStyle.down=getSkin().getDrawable("pushed-button");
 		
+		if ( strategies.equals(Constants.ESTRATEGIAS_VUELTA) )
+		{
+			//1º paso: generar calles de vuelta
+			regata.crearCallesVuelta();
+			if ( regata.getEquipo().getTrainera().isBuenaCalle() )  {
+				//borramos la estrategia para que no salga a nivel de botones
+				strategies.remove(3);
+			}
+		}
+		
 		buttons=new TextButton[strategies.size()];
 		int i=0;
 		for(String strategy : strategies){
@@ -58,6 +70,7 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 			Rowing.game.getScreen().dispose();
 		}
 		this.regata = regata;
+		
 	}
 	
     public void show()
@@ -115,6 +128,12 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
             table.add( button ).size( 500, 60 ).uniform().spaceBottom( 10 );
             table.row();
         }
+        
+        if ( strategies.equals(Constants.ESTRATEGIAS_VUELTA) )
+        {
+        	timer = new Timer();
+            timer.schedule(new RemindTask(), Constants.TIEMPO_PARA_ELEGIR_ESTRATEGIA_VUELTA );
+        }
     }
 	public void render(float delta) {
 		this.delta=delta;
@@ -128,42 +147,42 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 	}
 	@Override
 	public boolean keyDown(int arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
 	public boolean keyTyped(char arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
 	public boolean keyUp(int arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
 	public boolean mouseMoved(int arg0, int arg1) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
 	public boolean scrolled(int arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
 	public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
 	public boolean touchDragged(int arg0, int arg1, int arg2) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
 	public boolean touchUp(int arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
 		return false;
 	}
+	
+    class RemindTask extends TimerTask {
+        public void run() {
+        	regata.crearScoreDeIdaSegunEstrategia( Constants.ESTRATEGIAS_VUELTA.get(4) );
+            timer.cancel();
+            Rowing.game.setScreen( new RegattaScreen( game, regata ));
+        }
+    }
 }
