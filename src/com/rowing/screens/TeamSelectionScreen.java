@@ -29,6 +29,7 @@ public class TeamSelectionScreen extends AbstractScreen  implements InputProcess
 	private TrawlerActor trawlerActor;
 	private GameMenu gameMenu;
 	private TrawlerSelectionButton trawlerSelectionButton;
+	
 	public TeamSelectionScreen(Rowing game, Equipo equipo) {
 		super(game);
 		background=new Texture(Gdx.files.internal("resources/concha3.jpg"));

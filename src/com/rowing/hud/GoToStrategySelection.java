@@ -5,10 +5,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.rowing.core.Constants;
 import com.rowing.core.Rowing;
 import com.rowing.screens.RegattaScreen;
-import com.rowing.screens.StrategySelectionScreen;
 
 public class GoToStrategySelection extends Table implements InputProcessor {
 	private Table table;

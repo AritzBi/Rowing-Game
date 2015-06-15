@@ -1,8 +1,5 @@
 package com.rowing.hud;
 
-import javax.swing.JOptionPane;
-
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -14,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.rowing.core.Constants;
 import com.rowing.core.Rowing;
 import com.rowing.pojo.Equipo;
+import com.rowing.pojo.Regata;
 import com.rowing.screens.ClimateScreen;
 import com.rowing.screens.StrategySelectionScreen;
 
@@ -67,7 +65,11 @@ public class TrawlerSelectionButton extends Table implements InputProcessor{
             		if ( equipo.getTrainera().getPatron() != null && equipo.getTrainera().getRemeros().size() == Constants.NUM_ROWERS ) 
             		{
             			Rowing.game.clearProcessors();
-            			Rowing.game.setScreen(new StrategySelectionScreen(game,equipo,false));
+            			Regata regata = new Regata();
+            			regata.setEquipo(equipo);
+            			regata.obtenerTrainerasCompetidoras();
+            			regata.crearCallesYAsignarATraineras();
+            			Rowing.game.setScreen(new StrategySelectionScreen(regata,false, Constants.ESTRATEGIAS_SALIDA));
             		}
             	}
 

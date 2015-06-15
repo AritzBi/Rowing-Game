@@ -19,8 +19,6 @@ import com.rowing.pojo.Regata;
 
 public class StrategySelectionScreen extends AbstractScreen implements InputProcessor{
 	private Texture background;
-	private Rowing game;
-	private Equipo equipo;
 	private int focusedBotton;
 	private Table table;
 	private TextButton []buttons;
@@ -29,15 +27,13 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 	private List<String>strategies;
 	private Regata regata;
 	
-	public StrategySelectionScreen(Rowing game,Equipo equipo,boolean orio) {
-		super(game);
+	public StrategySelectionScreen(Regata regata,boolean orio, List<String> strategies ) {
+		super(Rowing.game);
+		this.strategies = strategies;
 		if (orio)
 			background=new Texture(Gdx.files.internal("resources/oriociaboga.jpg"));
 		else
 			background=new Texture(Gdx.files.internal("resources/conchatarde.jpg"));
-
-		this.game=game;
-		this.equipo=equipo;
 		focusedBotton=1;
 		normalStyle=new TextButtonStyle();
 		normalStyle.font=getSkin().getFont("buttonFont");
@@ -48,24 +44,20 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 		focusedStyle.font=getSkin().getFont("buttonFont");
 		focusedStyle.up=getSkin().getDrawable("focused-button");
 		focusedStyle.down=getSkin().getDrawable("pushed-button");
-		this.strategies=Constants.ESTRATEGIAS_SALIDA;
-		buttons=new TextButton[Constants.ESTRATEGIAS_SALIDA.size()];
+		
+		buttons=new TextButton[strategies.size()];
 		int i=0;
-		for(String strategy : Constants.ESTRATEGIAS_SALIDA){
+		for(String strategy : strategies){
 			buttons[i]=new TextButton( strategy, normalStyle);
 			buttons[i].setWidth(300);
 			buttons[i].setBounds(0, 0, 300, 60);
 			i++;
 		}
 		Rowing.game.inputMultiplexer.addProcessor(this);
-		if(game.getScreen()!=null){
-			game.getScreen().dispose();
+		if(Rowing.game.getScreen()!=null){
+			Rowing.game.getScreen().dispose();
 		}
-		//creamos la instancia de la regata
-		regata = new Regata();
-		regata.setEquipo(equipo);
-		regata.obtenerTrainerasCompetidoras();
-		regata.crearCallesYAsignarATraineras();
+		this.regata = regata;
 	}
 	
     public void show()
