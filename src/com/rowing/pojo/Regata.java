@@ -39,7 +39,6 @@ public class Regata {
 
 	public void setTrainerasCompetidoras(List<Trainera> trainerasCompetidoras) {
 		this.trainerasCompetidoras = trainerasCompetidoras;
-		System.out.println(this.trainerasCompetidoras);
 	}
 
 	public Map<Integer, String> getCalles() {

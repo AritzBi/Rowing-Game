@@ -41,4 +41,14 @@ public class Constants {
 	public static int MAX_ENERGY=100;
 	public static int GOOD_SEA=108;
 	public static int BAD_SEA=129;
+	
+	public static float SET_POS_X_0 = 75f;
+	public static float SET_POS_X_1 = 75f;
+	public static float SET_POS_X_2 = 75f;
+	public static float SET_POS_X_3 = 75f;
+	
+	public static float SET_POS_Y_0 = 275f;
+	public static float SET_POS_Y_1 = 308f;
+	public static float SET_POS_Y_2 = 345f;
+	public static float SET_POS_Y_3 = 385f;
 }
