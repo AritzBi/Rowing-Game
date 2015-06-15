@@ -31,7 +31,7 @@ public class GoToStrategySelection extends Table implements InputProcessor {
 		focusedStyle.up=screen.getSkin().getDrawable("focused-button");
 		focusedStyle.down=screen.getSkin().getDrawable("pushed-button");
 		goToTheRaceButton = new TextButton( "Press Enter to Continue", focusedStyle);
-		table.add( goToTheRaceButton ).uniform().fill().spaceBottom(10);
+		table.add( goToTheRaceButton ).size( 300, 60 ).uniform().fill().spaceBottom(10);
 	}
 	@Override
 	public boolean keyDown(int keycode) {

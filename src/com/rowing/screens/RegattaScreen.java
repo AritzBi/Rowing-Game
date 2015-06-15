@@ -26,6 +26,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		super(game);
 		boat_renderer = GraphicsLoader.loadBoat();
 		goToStrategySelection=new GoToStrategySelection(this);
+		goToStrategySelection.setPosition(700, Gdx.graphics.getHeight()-300 );
 		reached = false;
 		// traineras competidoras
 		for (int i = 0; i < regata.getTrainerasCompetidoras().size(); i++) {
