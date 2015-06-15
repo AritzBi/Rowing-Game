@@ -26,7 +26,7 @@ public class Constants {
 			 "Come up with conservative way and reserve forces",
 			 "Change to the best path",
 			 "Allow captain to choose the strategy",
-			 "Take advantage of the waves´ direction",
+			 "Take advantage of the wavesï¿½ direction",
 			 
 			}
 	);
@@ -51,4 +51,6 @@ public class Constants {
 	public static float SET_POS_Y_1 = 308f;
 	public static float SET_POS_Y_2 = 345f;
 	public static float SET_POS_Y_3 = 385f;
+	
+	public static float CIABOGA_X = 500f;
 }

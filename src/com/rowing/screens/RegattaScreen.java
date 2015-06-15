@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.rowing.core.Constants;
 import com.rowing.core.Rowing;
 import com.rowing.graphics.DirectionalAnimatedRenderer;
+import com.rowing.hud.GoToStrategySelection;
 import com.rowing.pojo.Regata;
 import com.rowing.pojo.Trainera;
 import com.rowing.utils.GraphicsLoader;
@@ -19,10 +20,12 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 	private Regata regata;
 	private int calleOrio;
 	private boolean reached;
+	private GoToStrategySelection goToStrategySelection;
 
 	public RegattaScreen(Rowing game, Regata regata) {
 		super(game);
 		boat_renderer = GraphicsLoader.loadBoat();
+		goToStrategySelection=new GoToStrategySelection(this);
 		reached = false;
 		// traineras competidoras
 		for (int i = 0; i < regata.getTrainerasCompetidoras().size(); i++) {
@@ -77,40 +80,40 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 	}
 
 	public void render(float delta) {
-		// pos_x_1+=(50)*delta;
-		//pos_x_1 += (50) * delta;
-		//pos_y_1 += (-1) * delta;
-		//pos_x_2 += (55) * delta;
-		//pos_x_3 += (65) * delta;
-		//pos_x_4 += (70) * delta;
-
-		// System.out.println(pos_x_1);
-		// System.out.println(pos_y_1);
 		this.delta = delta;
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
-		//batch.draw(boat_renderer.frame(delta), pos_x_1, pos_y_1);
-		//batch.draw(boat_renderer.frame(delta), pos_x_2, 210);
-	//	batch.draw(boat_renderer.frame(delta), pos_x_3, 220);
-	//	batch.draw(boat_renderer.frame(delta), pos_x_4, 230);
-		
+				Gdx.graphics.getHeight());		
 		for ( int i = 0; i < regata.getTrainerasCompetidoras().size(); i++ )
 		{
 			Trainera traineraAux = regata.getTrainerasCompetidoras().get(i);
-			traineraAux.setPosition_x(traineraAux.getPosition_x()+ traineraAux.getVelocity_x()*delta);
+			if(!reached)
+				traineraAux.setPosition_x(traineraAux.getPosition_x()+ traineraAux.getVelocity_x()*delta);
 			batch.draw(boat_renderer.frame(delta), traineraAux.getPosition_x(), traineraAux.getPosition_y());
+			if(traineraAux.getPosition_x()>Constants.CIABOGA_X && !reached){
+				stage.addActor(goToStrategySelection);
+				Rowing.game.inputMultiplexer.addProcessor(goToStrategySelection);
+				reached=true;
+			}
+				
 		}
 		//Pintamos la trainera de Orio
 		Trainera traineraOrio = regata.getEquipo().getTrainera();
-		traineraOrio.setPosition_x(traineraOrio.getPosition_x()+ traineraOrio.getVelocity_x()*delta);
+		if(!reached)
+			traineraOrio.setPosition_x(traineraOrio.getPosition_x()+ traineraOrio.getVelocity_x()*delta);
+		if(traineraOrio.getPosition_x()>Constants.CIABOGA_X && !reached){
+			stage.addActor(goToStrategySelection);
+			Rowing.game.inputMultiplexer.addProcessor(goToStrategySelection);
+			reached=true;
+		}
 		batch.draw(boat_renderer.frame(delta), traineraOrio.getPosition_x(), traineraOrio.getPosition_y());
-
-		// buttons[focusedBotton-1].setStyle(focusedStyle);
-		// Update delta and draw the actors inside the stage
 		batch.end();
+		if (reached){
+			stage.act( delta );
+			stage.draw();	
+		}
 	}
 
 	@Override
@@ -159,6 +162,14 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 	public boolean touchUp(int arg0, int arg1, int arg2, int arg3) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public Regata getRegata() {
+		return regata;
+	}
+
+	public void setRegata(Regata regata) {
+		this.regata = regata;
 	}
 
 }

@@ -5,8 +5,10 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.rowing.core.Constants;
 import com.rowing.core.Rowing;
 import com.rowing.screens.RegattaScreen;
+import com.rowing.screens.StrategySelectionScreen;
 
 public class GoToStrategySelection extends Table implements InputProcessor {
 	private Table table;
@@ -19,6 +21,7 @@ public class GoToStrategySelection extends Table implements InputProcessor {
 	
 	public GoToStrategySelection(RegattaScreen screen){
 		this.screen=screen;
+		this.table=this;
 		normalStyle=new TextButtonStyle();
 		normalStyle.font=screen.getSkin().getFont("buttonFont");
 		normalStyle.up=screen.getSkin().getDrawable("normal-button");
@@ -28,12 +31,13 @@ public class GoToStrategySelection extends Table implements InputProcessor {
 		focusedStyle.up=screen.getSkin().getDrawable("focused-button");
 		focusedStyle.down=screen.getSkin().getDrawable("pushed-button");
 		goToTheRaceButton = new TextButton( "Press Enter to Continue", focusedStyle);
+		table.add( goToTheRaceButton ).uniform().fill().spaceBottom(10);
 	}
 	@Override
 	public boolean keyDown(int keycode) {
 		if(keycode == Input.Keys.ENTER){
 			Rowing.game.clearProcessors();
-            //Rowing.game.setScreen(new StrategySelectionScreen(screen.getEquipo(),Constants.ESTRATEGIAS_SALIDA));;
+            Rowing.game.setScreen(new StrategySelectionScreen(screen.getRegata(),true,Constants.ESTRATEGIAS_VUELTA));;
 			return true;
 		}
 		return false;
