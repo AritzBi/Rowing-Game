@@ -30,6 +30,7 @@ public class GoToStrategySelection extends Table implements InputProcessor {
 		focusedStyle.font=screen.getSkin().getFont("buttonFont");
 		focusedStyle.up=screen.getSkin().getDrawable("focused-button");
 		focusedStyle.down=screen.getSkin().getDrawable("pushed-button");
+		focusedStyle.font.setScale(0.5f);
 		goToTheRaceButton = new TextButton( "Press Enter to Continue", focusedStyle);
 		table.add( goToTheRaceButton ).size( 300, 60 ).uniform().fill().spaceBottom(10);
 	}

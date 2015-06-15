@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.rowing.core.Constants;
 import com.rowing.core.Rowing;
+import com.rowing.graphics.AnimatedRenderer;
 import com.rowing.graphics.DirectionalAnimatedRenderer;
 import com.rowing.hud.GoToStrategySelection;
 import com.rowing.pojo.Regata;
@@ -22,6 +23,8 @@ import com.rowing.utils.Utils;
 
 public class RegattaScreen extends AbstractScreen implements InputProcessor {
 	DirectionalAnimatedRenderer boat_renderer;
+	AnimatedRenderer fireworks;
+	//AnimatedRenderer fireworks2;
 	private Texture background;
 	private Regata regata;
 	private int calleOrio;
@@ -35,6 +38,8 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		super(game);
 		this.ida = ida;
 		this.regata = regata;
+		fireworks=GraphicsLoader.loadFireworks();
+		//fireworks2=GraphicsLoader.loadFireworks2();
 		boat_renderer = GraphicsLoader.loadBoat();
 		goToStrategySelection=new GoToStrategySelection(this);
 		goToStrategySelection.setPosition(700, Gdx.graphics.getHeight()-300 );
@@ -50,7 +55,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		
 		if ( ida )
 		{
-			System.out.println("** CLASIFICACIÓN IDA ***");
+			System.out.println("** CLASIFICACIï¿½N IDA ***");
 			for (Trainera key : regata.getClasificacionIda().keySet()) {
 				System.out.println(key.getNombre()
 						+ " :: "
@@ -64,7 +69,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		}
 		else
 		{
-			System.out.println("** CLASIFICACIÓN VUELTA ***");
+			System.out.println("** CLASIFICACIï¿½N VUELTA ***");
 			for (Trainera key : regata.getClasificacionVuelta().keySet()) {
 				System.out.println(key.getNombre()
 						+ " :: "
@@ -158,6 +163,8 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		
 		if ( callesHanLlegado.size() == 4)
 		{
+			batch.draw(fireworks.frame(delta),400,400);
+			//batch.draw(fireworks2.frame(delta),800,400);
 			stage.addActor(goToStrategySelection);
 			Rowing.game.inputMultiplexer.addProcessor(goToStrategySelection);
 		}
@@ -189,7 +196,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		table.add(lTime).pad(0, 50, 15, 50);
 		table.row();
 		
-		//Rellenamos las traineras de la competición...
+		//Rellenamos las traineras de la competiciï¿½n...
 		Trainera [] traineras = new Trainera [4];
 		traineras[regata.getEquipo().getTrainera().getNumeroCalle()] = regata.getEquipo().getTrainera();
 		for ( int i = 0; i < regata.getTrainerasCompetidoras().size();i++ )  {

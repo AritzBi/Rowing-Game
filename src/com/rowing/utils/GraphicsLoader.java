@@ -46,15 +46,37 @@ public class GraphicsLoader {
 		
 		return move;
 	}
-	
-	public static AnimatedRenderer loadFireworks(){
-		AnimatedRenderer fireworks = new AnimatedRenderer(true);
-		TextureRegion[][] tmp = TextureRegion.split(load("fireworks_sprite.png"), 64, 72);
-		fireworks.animation = new Animation(0.2f/4, tmp[0]);
-		return fireworks;
-	   	
-	}
 
+	public static AnimatedRenderer loadFireworks(){
+		AnimatedRenderer flame = new AnimatedRenderer(true);
+		flame.ox=0;
+		flame.oy=0;
+		TextureRegion[][] tmp = TextureRegion.split(load("fireworks_sprite_2.png"), 200, 200);
+		TextureRegion [] frames = new TextureRegion[tmp.length * tmp[0].length];
+        int index = 0;
+        for (int i = 0; i < tmp.length; i++) {
+                for (int j = 0; j < tmp[0].length; j++) {
+                        frames[index++] = tmp[i][j];
+                }
+        }
+        flame.animation = new Animation(5f/24, frames);
+        return flame;
+	}
 	
+	public static AnimatedRenderer loadFireworks2(){
+		AnimatedRenderer flame = new AnimatedRenderer(true);
+		flame.ox=0;
+		flame.oy=0;
+		TextureRegion[][] tmp = TextureRegion.split(load("firework_sprite_3.png"), 200, 200);
+		TextureRegion [] frames = new TextureRegion[tmp.length * tmp[0].length];
+        int index = 0;
+        for (int i = 0; i < tmp.length; i++) {
+                for (int j = 0; j < tmp[0].length; j++) {
+                        frames[index++] = tmp[i][j];
+                }
+        }
+        flame.animation = new Animation(5f/16, frames);
+        return flame;
+	}
 
 }
