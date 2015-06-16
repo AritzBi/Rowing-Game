@@ -52,7 +52,9 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		actualizarPosXeYEnBaseACalle(regata.getEquipo().getTrainera(), true );
 		background = new Texture(Gdx.files.internal("resources/conchaid.png"));
 		MusicPlayer.play("traineracorto.mp3");
-		
+		if(game.getScreen()!=null){
+			game.getScreen().dispose();
+		}
 		if ( ida )
 		{
 			System.out.println("** CLASIFICACIï¿½N IDA ***");
@@ -69,13 +71,22 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		}
 		else
 		{
-			System.out.println("** CLASIFICACIï¿½N VUELTA ***");
+			System.out.println("** CLASIFICACIÓN VUELTA ***");
 			for (Trainera key : regata.getClasificacionVuelta().keySet()) {
 				System.out.println(key.getNombre()
 						+ " :: "
 						+ Utils.obtenerMinutosYSegundos(regata
 								.getClasificacionVuelta().get(key)));
 			}
+			
+			System.out.println("** ESTADO TRAINERAS EN LA VUELTA ***");
+			System.out.println(regata.getEquipo().getTrainera());
+			System.out.println(regata.getTrainerasCompetidoras());
+			
+			System.out.println("*** CLASIFICACIÓN FINAL ****");
+			for(Trainera key: regata.getClasificacionFinal().keySet() ){
+	            System.out.println(key.getNombre()  +" :: "+ Utils.obtenerMinutosYSegundos ( regata.getClasificacionFinal().get(key) ) );
+	        }
 		}
 
 		//SETEAR LAS VELOCIDADES DE LAS 4 traineras
@@ -99,7 +110,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 	}
 	
 	private void actualizarVelocidadTiempoFinal ( Trainera traineraAux ) {
-		float tiempoCorrespondiente = (( 70f * 1140 ) ) / traineraAux.getTiempoTotal();
+		float tiempoCorrespondiente = - (( 70f * 1140 ) ) / traineraAux.getTiempoTotal();
 		traineraAux.setVelocity_x(tiempoCorrespondiente);
 	}
 	
@@ -205,15 +216,30 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		table.add(lTime).pad(0, 50, 15, 50);
 		table.row();
 		
-		//Rellenamos las traineras de la competiciï¿½n...
-		Trainera [] traineras = new Trainera [4];
-		traineras[regata.getEquipo().getTrainera().getNumeroCalle()] = regata.getEquipo().getTrainera();
-		for ( int i = 0; i < regata.getTrainerasCompetidoras().size();i++ )  {
-			Trainera aux = regata.getTrainerasCompetidoras().get(i);
-			traineras[aux.getNumeroCalle()] = aux;
+		
+		if ( ida ) 
+		{
+			//Rellenamos las traineras de la competición...
+			Trainera [] traineras = new Trainera [4];
+			traineras[regata.getEquipo().getTrainera().getNumeroCalle()] = regata.getEquipo().getTrainera();
+			
+			for ( int i = 0; i < regata.getTrainerasCompetidoras().size();i++ )  {
+				Trainera aux = regata.getTrainerasCompetidoras().get(i);
+				traineras[aux.getNumeroCalle()] = aux;
+			}
+			for ( int i = 0; i < traineras.length; i++ ) {
+				pintarTraineraEnFila(traineras[i]);
+			}
 		}
-		for ( int i = 0; i < traineras.length; i++ ) {
-			pintarTraineraEnFila(traineras[i]);
+		else
+		{
+			List<Trainera> traineras = new ArrayList<Trainera>();
+			traineras.add(regata.getEquipo().getTrainera());
+			traineras.addAll(regata.getTrainerasCompetidoras());
+			
+			for ( int i = 0; i < traineras.size() ; i++ ) {
+				pintarTraineraEnFila(traineras.get(i) );
+			}
 		}
 
 	}
@@ -222,7 +248,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		table.add(String.valueOf( traineraAux.getNumeroCalle()+1 ) );
 		table.add(traineraAux.getNombre());
 		table.add(traineraAux.getEstadoEnIngles());
-		table.add(String.valueOf(valor));
+		table.add("--min,--sec");
 		table.row();
 	}
 

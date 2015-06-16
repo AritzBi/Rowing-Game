@@ -55,7 +55,7 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 		focusedStyle.font=getSkin().getFont("buttonFont");
 		focusedStyle.up=getSkin().getDrawable("focused-button");
 		focusedStyle.down=getSkin().getDrawable("pushed-button");
-		
+
 		if ( orio ) {
 			//1º paso: generar calles de vuelta
 			regata.crearCallesVuelta();
@@ -108,9 +108,10 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
                 {
                 	if(button==0){
     	                Rowing.game.clearProcessors();
-    	                
+    	               
     	                if ( orio ) //si estamos en la vuelta
     	                {
+    	                	timer.cancel();
     	                	regata.crearScoreDeVueltaSegunEstrategia( strategies.get(position) );
     	                	Rowing.game.setScreen(new RegattaScreen(Rowing.game, regata, false ));
     	                }
@@ -119,6 +120,8 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
     	                    regata.crearScoreDeIdaSegunEstrategia( Constants.ESTRATEGIAS_SALIDA.get(position) );
         	                Rowing.game.setScreen(new RegattaScreen(Rowing.game, regata, true ));	
     	                }
+    	                
+    	               
                 	}
 
                 }
