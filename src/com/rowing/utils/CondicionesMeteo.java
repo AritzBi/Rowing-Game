@@ -12,6 +12,9 @@ public class CondicionesMeteo {
 
 	private boolean buenaMar = false;
 	private boolean malaMar = false;
+	
+	private float windDefecto;
+	private float humidityPorDefecto;
 
 	public CondicionesMeteo() {
 	}
@@ -19,11 +22,10 @@ public class CondicionesMeteo {
 	public String toString() {
 		String objet = "";
 		if ( wind != null )
-			objet += "Wind(km/h): " + convertirMilesToKilometers( wind.getWindSpeed() ) + "\n";
+			objet += "Wind(km/h): " + convertirMilesToKilometers( getWindSpeed() ) + "\n";
 		if ( mainConditions != null )
 		{
-			objet += "Humidity(%): " + mainConditions.getHumidity() + "\n";
-			objet += "Temperature(Fahrenheit): " + mainConditions.getTemperature() + "\n";
+			objet += "Humidity(%): " + getHumidity() + "\n";
 		}
 		objet += "Calm Seas: " + buenaMar + "\n";
 		objet += "Dangerous Seas: " + malaMar;
@@ -41,6 +43,14 @@ public class CondicionesMeteo {
 	public Wind getWind() {
 		return wind;
 	}
+	
+	public float getWindSpeed() {
+		if ( wind != null ) {
+			return wind.getWindSpeed();
+		} else {
+			return windDefecto;
+		}
+	}
 
 	public void setWind(Wind wind) {
 		this.wind = wind;
@@ -49,26 +59,35 @@ public class CondicionesMeteo {
 	public Main getMainConditions() {
 		return mainConditions;
 	}
+	
+	public float getHumidity() {
+		if ( mainConditions != null ) {
+			return mainConditions.getHumidity();
+		}
+		else {
+			return humidityPorDefecto;
+		}
+	}
 
 	public void setMainConditions(Main mainConditions) {
 		this.mainConditions = mainConditions;
 	}
 
 	public void calcularParametroBuenaYMalaMar() {
-		if (mainConditions.getHumidity() < 75.0 && convertirMilesToKilometers(wind.getWindSpeed()) < 22.0) {
+		if (getHumidity() < 75.0 && convertirMilesToKilometers(getWindSpeed()) < 22.0) {
 			buenaMar = true;
 		}
-		else if (mainConditions.getHumidity() > 75.0 && convertirMilesToKilometers(wind.getWindSpeed()) > 22.0) {
+		else if (getHumidity() > 75.0 && convertirMilesToKilometers(getWindSpeed()) > 22.0) {
 			malaMar = true;
 		}
-		else if (mainConditions.getHumidity() > 75.0 && convertirMilesToKilometers(wind.getWindSpeed()) < 22.0) {
+		else if (getHumidity() > 75.0 && convertirMilesToKilometers(getWindSpeed()) < 22.0) {
 			int probabilidad = Utils.generaNumeroAleatorio(0, 100);
 			if ( probabilidad > 80 ) //Con un 20%, mala mar
 				malaMar = true;
 			else //con un 80%, buena mar
 				buenaMar = true;
 		}
-		else if (mainConditions.getHumidity() < 75.0 && convertirMilesToKilometers(wind.getWindSpeed()) > 22.0) {
+		else if (getHumidity() < 75.0 && convertirMilesToKilometers(getWindSpeed()) > 22.0) {
 			int probabilidad = Utils.generaNumeroAleatorio(0, 100);
 			if ( probabilidad > 60 ) //Con un 40%, buena mar
 				buenaMar = true;
@@ -96,4 +115,21 @@ public class CondicionesMeteo {
 	public void setMalaMar(boolean malaMar) {
 		this.malaMar = malaMar;
 	}
+
+	public float getWindDefecto() {
+		return windDefecto;
+	}
+
+	public void setWindDefecto(float windDefecto) {
+		this.windDefecto = windDefecto;
+	}
+
+	public float getHumidityPorDefecto() {
+		return humidityPorDefecto;
+	}
+
+	public void setHumidityPorDefecto(float humidityPorDefecto) {
+		this.humidityPorDefecto = humidityPorDefecto;
+	}
+	
 }
