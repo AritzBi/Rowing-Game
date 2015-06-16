@@ -2,8 +2,6 @@ package com.rowing.screens;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -15,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.rowing.core.Constants;
 import com.rowing.core.Rowing;
 import com.rowing.pojo.Regata;
@@ -27,7 +27,6 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 	private TextButtonStyle focusedStyle;
 	private List<String>strategies;
 	private Regata regata;
-	private Timer timer;
 	private boolean orio;
 	
 	/**
@@ -110,7 +109,7 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
     	               
     	                if ( orio ) //si estamos en la vuelta
     	                {
-    	                	timer.cancel();
+    	                	Timer.instance().clear();
     	                	regata.crearScoreDeVueltaSegunEstrategia( strategies.get(position) );
     	                	Rowing.game.setScreen(new RegattaScreen(Rowing.game, regata, false ));
     	                }
@@ -149,8 +148,15 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
         }
         
         if ( orio ) {
-        	timer = new Timer();
-            timer.schedule(new RemindTask(), Constants.TIEMPO_PARA_ELEGIR_ESTRATEGIA_VUELTA );
+            Timer.schedule( new Task() {
+				
+				public void run() {
+			     	regata.crearScoreDeVueltaSegunEstrategia( Constants.ESTRATEGIAS_VUELTA.get(4) );
+			     	Timer.instance().clear();
+		            Rowing.game.setScreen( new RegattaScreen( game, regata, false ));
+				}
+			}, Constants.TIEMPO_PARA_ELEGIR_ESTRATEGIA_VUELTA);
+            
         }
     }
 	public void render(float delta) {
@@ -196,11 +202,4 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 		return false;
 	}
 	
-    class RemindTask extends TimerTask {
-        public void run() {
-        	regata.crearScoreDeIdaSegunEstrategia( Constants.ESTRATEGIAS_VUELTA.get(4) );
-            timer.cancel();
-            Rowing.game.setScreen( new RegattaScreen( Rowing.game, regata, false ));
-        }
-    }
 }
