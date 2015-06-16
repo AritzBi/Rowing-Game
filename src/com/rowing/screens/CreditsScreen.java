@@ -58,7 +58,7 @@ public class CreditsScreen extends AbstractScreen{
 				+ "Trainera Orio entrenando - Youtube \n";
 		this.specialThanks = "Special Thanks";
 		this.testers = "To...";
-		this.testersBody = "Aimar Rodriguez @Aimarrod\n";
+		this.testersBody = "Cafetería de Deusto y sus napolitanas...\n";
 		this.by = "A game by";
 		this.bybody = "Iñigo Aramendi, Aritz Bilbao\n"
 				+ "and\n"
