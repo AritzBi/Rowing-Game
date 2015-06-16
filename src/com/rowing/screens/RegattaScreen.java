@@ -239,6 +239,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 			Rowing.game.inputMultiplexer.addProcessor(goToStrategySelection);
 		}
 		if(trainerasHanFinalizado.size()==4){
+			//MusicPlayer.play("aplausosfinal.mp3");
 			batch.draw(fireworks.frame(delta),400,300);
 			batch.draw(fireworks.frame(delta),500,300);
 			batch.draw(fireworks.frame(delta),600,300);
