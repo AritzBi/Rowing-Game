@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -33,6 +34,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 	private boolean ida;
 	private int valor = 0;
 	private List<Integer> callesHanLlegado = new ArrayList<Integer>();
+	private List<Trainera> trainerasHanFinalizado = new ArrayList<Trainera>();
 
 	public RegattaScreen(Rowing game, Regata regata, boolean ida) {
 		super(game);
@@ -43,6 +45,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		boat_renderer = GraphicsLoader.loadBoat();
 		goToStrategySelection=new GoToStrategySelection(this);
 		goToStrategySelection.setPosition(700, Gdx.graphics.getHeight()-300 );
+		Rowing.game.inputMultiplexer.addProcessor(this);
 		reached = false;
 		// traineras competidoras
 		for (int i = 0; i < regata.getTrainerasCompetidoras().size(); i++) {
@@ -71,7 +74,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		}
 		else
 		{
-			System.out.println("** CLASIFICACIÓN VUELTA ***");
+			System.out.println("** CLASIFICACIï¿½N VUELTA ***");
 			for (Trainera key : regata.getClasificacionVuelta().keySet()) {
 				System.out.println(key.getNombre()
 						+ " :: "
@@ -83,7 +86,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 			System.out.println(regata.getEquipo().getTrainera());
 			System.out.println(regata.getTrainerasCompetidoras());
 			
-			System.out.println("*** CLASIFICACIÓN FINAL ****");
+			System.out.println("*** CLASIFICACIï¿½N FINAL ****");
 			for(Trainera key: regata.getClasificacionFinal().keySet() ){
 	            System.out.println(key.getNombre()  +" :: "+ Utils.obtenerMinutosYSegundos ( regata.getClasificacionFinal().get(key) ) );
 	        }
@@ -151,12 +154,19 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 			if(!callesHanLlegado.contains(traineraAux.getNumeroCalle()))
 				traineraAux.setPosition_x(traineraAux.getPosition_x()+ traineraAux.getVelocity_x()*delta);
 			batch.draw(boat_renderer.frame(delta), traineraAux.getPosition_x(), traineraAux.getPosition_y());
-			if( traineraAux.getPosition_x()>Constants.CIABOGA_X && !callesHanLlegado.contains(traineraAux.getNumeroCalle()) ){
+			if(ida && traineraAux.getPosition_x()>Constants.CIABOGA_X && !callesHanLlegado.contains(traineraAux.getNumeroCalle()) ){
 				//stage.addActor(goToStrategySelection);
 				//Rowing.game.inputMultiplexer.addProcessor(goToStrategySelection);
 				//reached=true;
 				callesHanLlegado.add(traineraAux.getNumeroCalle());
 				((Label)(super.getTable().getChildren().get(Constants.CONSTANTE_EDITAR_TABLA+( 4*traineraAux.getNumeroCalle()) )  )).setText( Utils.obtenerMinutosYSegundos(traineraAux.getTiempoIda() ) );
+			}
+			if( !ida && traineraAux.getPosition_x()<Constants.SET_POS_X_0 && !trainerasHanFinalizado.contains(traineraAux) ){
+				//stage.addActor(goToStrategySelection);
+				//Rowing.game.inputMultiplexer.addProcessor(goToStrategySelection);
+				//reached=true;
+				trainerasHanFinalizado.add(traineraAux);
+				((Label)(super.getTable().getChildren().get(Constants.CONSTANTE_EDITAR_TABLA+( 4*traineraAux.getNumeroCalle()) )  )).setText( Utils.obtenerMinutosYSegundos(traineraAux.getTiempoTotal() ) );
 			}
 				
 		}
@@ -179,14 +189,26 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 			//reached=true;
 			callesHanLlegado.add(traineraOrio.getNumeroCalle());
 			((Label)(super.getTable().getChildren().get(Constants.CONSTANTE_EDITAR_TABLA+( 4*traineraOrio.getNumeroCalle()) )  )).setText( Utils.obtenerMinutosYSegundos(traineraOrio.getTiempoIda() ) );
+		}else if(!ida && traineraOrio.getPosition_x()<Constants.SET_POS_X_0 && !trainerasHanFinalizado.contains(traineraOrio)){
+			trainerasHanFinalizado.add(traineraOrio);
+			((Label)(super.getTable().getChildren().get(Constants.CONSTANTE_EDITAR_TABLA+( 4*traineraOrio.getNumeroCalle()) )  )).setText( Utils.obtenerMinutosYSegundos(traineraOrio.getTiempoTotal() ) );
 		}
 		
 		if ( callesHanLlegado.size() == 4)
 		{
-			batch.draw(fireworks.frame(delta),400,400);
-			//batch.draw(fireworks2.frame(delta),800,400);
 			stage.addActor(goToStrategySelection);
 			Rowing.game.inputMultiplexer.addProcessor(goToStrategySelection);
+		}
+		if(trainerasHanFinalizado.size()==4){
+			batch.draw(fireworks.frame(delta),400,300);
+			batch.draw(fireworks.frame(delta),500,300);
+			batch.draw(fireworks.frame(delta),600,300);
+			batch.draw(fireworks.frame(delta),600,300);
+			batch.draw(fireworks.frame(delta),400,300);
+			batch.draw(fireworks.frame(delta),700,300);
+			batch.draw(fireworks.frame(delta),700,300);
+			batch.draw(fireworks.frame(delta),800,300);
+			batch.draw(fireworks.frame(delta),800,300);
 		}
 		
 		batch.draw(boat_renderer.frame(delta), traineraOrio.getPosition_x(), traineraOrio.getPosition_y());
@@ -219,7 +241,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		
 		if ( ida ) 
 		{
-			//Rellenamos las traineras de la competición...
+			//Rellenamos las traineras de la competiciï¿½n...
 			Trainera [] traineras = new Trainera [4];
 			traineras[regata.getEquipo().getTrainera().getNumeroCalle()] = regata.getEquipo().getTrainera();
 			
@@ -253,7 +275,15 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 	}
 
 	@Override
-	public boolean keyDown(int arg0) {
+	public boolean keyDown(int keycode) {
+		if(keycode == Input.Keys.ENTER){
+			if(trainerasHanFinalizado.size() == 4){
+				Rowing.game.clearProcessors();
+	            Rowing.game.setScreen(new CreditsScreen());
+				return true;
+			}
+			
+		}
 		return false;
 	}
 
