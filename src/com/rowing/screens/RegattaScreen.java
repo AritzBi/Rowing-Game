@@ -53,6 +53,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		this.regata = regata;
 		calleCounter=new int[4];
 		easter_egg=false;
+		this.trollface = new Trollface();
 		tentacle = GraphicsLoader.loadTentacles();
 		dead = GraphicsLoader.loadDead();
 		fireworks=GraphicsLoader.loadFireworks();
@@ -173,9 +174,10 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		{
 			Trainera traineraAux = regata.getTrainerasCompetidoras().get(i);
 			//Calculamos el tiempo y vamos seteando la posicion de las traineras competidoras
-			if(!callesHanLlegado.contains(traineraAux.getNumeroCalle()))
+			if(!callesHanLlegado.contains(traineraAux.getNumeroCalle())&& !easter_egg)
 				traineraAux.setPosition_x(traineraAux.getPosition_x()+ traineraAux.getVelocity_x()*delta);
-			batch.draw(boat_renderer.frame(delta), traineraAux.getPosition_x(), traineraAux.getPosition_y());
+			if(!easter_egg)
+				batch.draw(boat_renderer.frame(delta), traineraAux.getPosition_x(), traineraAux.getPosition_y());
 			if(ida && traineraAux.getPosition_x()>Constants.CIABOGA_X && !callesHanLlegado.contains(traineraAux.getNumeroCalle()) ){
 				callesHanLlegado.add(traineraAux.getNumeroCalle());
 				((Label)(super.getTable().getChildren().get(Constants.CONSTANTE_EDITAR_TABLA+( 5*traineraAux.getNumeroCalle()) )  )).setText( Utils.obtenerMinutosYSegundos(traineraAux.getTiempoIda() ) );
@@ -190,8 +192,25 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 		}
 		Trainera traineraOrio = regata.getEquipo().getTrainera();
 		//Calculamos el tiempo y vamos seteando la posicion de la trainera de orio
-		if(!callesHanLlegado.contains(traineraOrio.getNumeroCalle()))
+		if(!callesHanLlegado.contains(traineraOrio.getNumeroCalle()) && !easter_egg)
 			traineraOrio.setPosition_x(traineraOrio.getPosition_x()+ traineraOrio.getVelocity_x()*delta);
+		if(easter_egg){
+			if(!tentacle.getFinished(1.7f))
+				batch.draw(tentacle.frame(delta),traineraOrio.getPosition_x()-150, traineraOrio.getPosition_y()-100);
+			else{
+				MusicPlayer.pause();
+				trollface.setPosition(Gdx.graphics.getWidth()/2 -200,Gdx.graphics.getHeight()-700);
+				stage.addActor(trollface);
+				Rowing.game.inputMultiplexer.addProcessor(trollface);
+			}
+			if(!dead.getFinished(0.8f)){
+				batch.draw(dead.frame(delta),traineraOrio.getPosition_x()-30, traineraOrio.getPosition_y()-20);
+				for ( int i = 0; i < regata.getTrainerasCompetidoras().size(); i++ ){
+					batch.draw(dead.frame(delta),regata.getTrainerasCompetidoras().get(i).getPosition_x()-30,regata.getTrainerasCompetidoras().get(i).getPosition_y()-20);
+				}	
+			}
+			
+		}
 		if(ida && traineraOrio.getPosition_x()>Constants.CIABOGA_X && !callesHanLlegado.contains(traineraOrio.getNumeroCalle()) ){
 			callesHanLlegado.add(traineraOrio.getNumeroCalle());
 			((Label)(super.getTable().getChildren().get(Constants.CONSTANTE_EDITAR_TABLA+( 5*traineraOrio.getNumeroCalle()) )  )).setText( Utils.obtenerMinutosYSegundos(traineraOrio.getTiempoIda() ) );
@@ -230,7 +249,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 			batch.draw(fireworks.frame(delta),800,300);
 			batch.draw(fireworks.frame(delta),800,300);
 		}
-		
+		if(!easter_egg)
 		batch.draw(boat_renderer.frame(delta), traineraOrio.getPosition_x(), traineraOrio.getPosition_y());
 		batch.end();
 		
@@ -307,13 +326,17 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if(keycode == Input.Keys.ENTER){
-			if(trainerasHanFinalizado.size() == 4){
-				Rowing.game.clearProcessors();
-	            Rowing.game.setScreen(new CreditsScreen());
+		if(keycode == Input.Keys.ENTER && trainerasHanFinalizado.size() == 4){
+			Rowing.game.clearProcessors();
+            Rowing.game.setScreen(new CreditsScreen());
+			return true;
+		
+		}else{
+			if(keycode == Input.Keys.T){
+				easter_egg = true;
+				MusicPlayer.play("undead-death.ogg");
 				return true;
 			}
-			
 		}
 		return false;
 	}

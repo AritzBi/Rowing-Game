@@ -19,6 +19,10 @@ public class AnimatedRenderer extends Renderer{
 		return animation.getKeyFrame(time, loops);
 	}
 	
-	
+	public boolean getFinished(float max_time){
+		if (max_time < time)
+			return true;
+		return false;
+	}
 
 }
