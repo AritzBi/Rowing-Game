@@ -22,7 +22,6 @@ import com.rowing.pojo.Regata;
 public class StrategySelectionScreen extends AbstractScreen implements InputProcessor{
 	private Texture background;
 	private int focusedBotton;
-	private Table table;
 	private TextButton []buttons;
 	private TextButtonStyle normalStyle;
 	private TextButtonStyle focusedStyle;
@@ -65,9 +64,9 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 			}
 		}
 		
-		buttons=new TextButton[strategies.size()];
+		buttons=new TextButton[this.strategies.size()];
 		int i=0;
-		for(String strategy : strategies){
+		for(String strategy : this.strategies){
 			buttons[i]=new TextButton( strategy, normalStyle);
 			buttons[i].setWidth(300);
 			buttons[i].setBounds(0, 0, 300, 60);
