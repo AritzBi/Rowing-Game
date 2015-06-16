@@ -85,6 +85,7 @@ public class Utils {
 
 		OpenWeatherMap owm = new OpenWeatherMap("");
 		CurrentWeather cwd = null;
+		boolean errorAPI = false;
 		try {
 			owm.setUnits(Units.IMPERIAL);
 			owm.setApiKey("ecf63f5f77f19982212e116e2e1a5baa");
@@ -92,19 +93,25 @@ public class Utils {
 			cwd = owm.currentWeatherByCityName("Donosti");
 		} catch (Exception e) {
 			//Si falla lo probamos otra vez!!
-			try {
-				cwd = owm.currentWeatherByCityName("Donosti");
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+			errorAPI = true;
 		}
-
-		Rain rain = cwd.getRainInstance();
-		condiciones.setRain(rain);
-		Wind wind = cwd.getWindInstance();
-		condiciones.setWind(wind);
-		Main main = cwd.getMainInstance();
-		condiciones.setMainConditions(main);
+		
+		if ( errorAPI || cwd.getMainInstance() == null )
+		{
+			float humidityRandom = (float) ( Math.random() * 100 + 60 );
+			float windSpeedRandom = (float) (Math.random() * 30 + 0 );
+			condiciones.setWindDefecto(windSpeedRandom);
+			condiciones.setHumidityPorDefecto(humidityRandom);
+		}
+		else
+		{
+			Rain rain = cwd.getRainInstance();
+			condiciones.setRain(rain);
+			Wind wind = cwd.getWindInstance();
+			condiciones.setWind(wind);
+			Main main = cwd.getMainInstance();
+			condiciones.setMainConditions(main);
+		}
 		condiciones.calcularParametroBuenaYMalaMar();
 		if (guardarCondicionesEnSession) {
 			// Si tiramos de este metodo, lo que hacemos es guardar en la sesion

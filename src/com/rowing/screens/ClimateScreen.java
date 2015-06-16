@@ -115,11 +115,10 @@ public class ClimateScreen extends AbstractScreen implements InputProcessor {
 	public void especificarTiempoEnTabla(Table table) {
 		Label windSpeed = new Label("Wind Speed (km/h) ", skin);
 		TextField windSpeedText = new TextField(String.format("%.1f",CondicionesMeteo
-				.convertirMilesToKilometers(condicionesMeteo.getWind()
-						.getWindSpeed())), skin);
+				.convertirMilesToKilometers(condicionesMeteo.getWindSpeed())), skin);
 		Label humidity = new Label("Humidity (%) ", skin);
 		TextField humidityText = new TextField(String.format("%.1f",condicionesMeteo
-				.getMainConditions().getHumidity()), skin);
+				.getHumidity()), skin);
 		Label goodSea = new Label("Good Sea ", skin);
 		TextField goodSeaText = new TextField(
 				condicionesMeteo.isBuenaMar() ? "Yes" : "No", skin);
