@@ -111,6 +111,7 @@ public class MenuScreen extends AbstractScreen implements InputProcessor{
             	if (button==0){
 	                Rowing.game.clearProcessors();
 	                Rowing.game.setScreen(new OptionsScreen(game,true));
+	                //Rowing.game.setScreen(new CreditsScreen());
             	}
             }
             @Override
