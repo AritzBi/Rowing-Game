@@ -1,5 +1,6 @@
 package com.rowing.screens;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,7 +40,7 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 	public StrategySelectionScreen(Regata regata,boolean orio, List<String> strategies ) {
 		super(Rowing.game);
 		this.orio = orio;
-		this.strategies = strategies;
+		this.strategies = new ArrayList<String>( strategies );
 		if (orio)
 			background=new Texture(Gdx.files.internal("resources/oriociaboga.jpg"));
 		else
@@ -60,7 +61,7 @@ public class StrategySelectionScreen extends AbstractScreen implements InputProc
 			regata.crearCallesVuelta();
 			if ( regata.getEquipo().getTrainera().isBuenaCalle() )  {
 				//borramos la estrategia para que no salga a nivel de botones
-				strategies.remove(3);
+				this.strategies.remove(3);
 			}
 		}
 		
