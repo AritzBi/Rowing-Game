@@ -40,9 +40,9 @@ public class CreditsScreen extends AbstractScreen{
 		super(Rowing.game);
 		this.title = "Aupa Orio!";
 		this.devs = "Design and Programming";
-		this.devsBody = "Iñigo Aramendi Inchauspe @aramendi\n"
+		this.devsBody = "I. Aramendi Inchauspe @aramendi\n"
 				+ "Aritz Bilbao Jayo @aritzbi \n"
-				+ "Aitor Simon De Las Heras @aitor_s";
+				+ "Aitor Simon De Las Heras @Aitor_s";
 		this.graphics = "Art and Animation";
 		this.graphicsBody = "Johannes Sjolund\n"
 				+ "Johann Charlot\n"
@@ -71,16 +71,16 @@ public class CreditsScreen extends AbstractScreen{
 		this.duration = 5f;
 		
 		screenshots = new Texture[]{
-			GraphicsLoader.load("credits-screen-1.png"),
-			GraphicsLoader.load("credits-screen-2.png"),
-			GraphicsLoader.load("credits-screen-3.png"),
-			GraphicsLoader.load("credits-screen-4.png"),
-			GraphicsLoader.load("credits-screen-5.png"),
+			GraphicsLoader.load("credits-screen-1.jpg"),
+			GraphicsLoader.load("credits-screen-2.jpg"),
+			GraphicsLoader.load("credits-screen-3.jpg"),
+			GraphicsLoader.load("credits-screen-4.jpg"),
+			GraphicsLoader.load("credits-screen-5.jpg"),
 			GraphicsLoader.load("credits-screen-6.png"),
-			GraphicsLoader.load("credits-screen-7.png"),
-			GraphicsLoader.load("credits-screen-8.png"),
-			GraphicsLoader.load("credits-screen-9.png"),
-			GraphicsLoader.load("credits-screen-10.png")
+			GraphicsLoader.load("credits-screen-7.jpg"),
+			GraphicsLoader.load("credits-screen-8.jpg"),
+			GraphicsLoader.load("credits-screen-9.jpg"),
+			GraphicsLoader.load("credits-screen-10.jpg")
 		};
 		
 		cam = new OrthographicCamera();
