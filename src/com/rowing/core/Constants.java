@@ -60,8 +60,9 @@ public class Constants {
 	public static float CIABOGA_X = 1400f;
 	public static int TIEMPO_PARA_ELEGIR_ESTRATEGIA_VUELTA = 15000;
 	
-	public static int WIDTH_TABLE_STATS_ROADS = 700;
+	public static int WIDTH_TABLE_STATS_ROADS = 800;
 	public static int HEIGHT_TABLE_STATS_ROADS = 200;
 	
-	public static int CONSTANTE_EDITAR_TABLA = 7;
+	public static int CONSTANTE_EDITAR_TABLA = 8;
+	public static int CONSTANTE_EDITAR_RANKING = 9;
 }
