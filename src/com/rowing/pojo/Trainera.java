@@ -474,6 +474,19 @@ public class Trainera {
 			return resultado + resultadoNom;
 		}
 	}
+	
+	public class OrdenarPorNumeroCalle implements Comparator<Trainera> {
+
+		@Override
+		public int compare(Trainera o1, Trainera o2) {
+			int resultado = o1.getNumeroCalle().compareTo(o2.getNumeroCalle());
+			int resultadoNom = 0;
+			if ( resultado == 0 )
+				resultadoNom = o1.getNombre().compareTo(o2.getNombre());
+			return resultado + resultadoNom;
+		}
+		
+	}
 
 	public float getPosition_x() {
 		return position_x;
