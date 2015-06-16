@@ -164,7 +164,7 @@ public class RegattaScreen extends AbstractScreen implements InputProcessor {
 			if(ida && traineraAux.getPosition_x()>Constants.CIABOGA_X && !callesHanLlegado.contains(traineraAux.getNumeroCalle()) ){
 				callesHanLlegado.add(traineraAux.getNumeroCalle());
 				((Label)(super.getTable().getChildren().get(Constants.CONSTANTE_EDITAR_TABLA+( 5*traineraAux.getNumeroCalle()) )  )).setText( Utils.obtenerMinutosYSegundos(traineraAux.getTiempoIda() ) );
-				((Label)(super.getTable().getChildren().get(Constants.CONSTANTE_EDITAR_RANKING+( 5*traineraAux.getNumeroCalle()) )  )).setText( trainerasConClasificacion.get(traineraAux.getNombre())+"º" );
+				((Label)(super.getTable().getChildren().get(Constants.CONSTANTE_EDITAR_RANKING+( 5*traineraAux.getNumeroCalle()) )  )).setText( trainerasConClasificacion.get(traineraAux.getNombre())+"º" );			
 			}
 			if( !ida && traineraAux.getPosition_x()<Constants.SET_POS_X_0 && !trainerasHanFinalizado.contains(traineraAux) ){
 				trainerasHanFinalizado.add(traineraAux);

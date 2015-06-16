@@ -30,13 +30,12 @@ public class Remero extends Athlete{
 	public String toString() {
 		return  getName()+ " "+getSurname()+"\n"+
 			   getBirthdate()+"\n"+
-			   "Energia: "+getEnergia()+"\n"+
-			   "Potencia: "+getPotencia()+"\n"+
-			   "Experiencia: "+getExperiencia()+"\n"+
-			   "Buena mar: "+getBuena_mar()+"\n"+
-			   "Mala mar: "+getMala_mar()+"\n"+
-			   "Lesionado: "+isLesionado()+"\n"
-			   ;
+			   "Energy: "+getEnergia()+"\n"+
+			   "Power: "+getPotencia()+"\n"+
+			   "Experience: "+getExperiencia()+"\n"+
+			   "Hability Good Sea: "+getBuena_mar()+"\n"+
+			   "Hability Bad Sea: "+getMala_mar()+"\n"+
+			   "Injured: "+isLesionado()+"\n";
 	}
 
 	public String getName() {
