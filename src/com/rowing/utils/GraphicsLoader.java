@@ -78,5 +78,43 @@ public class GraphicsLoader {
         flame.animation = new Animation(5f/16, frames);
         return flame;
 	}
+	
+	public static AnimatedRenderer loadTentacles(){
+		AnimatedRenderer meteor = new AnimatedRenderer(false);
+		meteor.ox = 0;
+		meteor.oy = 0;
+		TextureRegion[][] tmp = TextureRegion.split(load("tentacles.png"), 512, 512);
+		TextureRegion [] frames = new TextureRegion[tmp.length * tmp[0].length];
+        int index = 0;
+        for (int i = 0; i < tmp.length; i++) {
+                for (int j = 0; j < tmp[0].length; j++) {
+                        frames[index++] = tmp[i][j];
+                }
+        }
+        
+        meteor.animation = new Animation(1.5f/frames.length, frames);
+        return meteor;
+	}
+
+	
+	
+	public static AnimatedRenderer loadDead(){
+		AnimatedRenderer death = new AnimatedRenderer(false);
+		TextureRegion[][] tmp = TextureRegion.split(load("ballista-death.png"), 128, 64);
+        TextureRegion [] deathFrames = new TextureRegion[tmp.length * tmp[0].length];
+        int index = 0;
+        for (int i = 0; i < tmp.length; i++) {
+                for (int j = 0; j < tmp[0].length; j++) {
+                        deathFrames[index++] = tmp[i][j];
+                }
+        }
+        //0.4f duration of the whole animation so divided in the total of frames.
+	    death.animation = new Animation(1f/deathFrames.length, deathFrames);
+	    death.ox = -20;
+	    death.oy = 0;
+	    return death;
+	}
+
+
 
 }
