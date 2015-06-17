@@ -48,9 +48,9 @@ public class GraphicsLoader {
 	}
 
 	public static AnimatedRenderer loadFireworks(){
-		AnimatedRenderer flame = new AnimatedRenderer(true);
-		flame.ox=0;
-		flame.oy=0;
+		AnimatedRenderer firework = new AnimatedRenderer(true);
+		firework.ox=0;
+		firework.oy=0;
 		TextureRegion[][] tmp = TextureRegion.split(load("fireworks_sprite_2.png"), 200, 200);
 		TextureRegion [] frames = new TextureRegion[tmp.length * tmp[0].length];
         int index = 0;
@@ -59,14 +59,14 @@ public class GraphicsLoader {
                         frames[index++] = tmp[i][j];
                 }
         }
-        flame.animation = new Animation(5f/24, frames);
-        return flame;
+        firework.animation = new Animation(5f/24, frames);
+        return firework;
 	}
 	
 	public static AnimatedRenderer loadFireworks2(){
-		AnimatedRenderer flame = new AnimatedRenderer(true);
-		flame.ox=0;
-		flame.oy=0;
+		AnimatedRenderer firework = new AnimatedRenderer(true);
+		firework.ox=0;
+		firework.oy=0;
 		TextureRegion[][] tmp = TextureRegion.split(load("firework_sprite_3.png"), 200, 200);
 		TextureRegion [] frames = new TextureRegion[tmp.length * tmp[0].length];
         int index = 0;
@@ -75,14 +75,14 @@ public class GraphicsLoader {
                         frames[index++] = tmp[i][j];
                 }
         }
-        flame.animation = new Animation(5f/16, frames);
-        return flame;
+        firework.animation = new Animation(5f/16, frames);
+        return firework;
 	}
 	
 	public static AnimatedRenderer loadTentacles(){
-		AnimatedRenderer meteor = new AnimatedRenderer(false);
-		meteor.ox = 0;
-		meteor.oy = 0;
+		AnimatedRenderer tentacle = new AnimatedRenderer(false);
+		tentacle.ox = 0;
+		tentacle.oy = 0;
 		TextureRegion[][] tmp = TextureRegion.split(load("tentacles.png"), 512, 512);
 		TextureRegion [] frames = new TextureRegion[tmp.length * tmp[0].length];
         int index = 0;
@@ -92,8 +92,8 @@ public class GraphicsLoader {
                 }
         }
         
-        meteor.animation = new Animation(1.5f/frames.length, frames);
-        return meteor;
+        tentacle.animation = new Animation(1.5f/frames.length, frames);
+        return tentacle;
 	}
 
 	
@@ -108,7 +108,6 @@ public class GraphicsLoader {
                         deathFrames[index++] = tmp[i][j];
                 }
         }
-        //0.4f duration of the whole animation so divided in the total of frames.
 	    death.animation = new Animation(1f/deathFrames.length, deathFrames);
 	    death.ox = -20;
 	    death.oy = 0;

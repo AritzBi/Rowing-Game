@@ -243,7 +243,6 @@ public class GameMenu extends Table implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
