@@ -33,8 +33,8 @@ public class Remero extends Athlete{
 			   "Energy: "+getEnergia()+"\n"+
 			   "Power: "+getPotencia()+"\n"+
 			   "Experience: "+getExperiencia()+"\n"+
-			   "Hability Good Sea: "+getBuena_mar()+"\n"+
-			   "Hability Bad Sea: "+getMala_mar()+"\n"+
+			   "Good Sea: "+getBuena_mar()+"\n"+
+			   "Bad Sea: "+getMala_mar()+"\n"+
 			   "Injured: "+isLesionado()+"\n";
 	}
 

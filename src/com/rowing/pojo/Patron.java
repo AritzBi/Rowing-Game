@@ -30,11 +30,11 @@ public class Patron extends Athlete{
 	public String toString() {
 		return  getName()+ " "+getSurname()+"\n"+
 			   getBirthdate()+"\n"+
-			   "Experiencia: "+getExperiencia()+"\n"+
-			   "Buena mar: "+getBuena_mar()+"\n"+
-			   "Mala mar: "+getMala_mar()+"\n"+
-			   "Liderazgo: "+getLiderazgo()+"\n"+
-			   "Lesionado: " +isLesionado();
+			   "Experience: "+getExperiencia()+"\n"+
+			   "Good sea: "+getBuena_mar()+"\n"+
+			   "Bad sea: "+getMala_mar()+"\n"+
+			   "Leadership: "+getLiderazgo()+"\n"+
+			   "Injured: " +isLesionado();
 	}
 
 	public String getName() {
